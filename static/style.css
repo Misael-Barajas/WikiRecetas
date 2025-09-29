@@ -393,3 +393,25 @@ main {
     transition: all 0.15s ease;
   }
 }
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cardColor);
+  padding: 20px;
+}
+
+.footer-content .logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primaryColor);
+}
+
+.footer-content p {
+  color: var(--textColor);
+}
+
+.footer-section .about {
+  margin-right: 120px;
+}
