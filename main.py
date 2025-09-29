@@ -86,6 +86,10 @@ def perfil():
 def sugerencias():
     return render_template('sugerencias.html')
 
+@app.route('/categorias')
+def categorias():
+    return render_template('categorias.html')
+
 '''
 @app.errorhandler(404)
 def page_not_found(e):
