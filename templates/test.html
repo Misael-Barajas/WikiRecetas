@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Login — ejemplo mensaje de error</title>
+<style>
+  :root{
+    --err-bg: #ffeef0;    /* fondo parecido al de GitHub */
+    --err-border: #d73a49;
+    --err-text: #86181d;
+    --card-bg: #fff;
+    --muted: #586069;
+    --focus: #0366d6;
+    --radius: 8px;
+  }
+
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: #f6f8fa;
+    display:flex;
+    min-height:100vh;
+    align-items:center;
+    justify-content:center;
+    margin:0;
+    padding:20px;
+  }
+
+  .card{
+    width: 360px;
+    background:var(--card-bg);
+    padding: 24px;
+    border-radius:var(--radius);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  }
+
+  h1{ font-size:18px; margin:0 0 14px 0; color:#24292e; }
+
+  form label{ display:block; font-size:13px; color:var(--muted); margin-top:10px; }
+  input[type="text"], input[type="password"]{
+    width:100%;
+    padding:8px 10px;
+    margin-top:6px;
+    border:1px solid #e1e4e8;
+    border-radius:6px;
+    font-size:14px;
+    box-sizing:border-box;
+  }
+  input:focus{ outline:none; box-shadow:0 0 0 3px rgba(3,102,214,0.12); border-color:var(--focus); }
+
+  button{
+    margin-top:16px;
+    width:100%;
+    padding:10px;
+    background:#2ea44f;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-weight:600;
+    cursor:pointer;
+  }
+
+  /* Mensaje de error estilo GitHub */
+  .flash {
+    display:none; /* oculto por defecto */
+    align-items:flex-start;
+    gap:12px;
+    background:var(--err-bg);
+    border-left:4px solid var(--err-border);
+    color:var(--err-text);
+    padding:12px 14px;
+    border-radius:6px;
+    margin-bottom:12px;
+    font-size:14px;
+  }
+
+  .flash.show{
+    display:flex;
+    animation: slideFade .26s ease;
+  }
+
+  @keyframes slideFade{
+    from { transform: translateY(-6px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+
+  .flash svg{ flex:0 0 20px; margin-top:2px; }
+
+  .flash .close{
+    margin-left:auto;
+    background:transparent;
+    border:0;
+    color:var(--err-text);
+    font-size:16px;
+    cursor:pointer;
+  }
+
+  .small{ font-size:12px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+  <div class="card" role="region" aria-labelledby="login-title">
+    <!-- Mensaje de error (oculto hasta que haya error) -->
+    <div id="flash" class="flash" role="alert" aria-live="assertive">
+      <!-- icono de error (SVG similar al que usan muchas UIs) -->
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="currentColor">
+        <path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM7 4h2v5H7V4zm0 7h2v2H7v-2z"></path>
+      </svg>
+      <div>
+        <strong>Nombre de usuario o contraseña incorrectos.</strong>
+        <div class="small">Comprueba tus credenciales e inténtalo de nuevo.</div>
+      </div>
+      <button id="closeFlash" class="close" aria-label="Cerrar mensaje">&times;</button>
+    </div>
+
+    <h1 id="login-title">Inicia sesión</h1>
+
+    <form id="loginForm" novalidate>
+      <label for="user">Usuario</label>
+      <input id="user" name="user" type="text" autocomplete="username" required>
+
+      <label for="pass">Contraseña</label>
+      <input id="pass" name="pass" type="password" autocomplete="current-password" required>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <div class="small">¿Olvidaste tu contraseña? <a href="#">Recuperarla</a></div>
+  </div>
+
+<script>
+  // Elementos
+  const form = document.getElementById('loginForm');
+  const flash = document.getElementById('flash');
+  const closeBtn = document.getElementById('closeFlash');
+
+  // Mostrar el flash con texto opcional
+  function showError(text) {
+    // actualizar texto si nos pasan uno nuevo
+    if (text) {
+      // cambiar solo el texto manteniendo accesibilidad
+      flash.querySelector('strong').textContent = text;
+    }
+    flash.classList.add('show');
+    // enfoque para lector de pantallas
+    flash.focus?.();
+  }
+
+  function hideError() {
+    flash.classList.remove('show');
+  }
+
+  closeBtn.addEventListener('click', hideError);
+
+  // Simulación de autenticación local (para demo)
+  // En un escenario real, enviarías las credenciales al servidor y
+  // mostrarías el error si el servidor responde 401/credenciales inválidas.
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideError();
+
+    const user = document.getElementById('user').value.trim();
+    const pass = document.getElementById('pass').value;
+
+    // Validación básica en cliente
+    if (!user || !pass) {
+      showError('Rellena usuario y contraseña.');
+      return;
+    }
+
+    // === Opción A: Simulación local (demo) ===
+    // Aquí definimos UN usuario correcto; si no coincide, mostramos el error
+    const correctUser = 'juan';
+    const correctPass = 'secreto123';
+
+    // simulamos retardo (opcional) para experiencia realista:
+    await new Promise(r => setTimeout(r, 350));
+
+    if (user === correctUser && pass === correctPass) {
+      // éxito — redirige o muestra contenido
+      alert('Bienvenido ' + user + ' — (simulación de login correcto)');
+      // window.location = '/dashboard';
+    } else {
+      // Estilo tipo GitHub: mensaje breve y claro
+      showError('Nombre de usuario o contraseña incorrectos.');
+      // opcional: limpiar contraseña
+      document.getElementById('pass').value = '';
+      document.getElementById('pass').focus();
+    }
+
+    // === Opción B: si usas un backend real, sustituye por fetch/fetch API ===
+    /*
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user, pass })
+      });
+      if (res.ok) {
+        // login ok
+        window.location = '/dashboard';
+      } else if (res.status === 401) {
+        showError('Nombre de usuario o contraseña incorrectos.');
+      } else {
+        showError('Error al iniciar sesión. Inténtalo más tarde.');
+      }
+    } catch (err) {
+      showError('No se pudo conectar con el servidor.');
+    }
+    */
+  });
+</script>
+</body>
+</html>

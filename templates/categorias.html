@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+Categorias
+{% endblock %}
+{% block content %}
+<main>
+    <h1>Categorias</h1>
+    <ul>
+        {% for categoria in categorias %}
+        <li><a href="{% url 'categoria_detail' categoria.id %}">{{ categoria.nombre }}</a></li>
+        {% empty %}
+        <li>No hay categorias disponibles.</li>
+        {% endfor %}
+    </ul>
+</main>
+{% endblock %}

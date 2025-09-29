@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}
+Mi perfil
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container-profile">
+        <div class="card-profile">
+            <div class="cont-photo">
+                <div class="profile-photo">
+                    <img src="{{url_for('static',filename='foto_perfil.jpg')}}">
+                </div>
+            </div>
+            <div class="cont-data">
+                <h3>Nombre de usuario:</h3>
+                <p>@{{ usuario.usuario }}</p>
+            </div>
+            <div class="cont-data">
+                <h3>Nombre y Apellido:</h3>
+                <p>{{ usuario.nombre }}</p>
+            </div>
+            <div class="cont-data">
+                <h3>Correo:</h3>
+                <p>{{ usuario.correo }}</p>
+            </div>
+            <div class="cont-data">
+                <h3>Teléfono:</h3>
+                <p>{{ usuario.telefono }}</p>
+            </div>
+            <div class="btnSubmit">
+                <button>Editar perfil</button>
+            </div>
+            <form action="/logout" method="post" id="formLogout">
+                <div class="btnLogout">
+                    <button>Cerrar sesión</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-profile">
+            <div class="btnSubmit">
+                <button>Mis recetas</button>
+            </div>
+            <div class="btnSubmit">
+                <button>Recetas guardadas</button>
+            </div>
+            <div class="btnSubmit">
+                <button>Subir receta</button>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

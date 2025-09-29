@@ -1,0 +1,37 @@
+# Ignorar entorno virtual
+.venv/
+
+# Archivos y carpetas de VS Code
+.vscode/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de logs
+*.log
+
+# Archivos de base de datos
+*.sqlite3
+*.db
+
+# Archivos de Flask
+instance/
+*.env
+.env.*
+
+# Archivos de migraciones
+migrations/
+
+# Archivos de configuración
+config.py
+
+# Otros archivos generados
+*.bak
+*.swp
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
