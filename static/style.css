@@ -33,7 +33,7 @@ main {
   width: 400px;
   background-color: var(--cardColor);
   padding: 2rem;
-  border-radius: 16px;
+  border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -47,7 +47,7 @@ main {
   width: 100%;
   background-color: var(--cardColor);
   border: 1px solid var(--textColor);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 14px 10px 14px 10px;
   transition: all .15s ease;
   
@@ -185,7 +185,7 @@ main {
   height: 40px;
   padding: 10px 20px;
   background-color: var(--cardColor);
-  border-radius: 16px;
+  border-radius: 20px;
 
   &:hover, &.active {
     color: var(--backgroundColor);
@@ -198,7 +198,7 @@ main {
   width: 800px;
   background-color: var(--cardColor);
   padding: 2rem;
-  border-radius: 16px;
+  border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -219,14 +219,14 @@ main {
 
 .Menu li a{
   color: var(--textColor);
-  padding: 15px;
+  padding: 10px;
   display: block;
   margin-left: 30px;
 
   &:hover, &.active {
     color: #fff;
     background: var(--primaryColor);
-    border-radius: 10px;
+    border-radius: 20px;
     text-decoration: none;
   }
 }
@@ -241,7 +241,7 @@ main {
   justify-content: flex-end;
   width: 450px;
   padding: 14px 10px 14px 10px;
-  border-radius: 15px 0 0 15px;
+  border-radius: 20px 0 0 20px;
   border: 0;
   outline: none;
   font-size: 1rem;
@@ -257,7 +257,7 @@ main {
   height: 50px;
   margin-right: 15px;
   border: none;
-  border-radius: 0 15px 15px 0;
+  border-radius: 0 20px 20px 0;
   color: #fff;
   cursor: pointer;
   display: flex;
@@ -288,7 +288,7 @@ main {
   border: 1px solid #d73a49;
   color: #86181d;
   padding: 14px;
-  border-radius: 6px;
+  border-radius: 20px;
   margin-bottom: 15px;
   font-size: 16px;
 }
@@ -326,7 +326,7 @@ main {
   align-items: center;
   text-align: center;
   background-color: var(--cardColor);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 30px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
@@ -414,4 +414,25 @@ main {
 
 .footer-section .about {
   margin-right: 120px;
+}
+
+.card-receta {
+  width: 400px;
+  background-color: var(--cardColor);
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.container .sugerencias {
+  display: flex;
+  justify-content: center;
+}
+
+.card-receta .btnSubmit button {
+  margin: 15px 0;
+}
+
+.card-receta .receta-calif {
+  width: 100%;
+  margin: 10px 0;
 }

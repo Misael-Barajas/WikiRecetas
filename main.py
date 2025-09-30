@@ -2,8 +2,13 @@ from flask import Flask, render_template, url_for, request, redirect, session
 app = Flask(__name__)
 
 usuarios = [
-    {'id':1, 'nombre':'Misael', 'apellido':'Barajas', 'usuario':'MisaelB', 'telefono':'3511563006', 'correo':'misael@gmail.com', 'password':'misael05b'},
+    {'id':1, 'nombre':'Misael', 'apellido':'Barajas', 'usuario':'MisaelB', 'telefono':'3511563006', 'correo':'misael@gmail.com', 'password':'misael05b', 'rol':'admin'},
     {'id':2, 'nombre':'Alberto', 'apellido':'Molina', 'usuario':'AlbertoM', 'telefono':'3513093789', 'correo':'alberto@gmail.com', 'password':'alberto05m', 'rol':'admin'},
+]
+
+recetas = [
+    {'id':1, 'nombre':'Tacos', 'descripcion':'Deliciosos tacos de carne asada', 'ingredientes':['Carne', 'Tortillas', 'Cebolla', 'Cilantro', 'Salsa'], 'preparación':'Asar la carne, calentar las tortillas y servir con los ingredientes.', 'categoria':'Mexicana', 'imagen':'tacos.jpg'},
+    {'id':2, 'nombre':'Spaghetti Carbonara', 'descripcion':'Pasta italiana con salsa cremosa de huevo y panceta', 'ingredientes':['Spaghetti', 'Huevos', 'Panceta', 'Queso Parmesano', 'Pimienta'], 'preparación':'Cocinar la pasta, mezclar con la panceta y la salsa de huevo y queso.', 'categoria':'Italiana', 'imagen':'carbonara.jpg'},
 ]
 
 app.secret_key = 'mi_clave_secreta'
@@ -29,7 +34,8 @@ def login():
                     'apellido': usuario['apellido'],
                     'usuario': usuario['usuario'],
                     'telefono': usuario['telefono'],
-                    'correo': usuario['correo']
+                    'correo': usuario['correo'],
+                    'nombre_apellido': f"{usuario['nombre']} {usuario['apellido']}"
                 }
                 return redirect(url_for('inicio'))
         return render_template('login.html', error='Correo o contraseña incorrectos')
