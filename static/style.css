@@ -419,8 +419,7 @@ main {
   transform: translate(20%, 150%);
 }
 
-.footer-content .footer-links {
-  transform: translate(180%, -70%);
+.footer-section .footer-links {
+  transform: translate(180%, -50%);
   font-size: 15px;
-  /* color: var(--cardColor); */
 }
