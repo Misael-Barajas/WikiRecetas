@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+Iniciar sesión
+{% endblock %}
+{% block content %}
+<main>
+    <div class="card-login">
+        <div class="card-title">
+            <h3 class="title">¿Olvidaste tu contraseña?</h3>
+            <h1>Restablécela</h1>
+        </div>
+        <form action="/login">
+            <div class="input-wrapper">
+                <input type="text" placeholder=" " id="idEmail" name="email" required>
+                <label for="idEmail">Correo</label>
+            </div>
+        </form>
+        <div class="btnSubmit">
+            <button type="submit" form="form">Restablecer contraseña</button>
+        </div>
+        <div class="txtLoginRegister">
+            <span>¿Ya tienes cuenta?</span> <a href="/login">Regístrate</a>
+       </div>
+    </div>
+</main>
+{% endblock %}
