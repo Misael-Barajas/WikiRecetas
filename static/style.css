@@ -164,7 +164,7 @@ main {
 /* Categoria y dificultad */
 .categoriaPlatos {
   justify-content: center;
-  transform: translate(0, -40%);
+  /* transform: translate(0, -40%); */
   margin: 30px;
 }
 .sectionsHeader {
