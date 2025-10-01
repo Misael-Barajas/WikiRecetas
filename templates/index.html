@@ -3,6 +3,256 @@
 Inicio
 {% endblock %}
 {% block content %}
-<main>
+<main class="container-main">
+    <div class='cont-carrusel'>
+    <input checked id='carrusel-slide-1' name='carrusel-slides' type='radio'>
+    <div class='carrusel-slide'>
+        <p>To increase brand awareness online</p>
+        <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img1.jpg')}}"></div>
+    </div>
+    <nav class='carrusel-slide-nav'>
+        <label class='slide-prev' for='carrusel-slide-6'></label>
+        <label class='slide-next' for='carrusel-slide-2'></label>	
+    </nav>
+    <nav class='carrusel-slide-dots'>
+        <label class='slide-dot' for='carrusel-slide-1'></label>
+        <label class='slide-dot' for='carrusel-slide-2'></label>
+        <label class='slide-dot' for='carrusel-slide-3'></label>
+        <label class='slide-dot' for='carrusel-slide-4'></label>
+        <label class='slide-dot' for='carrusel-slide-5'></label>
+        <label class='slide-dot' for='carrusel-slide-6'></label>
+    </nav>
+
+    <input id='carrusel-slide-2' name='carrusel-slides' type='radio'>
+    <div class='carrusel-slide'>
+        <p>To increase online sales and conversions</p>
+        <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img2.jpg')}}"></div>
+    </div>
+    <nav class='carrusel-slide-nav'>
+        <label class='slide-prev' for='carrusel-slide-1'></label>
+        <label class='slide-next' for='carrusel-slide-3'></label>
+    </nav>
+    <nav class='carrusel-slide-dots'>
+        <label class='slide-dot' for='carrusel-slide-1'></label>
+        <label class='slide-dot' for='carrusel-slide-2'></label>
+        <label class='slide-dot' for='carrusel-slide-3'></label>
+        <label class='slide-dot' for='carrusel-slide-4'></label>
+        <label class='slide-dot' for='carrusel-slide-5'></label>
+        <label class='slide-dot' for='carrusel-slide-6'></label>
+    </nav>
+
+    <input id='carrusel-slide-3' name='carrusel-slides' type='radio'>
+    <div class='carrusel-slide'>
+        <p>To engage with a new target audience</p>
+        <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img3.jpg')}}"></div>
+  </div>
+    <nav class='carrusel-slide-nav'>
+        <label class='slide-prev' for='carrusel-slide-2'></label>
+        <label class='slide-next' for='carrusel-slide-4'></label>
+    </nav>
+    <nav class='carrusel-slide-dots'>
+        <label class='slide-dot' for='carrusel-slide-1'></label>
+        <label class='slide-dot' for='carrusel-slide-2'></label>
+        <label class='slide-dot' for='carrusel-slide-3'></label>
+        <label class='slide-dot' for='carrusel-slide-4'></label>
+        <label class='slide-dot' for='carrusel-slide-5'></label>
+        <label class='slide-dot' for='carrusel-slide-6'></label>
+    </nav>
+
+    <input id='carrusel-slide-4' name='carrusel-slides' type='radio'>
+    <div class='carrusel-slide'>
+        <p>To engage with a new target audience</p>
+        <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img4.jpg')}}"></div>
+    </div>
+    <nav class='carrusel-slide-nav'>
+        <label class='slide-prev' for='carrusel-slide-3'></label>
+        <label class='slide-next' for='carrusel-slide-5'></label>
+    </nav>
+    <nav class='carrusel-slide-dots'>
+        <label class='slide-dot' for='carrusel-slide-1'></label>
+        <label class='slide-dot' for='carrusel-slide-2'></label>
+        <label class='slide-dot' for='carrusel-slide-3'></label>
+        <label class='slide-dot' for='carrusel-slide-4'></label>
+        <label class='slide-dot' for='carrusel-slide-5'></label>
+        <label class='slide-dot' for='carrusel-slide-6'></label>
+    </nav>
+
+    <input id='carrusel-slide-5' name='carrusel-slides' type='radio'>
+    <div class='carrusel-slide'>
+        <p>To engage with a new target audience</p>
+        <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img5.jpg')}}"></div>
+    </div>
+    <nav class='carrusel-slide-nav'>
+        <label class='slide-prev' for='carrusel-slide-4'></label>
+        <label class='slide-next' for='carrusel-slide-6'></label>
+    </nav>
+    <nav class='carrusel-slide-dots'>
+        <label class='slide-dot' for='carrusel-slide-1'></label>
+        <label class='slide-dot' for='carrusel-slide-2'></label>
+        <label class='slide-dot' for='carrusel-slide-3'></label>
+        <label class='slide-dot' for='carrusel-slide-4'></label>
+        <label class='slide-dot' for='carrusel-slide-5'></label>
+        <label class='slide-dot' for='carrusel-slide-6'></label>
+    </nav>
+
+    <input id='carrusel-slide-6' name='carrusel-slides' type='radio'>
+    <div class='carrusel-slide'>
+        <p>To engage with a new target audience</p>
+        <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img6.jpg')}}"></div>
+    </div>
+    <nav class='carrusel-slide-nav'>
+        <label class='slide-prev' for='carrusel-slide-5'></label>
+        <label class='slide-next' for='carrusel-slide-1'></label>
+    </nav>
+    <nav class='carrusel-slide-dots'>
+        <label class='slide-dot' for='carrusel-slide-1'></label>
+        <label class='slide-dot' for='carrusel-slide-2'></label>
+        <label class='slide-dot' for='carrusel-slide-3'></label>
+        <label class='slide-dot' for='carrusel-slide-4'></label>
+        <label class='slide-dot' for='carrusel-slide-5'></label>
+        <label class='slide-dot' for='carrusel-slide-6'></label>
+    </nav>
+    </div>
+
+    <div class="container">
+        <div class="title-section">
+            <i class="bx bxs-star"></i>
+            <h3>Top recetas</h3>
+            <i class="bx bxs-star"></i>
+        </div>
+        <div class="sugerencias">
+            <div class="card-receta">
+                <div class="receta-photo">
+                    <div class="cont-photo">
+                        <img src="{{url_for('static',filename='img1.jpg')}}">
+                    </div>
+                </div>
+                <div class="receta-info">
+                    <h3>Nombre receta</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+                <div class="receta-calif">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bx-star"></i>
+                </div>
+                <div class="btnVer">
+                    <button>Ver receta</button>
+                </div>
+            </div>
+            <div class="card-receta">
+                <div class="receta-photo">
+                    <div class="cont-photo">
+                        <img src="{{url_for('static',filename='img2.jpg')}}">
+                    </div>
+                </div>
+                <div class="receta-info">
+                    <h3>Nombre receta</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+                <div class="receta-calif">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bx-star"></i>
+                </div>
+                <div class="btnVer">
+                    <button>Ver receta</button>
+                </div>
+            </div>
+    
+            <div class="card-receta">
+                <div class="receta-photo">
+                    <div class="cont-photo">
+                        <img src="{{url_for('static',filename='img3.jpg')}}">
+                    </div>
+                </div>
+                <div class="receta-info">
+                    <h3>Nombre receta</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+                <div class="receta-calif">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bx-star"></i>
+                </div>
+                <div class="btnVer">
+                    <button>Ver receta</button>
+                </div>
+            </div>
+
+            <div class="card-receta">
+                <div class="receta-photo">
+                    <div class="cont-photo">
+                        <img src="{{url_for('static',filename='img4.jpg')}}">
+                    </div>
+                </div>
+                <div class="receta-info">
+                    <h3>Nombre receta</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+                <div class="receta-calif">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bx-star"></i>
+                </div>
+                <div class="btnVer">
+                    <button>Ver receta</button>
+                </div>
+            </div>
+
+            <div class="card-receta">
+                <div class="receta-photo">
+                    <div class="cont-photo">
+                        <img src="{{url_for('static',filename='img5.jpg')}}">
+                    </div>
+                </div>
+                <div class="receta-info">
+                    <h3>Nombre receta</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+                <div class="receta-calif">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bx-star"></i>
+                </div>
+                <div class="btnVer">
+                    <button>Ver receta</button>
+                </div>
+            </div>
+
+            <div class="card-receta">
+                <div class="receta-photo">
+                    <div class="cont-photo">
+                        <img src="{{url_for('static',filename='img6.jpg')}}">
+                    </div>
+                </div>
+                <div class="receta-info">
+                    <h3>Nombre receta</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+                <div class="receta-calif">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bx-star"></i>
+                    <i class="bx bx-star"></i>
+                </div>
+                <div class="btnVer">
+                    <button>Ver receta</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </main>
 {% endblock %}

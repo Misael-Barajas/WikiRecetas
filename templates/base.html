@@ -20,65 +20,28 @@
         {% if not session.get('usuario') %}
         <li><a class="{% if request.endpoint == 'login' %}active{% endif %}" href="{{url_for('login')}}">Iniciar sesión</a></li>
         {% endif %}
-        <input type="text" placeholder="Buscar Receta">
-        <button><i class="bx bx-search"></i></button>
-    </ul>
-    <div class="container">
-        <div class="slide">
-            <div class="item" style="background-image: url(./static/img1.jpg);">
-                <div class="name">Cafe de capuchino</div>
-                <div class="des">cafe frio</div>
-                <button>Ver Receta</button>
-            </div>
-            <div class="item" style="background-image: url(./static/img2.jpg);">
-                <div class="name">Lasaña</div>
-                <div class="des">cafe frio</div>
-                <button>Ver Receta</button>
-            </div>
-            <div class="item" style="background-image: url(./static/img3.jpg);">
-                <div class="name">Pizza</div>
-                <div class="des">cafe frio</div>
-                <button>Ver Receta</button>
-            </div>
-            <div class="item" style="background-image: url(./static/img4.jpg);">
-                <div class="name">Pasta Boloñesa</div>
-                <div class="des">cafe frio</div>
-                <button>Ver Receta</button>
-            </div>
-            <div class="item" style="background-image: url(./static/img5.jpg);">
-                <div class="name">Pozole</div>
-                <div class="des">cafe frio</div>
-                <button>Ver Receta</button>
-            </div>
-            <div class="item" style="background-image: url(./static/img6.jpg);">
-                <div class="name">Sushi</div>
-                <div class="des">cafe frio</div>
-                <button>Ver Receta</button>
-            </div>
+        <div class="searchbar">
+            <input type="text" placeholder="Buscar Receta">
+            <button><i class="bx bx-search"></i></button>
         </div>
-    </div>
+    </ul>
     {% block content %}
 
     {% endblock %}
 </body>
 <footer>
     <div class="footer-content">
-        <div class="footer-section about">
-            <h1 class="logo-text">WikiRecetas</h1>
-            <div class="contact">
-                <span><i class="bx bx-phone"></i> &nbsp; +52 123 456 7890</span>
-                <br>
-                <span><i class="bx bx-envelope"></i> &nbsp; WikiRecetas@gamil.com </span>
-            </div>
-        </div>
-        <div class="footer-section links">
-            <h3>Enlaces Rápidos</h3>
+        <div class="footer-section">
+            <h1>WikiRecetas</h1>
+            <i class="bx bx-phone"></i>&nbsp;+52 123 456 7890
             <br>
-            <ul class="footer-links">
-                <a href="{{ url_for('contactar') }}"><li>Contacto</li></a>
-                <a href="{{ url_for('sugerencias') }}"><li>Sugerencias</li></a>
-                <a href="{{ url_for('categorias') }}"><li>Categorias y dificultad</li></a>
-            </ul>
+            <i class="bx bx-envelope"></i>&nbsp;WikiRecetas@gmail.com
+        </div>
+        <div class="footer-section">
+            <h3>Enlaces Rápidos</h3>
+            <a href="{{ url_for('contactar') }}"><li>Contacto</li></a>
+            <a href="{{ url_for('sugerencias') }}"><li>Sugerencias</li></a>
+            <a href="{{ url_for('categorias') }}"><li>Categorias y dificultad</li></a>
         </div>
     </div>
 </footer>
