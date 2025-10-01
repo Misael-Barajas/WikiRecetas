@@ -162,10 +162,11 @@ main {
 }
 
 /* Categoria y dificultad */
-.categoriaPlatos {
-  justify-content: center;
-  margin: 30px;
+.categoriaPlatos h1{
+  display: flex;
+  transform: translate(0, -650%);
 }
+
 .sectionsHeader {
   justify-content: center;
   align-items: center;
@@ -195,7 +196,7 @@ main {
 }
 
 .card-cont {
-  width: 800px;
+  width: 1000px;
   background-color: var(--cardColor);
   padding: 32px;
   border-radius: 20px;
