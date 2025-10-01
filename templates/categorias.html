@@ -3,9 +3,24 @@
 Categorias
 {% endblock %}
 {% block content %}
-<main class="container">
+<main class="categoriaPlatos">
     <h1>Categorías</h1>
-</div>
-
+    <select class="categoria">
+        <option value="Todos">Todos</option>
+        <option value="Plato principal">Plato principal</option>
+        <option value="Platillos Regulares">Platillos Regulares</option>
+        <option value="Bebidas">Bebidas</option>
+        <option value="Sopas">Sopas</option>
+        <option value="Pastas">Pastas</option>
+        <option value="Postre">Postre</option>
+        <option value="Vegetariano">Vegetariano</option>
+        <option value="Acompañamiento">Acompañamiento</option>
+    </select>
+    <select class="dificultad">
+        <option value="Todos">Todos</option>
+        <option value="Facil">Facil</option>
+        <option value="Medio">Medio</option>
+        <option value="Difisil">Difisil</option>
+    </select>
 </main>
 {% endblock %}
