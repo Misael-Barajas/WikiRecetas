@@ -6,6 +6,7 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
   text-decoration: none;
+  list-style-type: none;
 }
 
 :root {
@@ -409,37 +410,10 @@ main {
   transform: translate(-170%, -50%);
 }
 
-.footer-section .contact {
-  transform: translate(-180%, -20%);
+.footer-content p {
+  color: var(--textColor);
 }
 
-.footer-content .links h3 {
-  margin-bottom: 10px;
-  transform: translate(20%, 150%);
-}
-
-.footer-section .footer-links {
-  transform: translate(180%, -50%);
-  font-size: 15px;
-}
-
-.card-receta {
-  width: 400px;
-  background-color: var(--cardColor);
-  border-radius: 20px;
-  padding: 15px;
-}
-
-.container .sugerencias {
-  display: flex;
-  justify-content: center;
-}
-
-.card-receta .btnSubmit button {
-  margin: 15px 0;
-}
-
-.card-receta .receta-calif {
-  width: 100%;
-  margin: 10px 0;
+.footer-section .about {
+  margin-right: 120px;
 }
