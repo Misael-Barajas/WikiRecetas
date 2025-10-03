@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}
+Registrarse
+{% endblock %}
+{% block content %}
+<main>
+    <div class="card-login">
+        <div class="card-title">
+            <h3 class="title">¡Hola!</h3>
+            <h1>Regístrate</h1>
+        </div>
+        <form action="/registro" method="post" id="formRegistro">
+            <div class="input-wrapper">
+                <input type="text" placeholder=" " id="idNombre" name="nombre" autocomplete="given-name" required>
+                <label for="idNombre">Nombre</label>
+            </div>
+            <div class="input-wrapper">
+                <input type="text" placeholder=" " id="idApellido" name="apellido" autocomplete="family-name" required>
+                <label for="idApellido">Apellido</label>
+            </div>
+            <div class="input-wrapper">
+                <input type="text" placeholder=" " id="idUsername" name="usuario" autocomplete="username" required>
+                <label for="idUsername">Nombre de usuario</label>
+            </div>
+            <div class="input-wrapper">
+                <input type="email" placeholder=" " id="idEmail" name="correo" required>
+                <label for="idEmail">Correo</label>
+            </div>
+            <div class="input-wrapper">
+                <input type="tel" placeholder=" " id="idTel" name="telefono" required>
+                <label for="idTel">Teléfono</label>
+            </div>
+            <div class="input-wrapper">
+                 <input type="password" placeholder=" " id="idPassword" name="password" required>
+                 <label for="idPassword">Contraseña</label>
+             </div>
+             <div class="input-wrapper">
+                 <input type="password" placeholder=" " id="idConfirmPassword" name="confirmPassword" required>
+                 <label for="idConfirmPassword">Confirma la contraseña</label>
+             </div>
+             <div class="btnSubmit">
+                 <button type="submit" form="formRegistro">Registrarse</button>
+             </div>
+        </form>
+         <div class="terms">
+             <form action="#">
+             <label for="terms">
+                 <input type="checkbox" id="terms" name="terms" required>
+                 Acepto las <a href="/info/politicas-de-uso">políticas del sitio</a>.
+             </label>
+             </form>
+         </div>
+
+       <div class="txtLoginRegister">
+            <span>¿Ya tienes una cuenta?</span> <a href="/login">Inicia sesión</a>
+       </div>
+    </div>
+</main>
+{% endblock %}
