@@ -28,21 +28,21 @@
     {% block content %}
 
     {% endblock %}
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 <footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h1>WikiRecetas</h1>
-            <i class="bx bx-phone"></i>&nbsp;+52 123 456 7890
-            <br>
-            <i class="bx bx-envelope"></i>&nbsp;WikiRecetas@gmail.com
-        </div>
-        <div class="footer-section">
-            <h3>Enlaces Rápidos</h3>
-            <a href="{{ url_for('contactar') }}"><li>Contacto</li></a>
-            <a href="{{ url_for('sugerencias') }}"><li>Sugerencias</li></a>
-            <a href="{{ url_for('categorias') }}"><li>Categorias y dificultad</li></a>
-        </div>
+    <div class="footer-section">
+        <h1>WikiRecetas</h1>
+        <i class="bx bx-phone"></i>&nbsp;+52 123 456 7890
+        <br>
+        <i class="bx bx-envelope"></i>&nbsp;WikiRecetas@gmail.com
+    </div>
+    <div class="footer-section">
+        <h3>Enlaces Rápidos</h3>
+        <a href="{{ url_for('contactar') }}"><li>Contacto</li></a>
+        <a href="{{ url_for('sugerencias') }}"><li>Sugerencias</li></a>
+        <a href="{{ url_for('categorias') }}"><li>Categorias y dificultad</li></a>
     </div>
 </footer>
 </html>

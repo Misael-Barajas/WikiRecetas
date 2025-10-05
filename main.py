@@ -35,6 +35,7 @@ def login():
                     'usuario': usuario['usuario'],
                     'telefono': usuario['telefono'],
                     'correo': usuario['correo'],
+                    'password': usuario['password'],
                     'nombre_apellido': f"{usuario['nombre']} {usuario['apellido']}"
                 }
                 return redirect(url_for('inicio'))
@@ -54,7 +55,7 @@ def registro():
         telefono = request.form['telefono']
         correo = request.form['correo']
         password = request.form['password']
-        id = len(usuarios)
+        id = usuarios[-1]['id'] + 1 if usuarios else 1
         nuevoUsuario = {'id':id, 'nombre':nombre, 'usuario':usuario , 'apellido':apellido, 'telefono':telefono, 'correo':correo, 'password':password}
         usuarios.append(nuevoUsuario)
         session['registro_temp'] = {'correo': correo, 'password': password}
@@ -87,6 +88,44 @@ def perfil():
     if 'usuario' not in session:
         return redirect(url_for('login'))
     return render_template('perfil.html', usuario=session['usuario'])
+
+@app.route('/cuenta/perfil/editar', methods=['GET', 'POST'])
+def editar_perfil():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['usuario']['id']
+    usuario_a_editar = next((u for u in usuarios if u['id'] == user_id), None)
+
+    if usuario_a_editar is None:
+        session.pop('usuario', None)
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        usuario_a_editar['usuario'] = request.form.get('usuario')
+        usuario_a_editar['nombre'] = request.form.get('nombre')
+        usuario_a_editar['apellido'] = request.form.get('apellido')
+        usuario_a_editar['correo'] = request.form.get('correo')
+        usuario_a_editar['telefono'] = request.form.get('telefono')
+        
+        nueva_password = request.form.get('password')
+        if nueva_password:
+            usuario_a_editar['password'] = nueva_password
+
+        session['usuario'] = {
+            'id': usuario_a_editar['id'],
+            'nombre': usuario_a_editar['nombre'],
+            'apellido': usuario_a_editar['apellido'],
+            'usuario': usuario_a_editar['usuario'],
+            'telefono': usuario_a_editar['telefono'],
+            'correo': usuario_a_editar['correo'],
+            'password': usuario_a_editar['password'],
+            'nombre_apellido': f"{usuario_a_editar['nombre']} {usuario_a_editar['apellido']}"
+        }
+        session.modified = True
+        return redirect(url_for('perfil'))
+    return render_template('editar-perfil.html', usuario=usuario_a_editar)
+
 
 @app.route('/sugerencias')
 def sugerencias():

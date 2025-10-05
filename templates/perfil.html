@@ -27,10 +27,12 @@ Mi perfil
                 <h3>Teléfono:</h3>
                 <p>{{ usuario.telefono }}</p>
             </div>
-            <div class="btnSubmit">
-                <button>Editar perfil</button>
-            </div>
-            <form action="/logout" method="post" id="formLogout">
+            <form action="{{ url_for('editar_perfil') }}" method="get" id="formEditarPerfil">
+                <div class="btnSubmit">
+                    <button>Editar perfil</button>
+                </div>
+            </form>
+            <form action="{{ url_for('logout') }}" method="post" id="formLogout">
                 <div class="btnLogout">
                     <button>Cerrar sesión</button>
                 </div>
