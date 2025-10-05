@@ -14,7 +14,7 @@
 <body>
     <ul class="Menu">
         <li><a class="logo" href="/">WR</a></li>
-        <li><a href="{{ url_for('categorias') }}" class="{% if request.endpoint == 'categorias' %}active{% endif %}">Categorias y dificultad</a></li>
+        <li><a href="{{ url_for('categorias') }}" class="{% if request.endpoint == 'categorias' %}active{% endif %}">Categorías</a></li>
         <li><a class="{% if request.endpoint == 'sugerencias' %}active{% endif %}" href="{{url_for('sugerencias')}}">Sugerencias</a></li>
         <li><a href="{% if session.get('usuario') %}{{ url_for('perfil') }}{% else %}{{ url_for('login') }}{% endif %}" class="{% if request.endpoint == 'perfil' %}active{% endif %}">Perfil</a></li>
         {% if not session.get('usuario') %}
