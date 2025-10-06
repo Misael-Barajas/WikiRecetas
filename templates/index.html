@@ -5,116 +5,82 @@ Inicio
 {% block content %}
 <main>
     <div class="container-inicio">
-        <div class='cont-carrusel'>
-        <input checked id='carrusel-slide-1' name='carrusel-slides' type='radio'>
-        <div class='carrusel-slide'>
-            <p>To increase brand awareness online</p>
-            <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img1.jpg')}}"></div>
+<body>
+  <div class="container">
+    <div class="slide">
+      <!-- Imagen 1 -->
+      <div class="item" style="background-image: url('static/1.jpg');">
+        <div class="content">
+          <div class="name">Platillos Fuertes</div>
+          <br>
+          <a class="seeMore" target="_blank" href="#"><button>Ver más</button></a>
         </div>
-        <nav class='carrusel-slide-nav'>
-            <label class='slide-prev' for='carrusel-slide-6'></label>
-            <label class='slide-next' for='carrusel-slide-2'></label>	
-        </nav>
-        <nav class='carrusel-slide-dots'>
-            <label class='slide-dot' for='carrusel-slide-1'></label>
-            <label class='slide-dot' for='carrusel-slide-2'></label>
-            <label class='slide-dot' for='carrusel-slide-3'></label>
-            <label class='slide-dot' for='carrusel-slide-4'></label>
-            <label class='slide-dot' for='carrusel-slide-5'></label>
-            <label class='slide-dot' for='carrusel-slide-6'></label>
-        </nav>
-    
-        <input id='carrusel-slide-2' name='carrusel-slides' type='radio'>
-        <div class='carrusel-slide'>
-            <p>To increase online sales and conversions</p>
-            <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img2.jpg')}}"></div>
-        </div>
-        <nav class='carrusel-slide-nav'>
-            <label class='slide-prev' for='carrusel-slide-1'></label>
-            <label class='slide-next' for='carrusel-slide-3'></label>
-        </nav>
-        <nav class='carrusel-slide-dots'>
-            <label class='slide-dot' for='carrusel-slide-1'></label>
-            <label class='slide-dot' for='carrusel-slide-2'></label>
-            <label class='slide-dot' for='carrusel-slide-3'></label>
-            <label class='slide-dot' for='carrusel-slide-4'></label>
-            <label class='slide-dot' for='carrusel-slide-5'></label>
-            <label class='slide-dot' for='carrusel-slide-6'></label>
-        </nav>
-    
-        <input id='carrusel-slide-3' name='carrusel-slides' type='radio'>
-        <div class='carrusel-slide'>
-            <p>To engage with a new target audience</p>
-            <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img3.jpg')}}"></div>
       </div>
-        <nav class='carrusel-slide-nav'>
-            <label class='slide-prev' for='carrusel-slide-2'></label>
-            <label class='slide-next' for='carrusel-slide-4'></label>
-        </nav>
-        <nav class='carrusel-slide-dots'>
-            <label class='slide-dot' for='carrusel-slide-1'></label>
-            <label class='slide-dot' for='carrusel-slide-2'></label>
-            <label class='slide-dot' for='carrusel-slide-3'></label>
-            <label class='slide-dot' for='carrusel-slide-4'></label>
-            <label class='slide-dot' for='carrusel-slide-5'></label>
-            <label class='slide-dot' for='carrusel-slide-6'></label>
-        </nav>
-    
-        <input id='carrusel-slide-4' name='carrusel-slides' type='radio'>
-        <div class='carrusel-slide'>
-            <p>To engage with a new target audience</p>
-            <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img4.jpg')}}"></div>
+
+      <!-- Imagen 2 -->
+      <div class="item" style="background-image: url('static/2.jpg');">
+        <div class="content">
+          <div class="name">Platillos con pescado</div>
+          <br>
+          <a class="seeMore" target="_blank" href="#"><button>Ver más</button></a>
         </div>
-        <nav class='carrusel-slide-nav'>
-            <label class='slide-prev' for='carrusel-slide-3'></label>
-            <label class='slide-next' for='carrusel-slide-5'></label>
-        </nav>
-        <nav class='carrusel-slide-dots'>
-            <label class='slide-dot' for='carrusel-slide-1'></label>
-            <label class='slide-dot' for='carrusel-slide-2'></label>
-            <label class='slide-dot' for='carrusel-slide-3'></label>
-            <label class='slide-dot' for='carrusel-slide-4'></label>
-            <label class='slide-dot' for='carrusel-slide-5'></label>
-            <label class='slide-dot' for='carrusel-slide-6'></label>
-        </nav>
-    
-        <input id='carrusel-slide-5' name='carrusel-slides' type='radio'>
-        <div class='carrusel-slide'>
-            <p>To engage with a new target audience</p>
-            <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img5.jpg')}}"></div>
+      </div>
+
+      <!-- Imagen 3 -->
+      <div class="item" style="background-image: url('static/3.jpg');">
+        <div class="content">
+          <div class="name">Acompañamientos</div>
+          <br>
+          <a class="seeMore" target="_blank" href="#"><button>Ver más</button></a>
         </div>
-        <nav class='carrusel-slide-nav'>
-            <label class='slide-prev' for='carrusel-slide-4'></label>
-            <label class='slide-next' for='carrusel-slide-6'></label>
-        </nav>
-        <nav class='carrusel-slide-dots'>
-            <label class='slide-dot' for='carrusel-slide-1'></label>
-            <label class='slide-dot' for='carrusel-slide-2'></label>
-            <label class='slide-dot' for='carrusel-slide-3'></label>
-            <label class='slide-dot' for='carrusel-slide-4'></label>
-            <label class='slide-dot' for='carrusel-slide-5'></label>
-            <label class='slide-dot' for='carrusel-slide-6'></label>
-        </nav>
-    
-        <input id='carrusel-slide-6' name='carrusel-slides' type='radio'>
-        <div class='carrusel-slide'>
-            <p>To engage with a new target audience</p>
-            <div class="carrusel-slide-img"><img src="{{url_for('static',filename='img6.jpg')}}"></div>
+      </div>
+
+      <!-- Imagen 4 -->
+      <div class="item" style="background-image: url('static/4.jpg');">
+        <div class="content">
+          <div class="name">Cremas</div>
+          <br>
+          <a class="seeMore" target="_blank" href="#"><button>Ver más</button></a>
         </div>
-        <nav class='carrusel-slide-nav'>
-            <label class='slide-prev' for='carrusel-slide-5'></label>
-            <label class='slide-next' for='carrusel-slide-1'></label>
-        </nav>
-        <nav class='carrusel-slide-dots'>
-            <label class='slide-dot' for='carrusel-slide-1'></label>
-            <label class='slide-dot' for='carrusel-slide-2'></label>
-            <label class='slide-dot' for='carrusel-slide-3'></label>
-            <label class='slide-dot' for='carrusel-slide-4'></label>
-            <label class='slide-dot' for='carrusel-slide-5'></label>
-            <label class='slide-dot' for='carrusel-slide-6'></label>
-        </nav>
+      </div>
+
+      <!-- Imagen 5 -->
+      <div class="item" style="background-image: url('static/5.jpg');">
+        <div class="content">
+          <div class="name">Postres</div>
+          <br>
+          <a class="seeMore" target="_blank" href="#"><button>Ver más</button></a>
         </div>
-    
+      </div>
+
+      <!-- Imagen 6 -->
+      <div class="item" style="background-image: url('static/6.jpg');">
+        <div class="content">
+          <div class="name">Vejetariano</div>
+          <br>
+          <a class="seeMore" target="_blank" href="#"><button>Ver más</button></a>
+        </div>
+      </div>
+
+      <!-- Imagen 7 -->
+      <div class="item" style="background-image: url('static/7.jpg');">
+        <div class="content">
+          <div class="name">Bebidas</div>
+          <br>
+          <a class="seeMore" target="_blank" href="#"><button>Ver más</button></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="button">
+      <button class="prev">◁</button>
+      <button class="next">▷</button>
+    </div>
+  </div>
+
+
+<!-- Tarjetas -->
             <div class="title-section">
                 <i class="bx bxs-star"></i>
                 <h3>Top recetas</h3>
