@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}
+Mi perfil
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container-profile">
+        <div class="card-profile">
+            <div class="cont-photo">
+                <div class="profile-photo">
+                    <img src="{{ url_for('static', filename='foto_perfil.jpg') }}">
+                    <div class="btnEditPhoto">
+                        <button><i class="bx bx-pencil"></i></button>
+                    </div>
+                </div>
+            </div>
+            <form action="{{ url_for('editar_perfil') }}" method="post" id="formEditarPerfil">
+                <div class="input-wrapper">
+                    <input type="text" placeholder=" " id="idUsuario" name="usuario" value="{{ usuario.usuario }}" required>
+                    <label for="idUsuario">Nombre de usuario</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" placeholder=" " id="idNombre" name="nombre" value="{{ usuario.nombre }}" required>
+                    <label for="idNombre">Nombre</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" placeholder=" " id="idApellido" name="apellido" value="{{ usuario.apellido }}" required>
+                    <label for="idApellido">Apellido</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="email" placeholder=" " id="idCorreo" name="correo" value="{{ usuario.correo }}" required>
+                    <label for="idCorreo">Correo</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="tel" placeholder=" " id="idTelefono" name="telefono" value="{{ usuario.telefono }}" required>
+                    <label for="idTelefono">Teléfono</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="password" placeholder=" " id="idPassword" name="password" value="{{ usuario.password }}" required>
+                    <label for="idPassword">Nueva contraseña</label>
+                    <i class="bx bx-show togglePwd" id="togglePassword"></i>
+                </div>
+                <div class="btnSubmit">
+                    <button type="submit">Guardar</button>
+                </div>
+            </form>
+            <div class="btnLogout">
+                <a href="{{ url_for('perfil') }}">
+                    <button type="button">Cancelar</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

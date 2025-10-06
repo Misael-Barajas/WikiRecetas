@@ -1,68 +1,60 @@
 {% extends 'base.html' %}
 {% block title %}
-Categorias
+Categorías
 {% endblock %}
 {% block content %}
-<main class="categoriaPlatos">
-    <div class="Recetas">
-        <div class="slide">
-            <div class="item" style="background-image: url('/static/1.jpg');">
-                <div class="content">
-                    <div class="name">bevidas</div>
-                    <br>
-                    <button>Ver más</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url('/static/2.jpg');">
-                <div class="content">
-                    <div class="name">bevidas</div>
-                    <br>
-                    <button>Ver más</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url('/static/3.jpg');">
-                <div class="content">
-                    <div class="name">bevidas</div>
-                    <br>
-                    <button>Ver más</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url('/static/4.jpg');">
-                <div class="content">
-                    <div class="name">bevidas</div>
-                    <br>
-                    <button>Ver más</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url('/static/5.jpg');">
-                <div class="content">
-                    <div class="name">bevidas</div>
-                    <br>
-                    <button>Ver más</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url('/static/5.jpg');">
-                <div class="content">
-                    <div class="name">bevidas</div>
-                    <br>
-                    <button>Ver más</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url('/static/6.jpg');">
-                <div class="content">
-                    <div class="name">bevidas</div>
-                    <br>
-                    <button>Ver más</button>
-                </div>
-            </div>
-            <div class="item" style="background-image: url('/static/7.jpg');">
-                <div class="content">
-                    <div class="name">bevidas</div>
-                    <br>
-                    <button>Ver más</button>
-                </div>
-            </div>
+<main>
+    <div class="container">
+        <div class="card-title">
+          <h1>Categorías de recetas</h1>
+          <p>Explora nuestras categorías y encuentra la receta perfecta para cada ocasión</p>
         </div>
+      
+        <section class="categorias-grid">
+          <div class="card-categoria">
+            <div class="categoria-img">
+              <img src="{{ url_for('static', filename='desayunos.jpg') }}">
+            </div>
+            <h3>Desayunos</h3>
+            <p>Empieza tu día con energía con nuestras recetas fáciles y deliciosas.</p>
+            <div class="btnVer">
+              <button>Ver recetas</button>
+            </div>
+          </div>
+      
+          <div class="card-categoria">
+            <div class="categoria-img">
+              <img src="{{ url_for('static', filename='comidas.jpg') }}">
+            </div>
+            <h3>Comidas</h3>
+            <p>Platos fuertes para toda la familia, con ingredientes sencillos.</p>
+            <div class="btnVer">
+              <button>Ver recetas</button>
+            </div>
+          </div>
+      
+          <div class="card-categoria">
+            <div class="categoria-img">
+              <img src="{{ url_for('static', filename='postres.jpg') }}">
+            </div>
+            <h3>Postres</h3>
+            <p>Dulces irresistibles para consentirte a cualquier hora del día.</p>
+            <div class="btnVer">
+              <button>Ver recetas</button>
+            </div>
+          </div>
+      
+          <div class="card-categoria">
+            <div class="categoria-img">
+              <img src="{{ url_for('static', filename='bebidas.jpg') }}">
+            </div>
+            <h3>Bebidas</h3>
+            <p>Refrescantes, frías o calientes, tenemos algo para todos los gustos.</p>
+            <div class="btnVer">
+              <button>Ver recetas</button>
+            </div>
+          </div>
+        </section>
     </div>
 </main>
 {% endblock %}
