@@ -4,6 +4,7 @@ Inicio
 {% endblock %}
 {% block content %}
 <main>
+<<<<<<< HEAD
 <!-- Carrusel -->
     
 <!-- Tarjetas -->
@@ -145,7 +146,40 @@ Inicio
                     </div>
                 </div>
     
+=======
+    <div class="container-inicio">
+        <div class="title-section">
+            <i class="bx bxs-star"></i>
+            <h3>Top recetas</h3>
+            <i class="bx bxs-star"></i>
+        </div>
+        <div class="sugerencias-inicio">
+            {% for receta in recetas %}
+            <div class="card-receta">
+                <div class="receta-photo">
+                    <div class="cont-photo">
+                        <img src="{{url_for('static',filename=receta.imagen)}}">
+                    </div>
+                </div>
+                <div class="receta-info">
+                    <h3>{{ receta.nombre }}</h3>
+                    <p>{{ receta.descripcion }}</p>
+                    
+                </div>
+                <div class="receta-calif">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bx-star"></i>
+                </div>
+                <div class="btnVer">
+                    <button>Ver receta</button>
+                </div>
+>>>>>>> 8846363 (Actualiza recetas y mejora la interfaz de usuario en varias plantillas)
             </div>
+            {% endfor %}
+        </div>
     </div>
 </main>
 {% endblock %}

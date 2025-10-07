@@ -7,15 +7,17 @@ usuarios = [
 ]
 
 recetas = [
-    {'id':1, 'nombre':'Tacos', 'descripcion':'Deliciosos tacos de carne asada', 'ingredientes':['Carne', 'Tortillas', 'Cebolla', 'Cilantro', 'Salsa'], 'preparación':'Asar la carne, calentar las tortillas y servir con los ingredientes.', 'categoria':'Mexicana', 'imagen':'tacos.jpg'},
-    {'id':2, 'nombre':'Spaghetti Carbonara', 'descripcion':'Pasta italiana con salsa cremosa de huevo y panceta', 'ingredientes':['Spaghetti', 'Huevos', 'Panceta', 'Queso Parmesano', 'Pimienta'], 'preparación':'Cocinar la pasta, mezclar con la panceta y la salsa de huevo y queso.', 'categoria':'Italiana', 'imagen':'carbonara.jpg'},
+    {'id':1, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero ducimus fuga officiis provident veritatis quae nisi perferendis fugiat?', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparación':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum itaque magni voluptate obcaecati architecto commodi quo eius temporibus earum quidem.', 'categoria':'Categoría', 'imagen':'img1.jpg', 'calificacion':'5'},
+    {'id':2, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur rem expedita dolorem modi magni saepe!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparación':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis eaque amet fugiat dolores recusandae reprehenderit possimus eum vel temporibus voluptatem!', 'categoria':'Categoría', 'imagen':'img2.jpg', 'calificacion':'4.7'},
+    {'id':3, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus accusamus nemo ut in quo? Similique!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparación':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime soluta accusamus ratione, illum molestiae velit labore atque ipsa itaque consectetur.', 'categoria':'Categoría', 'imagen':'img3.jpg', 'calificacion':'4.9'},
+    {'id':4, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium nostrum libero reiciendis vitae, deserunt tempora reprehenderit aliquam atque eligendi! Voluptatem!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparación':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil minus numquam explicabo ducimus reiciendis nemo quia cumque ipsa ex animi?', 'categoria':'Categoría', 'imagen':'img4.jpg', 'calificacion':'4.5'},
 ]
 
 app.secret_key = 'mi_clave_secreta'
 
 @app.route('/')
 def raiz():
-    return render_template('index.html', usuario=session.get('usuario'))
+    return render_template('index.html', usuario=session.get('usuario'), recetas=recetas)
 
 @app.route('/inicio')
 def inicio():

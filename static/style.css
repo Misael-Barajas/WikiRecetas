@@ -12,9 +12,10 @@
 :root {
   --primaryColor: #f67041;
   --primaryColHover: #dc6d44;
-  --backgroundColor: #fff4ed;
+  --backgroundColor: #fff8f3;
+  --secBackgroundCol: #fee5d6;;
   --textColor: #410a09;
-  --cardColor: #fee5d6;
+  --cardColor: #ffffff;
 }
 
 body {
@@ -237,14 +238,25 @@ input:-webkit-autofill:active {
 .card-cont {
   width: 1000px;
   background-color: var(--cardColor);
+  text-align: left;
   padding: 32px;
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.card-cont h1 {
+  color: var(--primaryColor);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.card-cont h3 {
+  margin-top: 20px;
+}
+
 /* --- Menú --- */
 .Menu{
-  background-color: var(--cardColor);
+  background-color: var(--secBackgroundCol);
   width: 100%;
   height: 100px;
   display: flex;
@@ -300,6 +312,12 @@ input:-webkit-autofill:active {
   height: 50px; 
   margin-left: 70px;
   text-align: right;
+  transition: color 0.3s ease;
+
+  &:focus {
+    border: solid 1px var(--primaryColor);
+    transition: color 0.3s ease;
+  }
 }
 
 .Menu button{
@@ -327,8 +345,11 @@ input:-webkit-autofill:active {
   font-size: 50px;
   font-weight: bold;
   color: var(--primaryColor);
-
+  transition: all 0.3s ease;
+  
   &:hover {
+    transform: scale(1.15);
+    transition: all 0.3s ease;
     background-color: transparent;
     color: var(--primaryColor);
   }
@@ -476,7 +497,7 @@ input:-webkit-autofill:active {
 footer {
   margin-top: auto; 
   width: 100%;
-  background-color: var(--cardColor);
+  background-color: var(--secBackgroundCol);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -506,9 +527,12 @@ footer {
   }
 }
 
+<<<<<<< HEAD
 /* --- Carrusel --- */
 
 
+=======
+>>>>>>> 8846363 (Actualiza recetas y mejora la interfaz de usuario en varias plantillas)
 /* --- Pantalla de inicio --- */
 .container-inicio {
   display: flex;
@@ -630,18 +654,8 @@ footer {
   font-size: 20px;
 }
 
-.cont-carrusel .carrusel-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-}
+/* --- Carrusel inicio --- */
 
-.cont-carrusel .carrusel-slide .card-receta {
-  width: 80%;
-  max-width: 400px;
-  margin: auto;
-}
 
 /* --- Categorías --- */
 .categorias-grid {
