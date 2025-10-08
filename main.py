@@ -21,7 +21,7 @@ def raiz():
 
 @app.route('/inicio')
 def inicio():
-    return render_template('index.html', usuario=session.get('usuario'))
+    return render_template('index.html', usuario=session.get('usuario'), recetas=recetas)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
