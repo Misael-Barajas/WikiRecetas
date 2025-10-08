@@ -9,9 +9,5 @@ togglePassword.addEventListener('click', () => {
   togglePassword.classList.toggle('bx-hide');
   togglePassword.classList.toggle('bx-show');
 });
-<<<<<<< HEAD
-// Carrusel
-=======
 
 // Carrusel
->>>>>>> 8846363 (Actualiza recetas y mejora la interfaz de usuario en varias plantillas)
