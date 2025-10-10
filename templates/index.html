@@ -4,9 +4,78 @@ Inicio
 {% endblock %}
 {% block content %}
 <main>
-
 <!-- Carrusel -->
-    
+    <div class="content">
+        <div class="slide">
+            <div class="item" style="background-image: url(/static/1.jpg);">
+                <div class="contenido">    
+                    <div class="nombre">Receta 1</div>
+                    <br>
+                    <button>Ver receta</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(/static/2.jpg);">
+                <div class="contenido">    
+                    <div class="nombre">Receta 1</div>
+                    <br>
+                    <button>Ver receta</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(/static/3.jpg);">
+                <div class="contenido">    
+                    <div class="nombre">Receta 1</div>
+                    <br>
+                    <button>Ver receta</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(/static/4.jpg);">
+                <div class="contenido">    
+                    <div class="nombre">Receta 1</div>
+                    <br>
+                    <button>Ver receta</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(/static/5.jpg);">
+                <div class="contenido">    
+                    <div class="nombre">Receta 1</div>
+                    <br>
+                    <button>Ver receta</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(/static/6.jpg);">
+                <div class="contenido">    
+                    <div class="nombre">Receta 1</div>
+                    <br>
+                    <button>Ver receta</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(/static/7.jpg);">
+                <div class="contenido">    
+                    <div class="nombre">Receta 1</div>
+                    <br>
+                    <button>Ver receta</button>
+                </div>
+            </div>
+        </div>
+        <div class="button">
+            <button class="prev"><</button>
+            <button class="next">></button>
+        </div>
+        <script>
+            const next = document.querySelector('.next');
+            const prev = document.querySelector('.prev');
+
+            next.addEventListener('click', function() {
+                const items = document.querySelectorAll('.item');
+                document.querySelector('.slide').appendChild(items[0]);
+            });
+
+            prev.addEventListener('click', function() {
+                const items = document.querySelectorAll('.item');
+                document.querySelector('.slide').prepend(items[items.length - 1]);
+            });
+        </script>
+    </div>
 <!-- Tarjetas -->
     <div class="container-inicio">
         <div class="title-section">
