@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}
+Nueva receta
+{% endblock %}
+{% block content %}
+<main>
+    <div class="newReceta">
+        <br>
+        <h1>Registrar receta</h1>
+        <br>
+        <form method="POST" action="{{ url_for('nueva_receta') }}" >
+            <div class="NombreOpciones">
+                <div class="nomReceta">
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la Receta" required>
+                </div>
+                <br>
+                <div class="opcion1">
+                    <select id="dificultad" name="dificultad" required>
+                        <option value="" disabled selected>Seleccione una dificultad</option>
+                        <option value="Fácil">Fácil</option>
+                        <option value="Media">Media</option>                            <option value="Difícil">Difícil</option>
+                    </select>
+                </div>
+                <br>
+                <div class="opcion2">
+                    <select id="categoria" name="categoria" required>
+                        <option value="" disabled selected>Seleccione una categoría</option>                            <option value="Platillos principales">Platillos Principales</option>
+                        <option value="Acompañamientos">Acompañamientos</option>
+                        <option value="Vegetariano">Vegetariano</option>
+                        <option value="Crema">Crema</option>
+                        <option value="Sopa">Sopa</option>
+                        <option value="Postre">Postre</option>
+                        <option value="Bebida">Bebida</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="des">
+                <textarea id="descripcion" placeholder="Descripción" name="descripcion" required></textarea>
+            </div>
+            <br>
+            <div class="formulario">
+                <div class="ingredientes">
+                    <textarea id="ingredientes"  name="ingredientes" placeholder="Ingredientes" required></textarea>
+                </div>
+                <br>
+                <div class="preparacion">
+                    <textarea id="preparacion" placeholder="Preparación" name="preparacion" required></textarea>
+                </div>
+            </div>
+            <br>
+            <div class="video" id="video-links">
+                <label for="videos">Videos de la receta:</label>
+                <input type="file" id="video" name="videos" accept="video/*">
+            </div>
+            <br>
+            <div class="imagenes">
+                <label for="imagen">Imagenes de la receta:</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*">
+            </div>
+            <br>
+            <div class="formButton">
+                <button type="submit">Registrar</button>
+                <a href="{{ url_for('inicio') }}"><button type="button">Cancelar</button></a>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

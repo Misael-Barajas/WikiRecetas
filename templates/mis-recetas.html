@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+Mi perfil
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container">
+        {% for receta in misrecetas %}
+            <div class="card-receta">
+                <div class="receta-photo">
+                    <div class="cont-photo">
+                        <img src="{{url_for('static',filename=receta.imagen)}}">
+                    </div>
+                </div>
+                <div class="receta-info">
+                    <h3>{{ receta.nombre }}</h3>
+                    <p>{{ receta.descripcion }}</p>
+                    
+                </div>
+                <div class="receta-calif">
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bxs-star"></i>
+                    <i class="bx bx-star"></i>
+                </div>
+                <div class="btnVer">
+                    <button>Ver receta</button>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+</main>
+{% endblock %}

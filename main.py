@@ -7,11 +7,15 @@ usuarios = [
 ]
 
 recetas = [
-    {'id':1, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero ducimus fuga officiis provident veritatis quae nisi perferendis fugiat?', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparación':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum itaque magni voluptate obcaecati architecto commodi quo eius temporibus earum quidem.', 'categoria':'Categoría', 'imagen':'img1.jpg', 'calificacion':'5'},
-    {'id':2, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur rem expedita dolorem modi magni saepe!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparación':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis eaque amet fugiat dolores recusandae reprehenderit possimus eum vel temporibus voluptatem!', 'categoria':'Categoría', 'imagen':'img2.jpg', 'calificacion':'4.7'},
-    {'id':3, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus accusamus nemo ut in quo? Similique!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparación':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime soluta accusamus ratione, illum molestiae velit labore atque ipsa itaque consectetur.', 'categoria':'Categoría', 'imagen':'img3.jpg', 'calificacion':'4.9'},
-    {'id':4, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium nostrum libero reiciendis vitae, deserunt tempora reprehenderit aliquam atque eligendi! Voluptatem!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparación':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil minus numquam explicabo ducimus reiciendis nemo quia cumque ipsa ex animi?', 'categoria':'Categoría', 'imagen':'img4.jpg', 'calificacion':'4.5'},
+    {'id':1, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero ducimus fuga officiis provident veritatis quae nisi perferendis fugiat?', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparacion':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum itaque magni voluptate obcaecati architecto commodi quo eius temporibus earum quidem.', 'categoria':'Categoría', 'imagen':'img1.jpg', 'calificacion':'5'},
+    {'id':2, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur rem expedita dolorem modi magni saepe!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparacion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis eaque amet fugiat dolores recusandae reprehenderit possimus eum vel temporibus voluptatem!', 'categoria':'Categoría', 'imagen':'img2.jpg', 'calificacion':'4.7'},
+    {'id':3, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus accusamus nemo ut in quo? Similique!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparacion':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime soluta accusamus ratione, illum molestiae velit labore atque ipsa itaque consectetur.', 'categoria':'Categoría', 'imagen':'img3.jpg', 'calificacion':'4.9'},
+    {'id':4, 'nombre':'Nombre receta', 'descripcion':'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium nostrum libero reiciendis vitae, deserunt tempora reprehenderit aliquam atque eligendi! Voluptatem!', 'dificultad':'facil', 'ingredientes':['Ingrediente1', 'Ingrediente2', 'Ingrediente3', 'Ingrediente4', 'Ingrediente5'], 'preparacion':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil minus numquam explicabo ducimus reiciendis nemo quia cumque ipsa ex animi?', 'categoria':'Categoría', 'imagen':'img4.jpg', 'calificacion':'4.5'},
 ]
+
+misrecetas = []
+
+
 
 app.secret_key = 'mi_clave_secreta'
 
@@ -137,6 +141,31 @@ def sugerencias():
 def categorias():
     return render_template('categorias.html')
 
+@app.route('/nueva_receta', methods=['GET', 'POST'])
+def nueva_receta():    
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        dificultad = request.form['dificultad']
+        ingredientes = request.form.getlist('ingredientes[]')
+        preparacion = request.form['preparacion']
+        categoria = request.form['categoria']
+        imagen = request.form['imagen']
+        videos = request.form.getlist('videos[]')
+        id = misrecetas[-1]['id'] + 1 if misrecetas else 1
+        nuevaReceta = {'id':id, 'nombre':nombre, 'descripcion':descripcion, 'dificultad':dificultad, 'ingredientes':ingredientes,'preparacion':preparacion, 'categoria':categoria, 'imagen':imagen, 'videos':videos}
+        misrecetas.append(nuevaReceta)
+        return redirect(url_for('mis_recetas'))
+    return render_template('nueva-receta.html', usuario=session['usuario'])
+
+@app.route("/mis-recetas")
+def mis_recetas():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    return render_template('mis-recetas.html', usuario=session['usuario'], misrecetas=misrecetas)
 '''
 @app.errorhandler(404)
 def page_not_found(e):

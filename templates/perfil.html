@@ -43,15 +43,19 @@ Mi perfil
             </form>
         </div>
         <div class="card-profile">
-            <div class="btnSubmit">
-                <button>Mis recetas</button>
-            </div>
+            <form action="{{ url_for('mis_recetas') }}" method="get" id="formMisrecetas">
+                <div class="btnSubmit">
+                    <button>Mis recetas</button>
+                </div>
+            </form>
             <div class="btnSubmit">
                 <button>Recetas guardadas</button>
             </div>
-            <div class="btnSubmit">
-                <button>Subir receta</button>
-            </div>
+            <form action="{{ url_for('nueva_receta') }}" method="get" id="formNuevaReceta">
+                <div class="btnSubmit">
+                    <button>Subir receta</button>
+                </div>
+            </form>
         </div>
     </div>
 </main>
