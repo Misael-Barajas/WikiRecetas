@@ -10,5 +10,3 @@ togglePassword.addEventListener('click', () => {
   togglePassword.classList.toggle('bx-show');
 });
 
-// Carrusel
-

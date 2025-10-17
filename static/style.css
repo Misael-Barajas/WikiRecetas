@@ -533,9 +533,7 @@ footer {
   transform: translate(-50%, -60%); 
   width: 900px;
   height: 500px;
-  background: #f5f5f5;
   border-radius: 35px;
-  box-shadow: 0 30px 50px black
 }
 .content .slide .item{
   width: 200px;
@@ -544,7 +542,7 @@ footer {
   top: 50%;
   transform: translate(0, -50%);
   border-radius: 25px;
-  box-shadow: 0 30px 50px var(--secBackgroundCol);
+  box-shadow: 0 20px 80px var(--secBackgroundCol);
   background-position: 50% 50%;
   background-size: cover;
   display: inline-block;
@@ -557,14 +555,12 @@ footer {
   height: 100%;
 }
 .slide .item:nth-child(3){
-  left: 50%;
-}
-.slide .item:nth-child(4){
   left: calc(50% + 220px);
 }
-.slide .item:nth-child(n + 5){
+.slide .item:nth-child(n + 4){
   left: calc(50% + 440px);
 }
+
 .item .contenido{
   position: absolute;
   top: 50%;
@@ -594,23 +590,48 @@ footer {
   margin-left: 5px;
   top: -50px;
 }
-.contenido button{
-  padding: 10px 20px;
-  font-size: 15px;
-  margin-left: 25px;
-  background-color: var(--backgroundColor);
-  cursor: pointer;
-  border: 5px solid var(--primaryColor);
-  border-radius: 30px;
-  opacity: 0;
-  animation: animate 1s ease-in-out 1 forwards;
-  
-  &:hover{
-    background-color: var(--primaryColor);
-    color: #fff;
-    transition: all 0.3s ease;
-  }
+.contenido button {
+ display: inline-block;
+ border-radius: 4px;
+ background-color: var(--primaryColor);
+ border: none;
+ color: #FFFFFF;
+ text-align: center;
+ border-radius: 25px;
+ font-size: 17px;
+ padding: 16px;
+ width: 150px;
+ transition: all 0.5s;
+ cursor: pointer;
+ margin: 5px;
+ animation: animate 1s ease-in-out 1 forwards;
 }
+
+.contenido button span {
+ cursor: pointer;
+ display: inline-block;
+ position: relative;
+ transition: 0.5s;
+}
+
+.contenido button span:after {
+ content: '»';
+ position: absolute;
+ opacity: 0;
+ top: 0;
+ right: -15px;
+ transition: 0.5s;
+}
+
+.contenido button:hover span {
+ padding-right: 15px;
+}
+
+.contenido button:hover span:after {
+ opacity: 1;
+ right: 0;
+}
+
 @keyframes animate{
   from{
     opacity: 0;
@@ -636,12 +657,12 @@ footer {
   border: none;
   cursor: pointer;
   margin: 0 5px;
-  border: 5px solid #ffb984;
+  border: 5px solid var(--primaryColor);
   transition: 0.3s;
 
   &:hover{
     background: var(--cardColor);
-    color: #ffb984  ;
+    color: var(--primaryColor)  ;
   }
 }
 
@@ -765,8 +786,6 @@ footer {
   color: #f5c518;
   font-size: 20px;
 }
-
-/* --- Carrusel inicio --- */
 
 
 /* --- Categorías --- */
