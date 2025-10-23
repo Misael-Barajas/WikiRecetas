@@ -569,7 +569,7 @@ footer {
   width: calc(100% - 80px);
   display: none;    
   text-align: left;
-  color: var(--textColor);
+  color: var(--primaryColor);
   font-family: system-ui;
   z-index: 5;
   padding: 12px;
