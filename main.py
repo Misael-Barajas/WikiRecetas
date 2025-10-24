@@ -1,5 +1,10 @@
 from flask import Flask, render_template, url_for, request, redirect, session
+from modelo.Dao import db
+
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root@localhost/WikiRecetas'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 usuarios = [
     {'id':1, 'nombre':'Misael', 'apellido':'Barajas', 'usuario':'MisaelB', 'telefono':'3511563006', 'correo':'misael@gmail.com', 'password':'misael05b', 'rol':'admin'},
@@ -14,8 +19,6 @@ recetas = [
 ]
 
 misrecetas = []
-
-
 
 app.secret_key = 'mi_clave_secreta'
 
@@ -177,4 +180,5 @@ def internal_server_error(e):
 '''
 
 if __name__ == '__main__':
+    db.init_app(app)
     app.run(debug=True)
