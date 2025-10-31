@@ -71,8 +71,8 @@ class Categoria(db.Model):
 class imajen_video(db.Model):
     __tablename__ = 'imajen_videos'
     id = Column(Integer, primary_key=True)
-    tipo = Column(String(10), nullable=False)  
-    url = Column(String(200), nullable=False)
+    imagen = Column(BLOB, nullable=False)  
+    video = Column(String(200), nullable=False)
     receta_id = Column(Integer, ForeignKey('recetas.id'), nullable=False)
     receta = relationship('Receta', backref='imajen_videos')
 
