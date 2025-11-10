@@ -1,0 +1,185 @@
+.container-inicio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 0 80px;
+}
+
+.sugerencias-inicio {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+/* Tarjetas */
+.title-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 40px 0 10px 0;
+    gap: 5px;
+}
+
+.title-section i {
+    color: #f5c518;
+    font-size: 20px;
+}
+
+/* --- Carrusel --- */
+.content {
+    position: relative;
+    top: 310px;
+    left: 50%;
+    transform: translate(-50%, -60%); 
+    width: 900px;
+    height: 500px;
+    border-radius: 35px;
+}
+.content .slide .item{
+    width: 200px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    border-radius: 25px;
+    box-shadow: 0 20px 80px var(--secBackgroundCol);
+    background-position: 50% 50%;
+    background-size: cover;
+    display: inline-block;
+    transition: 0.5s;
+}
+.slide .item:nth-child(1),
+.slide .item:nth-child(2){
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+}
+.slide .item:nth-child(3){
+    left: calc(50% + 220px);
+}
+.slide .item:nth-child(n + 4){
+    left: calc(50% + 440px);
+}
+
+.item .contenido{
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translateY(-50%);
+    width: calc(100% - 80px);
+    display: none;    
+    text-align: left;
+    color: var(--primaryColor);
+    font-family: system-ui;
+    z-index: 5;
+    padding: 12px;
+    border-radius: 8px;
+}
+.slide .item:nth-child(2) .contenido{
+    display: block;
+}
+.contenido .nombre{
+    font-size: 40px;
+    text-transform: uppercase;
+    font-weight: bold;
+    opacity: 0;
+    animation: animate 0.5s ease-in-out 1 forwards;
+}
+.nombre{
+    position: relative;
+    margin-left: 5px;
+    top: -50px;
+}
+.contenido button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: var(--primaryColor);
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    border-radius: 25px;
+    font-size: 16px;
+    padding: 9px;
+    width: 160px;
+    transition: all 0.5s;
+    cursor: pointer;
+    animation: animate 1s ease-in-out 1 forwards;
+}
+
+.contenido button span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: 0.5s;
+}
+
+.contenido button span:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;
+    right: -15px;
+    transition: 0.5s;
+    font-size: 25px;
+}
+
+.contenido button:hover span {
+    padding-right: 15px;
+}
+    
+.contenido button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+@keyframes animate{
+    from{
+        opacity: 0;
+        transform: translate(0, 100px);
+        filter: blur(33px);
+    }
+    to{
+        opacity: 1;
+        transform: translate(0, 0px);
+        filter: blur(0px);
+    }
+}
+
+.button{
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 20px; 
+}
+.button .bx {
+    font-size: 30px;
+}
+
+.button button{
+  width: 80px;
+  color: white;
+  height: 35px;
+  border-radius: 30px;
+  border: none;
+  background-color: var(--primaryColor);
+  cursor: pointer;
+  margin: 0 10px;
+  transition: all 0.3s ease;
+  opacity: .7;
+
+  &:hover{
+    opacity: 1;
+    background: var(--primaryColor);
+    color: white;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
+}

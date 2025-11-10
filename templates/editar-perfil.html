@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+{% endblock %}
 {% block title %}
 Mi perfil
 {% endblock %}
@@ -7,42 +10,42 @@ Mi perfil
 <main>
     <div class="container-profile">
         <div class="card-profile">
-            <div class="cont-photo">
-                <div class="profile-photo">
-                    <img src="{{ url_for('static', filename='foto_perfil.jpg') }}">
-                    <div class="btnEditPhoto">
-                        <button><i class="bx bx-pencil"></i></button>
+            
+            <form action="{{ url_for('editar_perfil') }}" method="post" id="formEditarPerfil" enctype="multipart/form-data">
+
+                <div class="cont-photo">
+                    <input type="file" name="fotoUsuario" id="profilePicInput" accept="image/*" hidden>
+                    
+                    <div class="profile-photo" id="profileDropZone">
+                        <img src="/usuarios/obtenerImagen/{{u.idUsuario}}" id="profileImagePreview">
+                        <div class="btnEditPhoto">
+                            <button type="button" id="editProfileBtn"><i class="bx bx-pencil"></i></button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <form action="{{ url_for('editar_perfil') }}" method="post" id="formEditarPerfil">
+
                 <div class="input-wrapper">
-                    <input type="text" placeholder=" " id="idUsuario" name="usuario" value="{{ usuario.usuario }}" required>
+                    <input type="text" placeholder=" " id="idUsuario" name="usuario" value="{{ u.nombreUsuario }}" required>
                     <label for="idUsuario">Nombre de usuario</label>
                 </div>
                 <div class="input-wrapper">
-                    <input type="text" placeholder=" " id="idNombre" name="nombre" value="{{ usuario.nombre }}" required>
+                    <input type="text" placeholder=" " id="idNombre" name="nombre" value="{{ u.nombre }}" required>
                     <label for="idNombre">Nombre</label>
                 </div>
                 <div class="input-wrapper">
-                    <input type="text" placeholder=" " id="idApellido" name="apellido" value="{{ usuario.apellido }}" required>
+                    <input type="text" placeholder=" " id="idApellido" name="apellido" value="{{ u.apellido }}" required>
                     <label for="idApellido">Apellido</label>
                 </div>
                 <div class="input-wrapper">
-                    <input type="email" placeholder=" " id="idCorreo" name="correo" value="{{ usuario.correo }}" required>
+                    <input type="email" placeholder=" " id="idCorreo" name="correo" value="{{ u.email }}" required>
                     <label for="idCorreo">Correo</label>
                 </div>
                 <div class="input-wrapper">
-                    <input type="tel" placeholder=" " id="idTelefono" name="telefono" value="{{ usuario.telefono }}" required>
+                    <input type="tel" placeholder=" " id="idTelefono" name="telefono" value="{{ u.telefono }}" required>
                     <label for="idTelefono">Teléfono</label>
                 </div>
-                <div class="input-wrapper">
-                    <input type="password" placeholder=" " id="idPassword" name="password" value="{{ usuario.password }}" required>
-                    <label for="idPassword">Contraseña</label>
-                    <i class="bx bx-show togglePwd" id="togglePassword"></i>
-                </div>
                 <div class="btnSubmit">
-                    <button type="submit">Guardar</button>
+                    <button type="submit" form="formEditarPerfil">Guardar</button>
                 </div>
             </form>
             <div class="btnLogout">
@@ -52,5 +55,7 @@ Mi perfil
             </div>
         </div>
     </div>
+
+    <script src="{{ url_for('static', filename='js/profile-photo-uploader.js') }}"></script>
 </main>
 {% endblock %}

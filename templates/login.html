@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
 {% block title %}
 Iniciar sesión
 {% endblock %}
@@ -11,17 +14,17 @@ Iniciar sesión
                 <h1>Inicia sesión</h1>
             </div>
             <form action="{{ url_for('login') }}" method="post" id="formLogin">
-                {% if error %}
+                {% if userError %}
                     <div class="error">
-                        <i class="bx bx-error"></i> {{ error }} <i class="bx bx-x btn-close"></i>
+                        <i class="bx bx-error"></i> {{ userError }}</i>
                     </div>
                 {% endif %}
                 <div class="input-wrapper">
-                    <input type="text" placeholder=" " id="idEmail" name="email" value="{{ correo or '' }}" required>
+                    <input type="text" placeholder=" " id="idEmail" name="correo" value="{{ email or '' }}" required>
                     <label for="idEmail">Correo</label>
                 </div>
                 <div class="input-wrapper">
-                     <input type="password" placeholder=" " id="idPassword" name="password" value="{{ password or '' }}" required>
+                     <input type="password" placeholder=" " id="idPassword" name="password" required>
                      <label for="idPassword">Contraseña</label>
                      <i class="bx bx-show togglePwd" id="togglePassword"></i>
                  </div>

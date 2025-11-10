@@ -1,0 +1,62 @@
+.card-login {
+  width: 400px;
+  background-color: var(--cardColor);
+  padding: 32px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-login a, .card-cont a {
+  color: var(--primaryColor);
+}
+
+.card-login a:hover, .card-cont a:hover {
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
+.txtForgotPwd {
+  text-align: right;
+  margin-bottom: 30px;
+}
+
+.txtLoginRegister span {
+  margin-right: 3px;
+}
+
+.terms input[type="checkbox"] {
+  transform: scale(1.4);
+  cursor: pointer;
+  margin-right: 2px;
+
+  &:checked {
+    accent-color: var(--primaryColor);
+  }
+
+  &:disabled:checked{
+    accent-color: var(--primaryColor);
+  }
+}
+
+.error {
+  background-color: #ffeef0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #d73a49;
+  color: #86181d;
+  padding: 14px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.error .bx {
+  margin: 0 3px;
+  font-size: 17px;
+}
+
+.cont-photo .profile-photo, .card-title{
+  margin-bottom: 0;
+}

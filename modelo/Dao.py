@@ -1,18 +1,31 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float, Date, BLOB, ForeignKey
 from sqlalchemy.orm import relationship
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
 db = SQLAlchemy()
 
-class Usuario(db.Model):
+class Usuario(db.Model, UserMixin):
     __tablename__ = 'usuarios'
-    id = Column(Integer, primary_key=True)
-    fotoUsuario = Column(BLOB, nullable=True)
+    idUsuario = Column(Integer, primary_key=True)
+    fotoUsuario = Column(BLOB)
     nombre = Column(String(50), nullable=False)
     apellido = Column(String(50), nullable=False)
-    usuario = Column(String(50), unique=True, nullable=False)
-    telefono = Column(String(20), nullable=True)
-    correo = Column(String(100), unique=True, nullable=False)
-    password = Column(String(100), nullable=False)
+    nombreUsuario = Column(String(50), unique=True, nullable=False)
+    rol = Column(String(50), nullable=False, default='Usuario')
+    email = Column(String(255), unique=True, nullable=False)
+    telefono = Column(String(20), nullable=False)
+    password = Column(String(255), nullable=False)
+    nombre_apellido = Column(String(255), nullable=False)
+    
+    @property
+
+    def __set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def validarPassword(self, password):
+        return check_password_hash(self.password, password)
 
     def agregar(self):
         db.session.add(self)
@@ -20,92 +33,125 @@ class Usuario(db.Model):
 
     def editar(self):
         db.session.merge(self)
+        db.session.commit()
+    
+    def eliminar(self, id):
+        u = self.consultaIndividual(id)
+        db.session.delete(u)
+        db.session.commit()
+
+    def consultaIndividual(self, id):
+        return Usuario.query.get(id)
+
+    def validar(self, email, password):
+        usuario = Usuario.query.filter(Usuario.email == email).first()
+        if usuario is not None and usuario.validarPassword(password):
+            return usuario
+        else:
+            return None
+    
+    def get_id(self):
+        return self.idUsuario
+    
+    def is_authenticated(self):
+        return True
+    
+    def consultarImagen(self,id):
+        return self.consultaIndividual(id).fotoUsuario
+    
+    def is_admin(self):
+        if self.rol=='Admin':
+            return True
+        else:
+            return False
+
+
+class Categoria(db.Model):
+    __tablename__ = 'categoria'
+    idCategoria = Column(Integer, primary_key=True)
+    nombre = Column(String(200), nullable=False)
+    descripcion = Column(String(200), nullable=True)
+    imagen = Column(BLOB, nullable=True)
+
+    def consultaGeneral(self):
+        return self.query.all()
+
+    def consultaIndividual(self, id):
+        return Categoria.query.get(id)
+    
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+        
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def eliminar(self, id):
+        c = self.consultaIndividual(id)
+        db.session.delete(c)
         db.session.commit()
 
 class Receta(db.Model):
-    __tablename__ = 'recetas'
-    id = Column(Integer, primary_key=True)
-    nombre = Column(String(100), nullable=False)
-    descripcion = Column(String(500), nullable=True)
-    ingredientes = Column(String(1000), nullable=False)
-    preparacion = Column(String(2000), nullable=False)
-    porciones = Column(Integer, nullable=True)
-    categoria_id = Column(String(50), nullable=True)
-    usuario_id = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
+    __tablename__ = 'receta'
+    idReceta = Column(Integer, primary_key=True)
+    nombre = Column(String(50), nullable=False)
+    dificultad = Column(String(50), nullable=False) 
+    descripcion = Column(String(200), nullable=False)
+    ingredientes = Column(String(500), nullable=False)
+    preparacion = Column(String(1000), nullable=False)
+    
+    idUsuario = Column(Integer, ForeignKey('usuarios.idUsuario'), nullable=False)
+    idCategoria = Column(Integer, ForeignKey('categoria.idCategoria'), nullable=False)
+    
     usuario = relationship('Usuario', backref='recetas')
-
-    def cosultaGeneral(self):
-        return Receta.query.all()
+    categoria = relationship('Categoria', backref='recetas')
     
-    def conultaIndividual(self, id):
-        return Receta.query.filter_by(id=id).first()
-    
-    def consultaAciva(self):
-        return Receta.query.filter_by(estado='activo').all()
-
     def agregar(self):
         db.session.add(self)
         db.session.commit()
     
-    def eliminar(self):
-        db.session.delete(self)
-        db.session.commit()
+    def consultaGeneral(self):
+        return self.query.all()
     
+    def consultaIndividual(self, id):
+        return Receta.query.get(id)
+
     def editar(self):
         db.session.merge(self)
         db.session.commit()
 
-class Categoria(db.Model):
-    __tablename__ = 'categorias'
-    id = Column(Integer, primary_key=True)
-    nombre = Column(String(50), unique=True, nullable=False)
+    def eliminar(self, id):
+        r = self.consultaIndividual(id)
+        if r:
+            imagenVideo.query.filter_by(idReceta=id).delete()
+            calificacion.query.filter_by(idReceta=id).delete()
+            
+            db.session.delete(r)
+            db.session.commit()
 
-    def agregar(self):
-        db.session.add(self)
-        db.session.commit()
-    
-    def eliminar(self):
-        db.session.delete(self)
-        db.session.commit()
-
-class imajen_video(db.Model):
-    __tablename__ = 'imajen_videos'
-    id = Column(Integer, primary_key=True)
+class imagenVideo(db.Model):
+    __tablename__ = 'imagenVideo'
+    idImagenVideo = Column(Integer, primary_key=True) 
     imagen = Column(BLOB, nullable=False)  
-    video = Column(String(200), nullable=False)
-    receta_id = Column(Integer, ForeignKey('recetas.id'), nullable=False)
-    receta = relationship('Receta', backref='imajen_videos')
+    video = Column(BLOB, nullable=True)
+    idReceta = Column(Integer, ForeignKey('receta.idReceta'), nullable=False)
+    receta = relationship('Receta', backref='imagenVideo')
 
     def agregar(self):
         db.session.add(self)
-        db.session.commit()
-    
-    def eliminar(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def editar(self):
-        db.session.merge(self)
         db.session.commit()
 
 class calificacion(db.Model):
-    __tablename__ = 'calificaciones'
-    id = Column(Integer, primary_key=True)
-    puntuacion = Column(Float, nullable=False)
-    comentario = Column(String(500), nullable=True)
-    usuario_id = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
-    receta_id = Column(Integer, ForeignKey('recetas.id'), nullable=False)
+    __tablename__ = 'calificacion'
+    idCalificacion = Column(Integer, primary_key=True) 
+    calificacion = Column(Integer, nullable=False) 
+    comentario = Column(String(1000), nullable=True)
+    idUsuario = Column(Integer, ForeignKey('usuarios.idUsuario'), nullable=False)
+    idReceta = Column(Integer, ForeignKey('receta.idReceta'), nullable=False)
     usuario = relationship('Usuario', backref='calificaciones')
     receta = relationship('Receta', backref='calificaciones')
-
-    def consultaGeneral(self):
-        return calificacion.query.all()
     
     def agregar(self):
         db.session.add(self)
         db.session.commit()
-
-    def editar(self):
-        db.session.merge(self)
-        db.session.commit()
-    

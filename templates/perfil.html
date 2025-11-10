@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+{% endblock %}
 {% block title %}
 Mi perfil
 {% endblock %}
@@ -8,28 +11,28 @@ Mi perfil
         <div class="card-profile">
             <div class="cont-photo">
                 <div class="profile-photo">
-                    <img src="{{url_for('static',filename='foto_perfil.jpg')}}">
+                    <img src="/usuarios/obtenerImagen/{{u.idUsuario}}">
                 </div>
             </div>
             <div class="cont-data">
                 <h3>Nombre de usuario:</h3>
-                <p>@{{ usuario.usuario }}</p>
+                <p>@{{ u.nombreUsuario }}</p>
             </div>
             <div class="cont-data">
                 <h3>Nombre y Apellido:</h3>
-                <p>{{ usuario.nombre_apellido }}</p>
+                <p>{{ u.nombre }}</p>
             </div>
             <div class="cont-data">
                 <h3>Correo:</h3>
-                <p>{{ usuario.correo }}</p>
+                <p>{{ u.email }}</p>
             </div>
             <div class="cont-data">
                 <h3>Teléfono:</h3>
-                <p>{{ usuario.telefono }}</p>
+                <p>{{ u.telefono }}</p>
             </div>
             <div class="cont-data">
                 <h3>ID de usuario:</h3>
-                <p>{{ usuario.id }}</p>
+                <p>{{ u.idUsuario }}</p>
             </div>
             <form action="{{ url_for('editar_perfil') }}" method="get" id="formEditarPerfil">
                 <div class="btnSubmit">

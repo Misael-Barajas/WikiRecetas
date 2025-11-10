@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}
+    {% endblock %}
+
     <title>
         {% block title %}
         
@@ -14,15 +16,16 @@
 <body>
     <ul class="Menu">
         <li><a class="logo" href="/">WR</a></li>
-        <li><a href="{{ url_for('categorias') }}" class="{% if request.endpoint == 'categorias' %}active{% endif %}">Categorías</a></li>
+        <li><a href="{{ url_for('ver_categorias') }}" class="{% if request.endpoint == 'ver_categorias' %}active{% endif %}">Categorías</a></li>
         <li><a class="{% if request.endpoint == 'sugerencias' %}active{% endif %}" href="{{url_for('sugerencias')}}">Sugerencias</a></li>
-        <li><a href="{% if session.get('usuario') %}{{ url_for('perfil') }}{% else %}{{ url_for('login') }}{% endif %}" class="{% if request.endpoint == 'perfil' %}active{% endif %}">Perfil</a></li>
-        {% if not session.get('usuario') %}
+        {% if user.is_authenticated %}
+        <li><a href="{{ url_for('perfil') }}" class="{% if request.endpoint == 'perfil' %}active{% endif %}">Perfil</a></li>
+        {% else %}
         <li><a class="{% if request.endpoint == 'login' %}active{% endif %}" href="{{url_for('login')}}">Iniciar sesión</a></li>
         {% endif %}
         <div class="searchbar">
             <input type="text" placeholder="Buscar receta">
-            <button><i class="bx-search"></i></button>
+            <button><i class="bx bx-search"></i></button>
         </div>
     </ul>
     {% block content %}
@@ -42,7 +45,7 @@
         <h3>Enlaces Rápidos</h3>
         <a href="{{ url_for('contactar') }}"><li>Contacto</li></a>
         <a href="{{ url_for('sugerencias') }}"><li>Sugerencias</li></a>
-        <a href="{{ url_for('categorias') }}"><li>Categorias y dificultad</li></a>
+        <a href="{{ url_for('ver_categorias') }}"><li>Categorias y dificultad</li></a>
     </div>
 </footer>
 </html>

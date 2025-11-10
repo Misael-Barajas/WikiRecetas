@@ -1,0 +1,161 @@
+.card-receta {
+  position: relative;
+}
+
+.receta-opciones {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.btn-opciones {
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--textColor);
+  transition: all 0.3s ease;
+}
+
+.btn-opciones:hover {
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.opciones-menu {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: var(--cardColor);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  overflow: hidden;
+  min-width: 150px;
+  z-index: 11;
+}
+
+.opciones-menu.mostrar {
+  display: block;
+}
+
+.opciones-menu a {
+  display: block;
+  padding: 12px 20px;
+  color: var(--textColor);
+  font-size: 15px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.opciones-menu a:hover {
+  background-color: var(--secBackgroundCol);
+  color: var(--primaryColor);
+  text-decoration: none;
+}
+
+.opciones-menu .btn-eliminar-directo {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  color: var(--textColor);
+  font-size: 15px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.opciones-menu .btn-eliminar-directo:hover {
+  background-color: var(--secBackgroundCol);
+  color: var(--primaryColor);
+  text-decoration: none;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.mostrar {
+  display: flex;
+}
+
+.modal-contenido {
+  background-color: var(--cardColor);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  z-index: 1001;
+}
+
+.modal-contenido h3 {
+  color: var(--primaryColor);
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.modal-contenido p {
+  color: var(--textColor);
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.modal-btn-cancelar {
+  background-color: #eee;
+  color: #555;
+  border: 1px solid #ccc;
+}
+
+.modal-btn-cancelar:hover {
+  background-color: #ddd;
+}
+
+.modal-btn-eliminar {
+  background-color: var(--primaryColor);
+  color: #fff;
+  border: 1px solid var(--primaryColHover);
+}
+
+.modal-btn-eliminar:hover {
+  background-color: var(--primaryColHover);
+  transform: scale(1.05);
+}

@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+{% endblock %}
 {% block title %}
 Registrarse
 {% endblock %}
@@ -10,17 +14,22 @@ Registrarse
                 <h3 class="title">¡Hola!</h3>
                 <h1>Regístrate</h1>
             </div>
-            <form action="/registro" method="post" id="formRegistro">
+            <form action="/registro" method="post" id="formRegistro" enctype="multipart/form-data">
                 {% if error %}
                     <div class="error">
                         <i class="bx bx-error"></i> {{ error }} <i class="bx bx-x btn-close"></i>
                     </div>
                 {% endif %}
                 <div class="cont-photo">
-                    <div class="profile-photo">
-                        <img src="{{url_for('static',filename='foto_perfil.jpg')}}">
+                    <input type="file" name="fotoUsuario" id="profilePicInput" accept="image/*" hidden>
+                    <div class="profile-photo" id="profileDropZone">
+                        <img src="{{ url_for('static', filename='uploads/foto_perfil_default.jpg') }}" id="profileImagePreview">
+                        <div class="btnEditPhoto">
+                            <button type="button" id="editProfileBtn"><i class="bx bx-pencil"></i></button>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="input-wrapper">
                     <input type="text" placeholder=" " id="idNombre" name="nombre" autocomplete="given-name" required>
                     <label for="idNombre">Nombre</label>
@@ -64,5 +73,6 @@ Registrarse
            </div>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='js/profile-photo-uploader.js') }}"></script>
 </main>
 {% endblock %}

@@ -1,15 +1,31 @@
 {% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mis-recetas.css') }}">
+{% endblock %}
 {% block title %}
 Mi perfil
 {% endblock %}
+
 {% block content %}
 <main>
     <div class="container">
         {% for receta in misrecetas %}
             <div class="card-receta">
+                
+                <div class="receta-opciones">
+                    <button class="btn-opciones">
+                        <i class='bx bx-dots-vertical-rounded'></i>
+                    </button>
+                    <div class="opciones-menu">
+                        <a href="{{ url_for('editar_receta', idReceta=receta.idReceta) }}">Editar receta</a>
+                        <button type="button" class="btn-eliminar-directo" onclick="abrirModalConfirmacion(event, '{{ receta.idReceta }}')">
+                            Eliminar receta
+                        </button>
+                    </div>
+                </div>
                 <div class="receta-photo">
                     <div class="cont-photo">
-                        <img src="{{url_for('static',filename=receta.imagen)}}">
+                        <img src="">
                     </div>
                 </div>
                 <div class="receta-info">
@@ -28,7 +44,17 @@ Mi perfil
                     <button>Ver receta</button>
                 </div>
             </div>
-            {% endfor %}
+        {% endfor %}
+    </div> <div id="modalConfirmar" class="modal-overlay">
+        <div class="modal-contenido">
+            <h3>Confirmar Eliminación</h3>
+            <p>¿Estás seguro de que deseas eliminar esta receta? Esta acción no se puede deshacer.</p>
+            <div class="modal-botones">
+                <button type="button" id="btnCancelarModal" class="modal-btn modal-btn-cancelar">Cancelar</button>
+                <button type="button" id="btnEliminarModal" class="modal-btn modal-btn-eliminar">Eliminar</button>
+            </div>
+        </div>
     </div>
-</main>
+    <script src="{{ url_for('static', filename='js/mis-recetas.js') }}"></script>
+    </main>
 {% endblock %}

@@ -1,69 +1,91 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nueva-receta.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info-secciones.css') }}">
 {% extends 'base.html' %}
+{% block head %}
+{% endblock %}
 {% block title %}
 Nueva receta
 {% endblock %}
 {% block content %}
 <main>
-    <div class="newReceta">
-        <br>
-        <h1>Registrar receta</h1>
-        <br>
-        <form method="POST" action="{{ url_for('nueva_receta') }}" >
-            <div class="NombreOpciones">
-                <div class="nomReceta">
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la Receta" required>
+    <div class="container">
+        <div class="card-title">
+            <h1>Subir una nueva receta</h1>
+            <p>Sube tu propia receta a nuestra plataforma</p>
+        </div>
+
+        <div class="card-cont">
+            <form method="POST" action="{{ url_for('nueva_receta') }}" class="form-nueva-receta" enctype="multipart/form-data">
+                
+                <div class="fila-flex">
+                    <div class="input-wrapper">
+                        <input type="text" id="nombre" name="nombreReceta" placeholder=" " required>
+                        <label for="nombre">Nombre de la Receta</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <select id="dificultad" name="dificultad" required>
+                            <option value="" disabled selected></option>
+                            <option value="Fácil">Fácil</option>
+                            <option value="Media">Media</option>
+                            <option value="Difícil">Difícil</option>
+                        </select>
+                        <label for="dificultad">Dificultad</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <select id="categoria" name="categoria" required>
+                            <option value="" disabled selected></option>
+                            {% for cat in categorias %}
+                            <option value="{{cat.idCategoria}}">{{cat.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="categoria">Categoría</label>
+                    </div>
                 </div>
-                <br>
-                <div class="opcion1">
-                    <select id="dificultad" name="dificultad" required>
-                        <option value="" disabled selected>Seleccione una dificultad</option>
-                        <option value="Fácil">Fácil</option>
-                        <option value="Media">Media</option>                            <option value="Difícil">Difícil</option>
-                    </select>
+                
+                <div class="input-wrapper">
+                    <textarea id="descripcion" name="descripcion" class="textarea-descripcion" placeholder=" " required></textarea>
+                    <label for="descripcion">Descripción</label>
                 </div>
-                <br>
-                <div class="opcion2">
-                    <select id="categoria" name="categoria" required>
-                        <option value="" disabled selected>Seleccione una categoría</option>                            <option value="Platillos principales">Platillos Principales</option>
-                        <option value="Acompañamientos">Acompañamientos</option>
-                        <option value="Vegetariano">Vegetariano</option>
-                        <option value="Crema">Crema</option>
-                        <option value="Sopa">Sopa</option>
-                        <option value="Postre">Postre</option>
-                        <option value="Bebida">Bebida</option>
-                    </select>
+                
+                <div class="fila-columnas">
+                    <div class="input-wrapper">
+                        <textarea id="ingredientes" name="ingredientes" class="textarea-grande" placeholder=" " required></textarea>
+                        <label for="ingredientes">Ingredientes</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <textarea id="preparacion" name="preparacion" class="textarea-grande" placeholder=" " required></textarea>
+                        <label for="preparacion">Preparación</label>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="des">
-                <textarea id="descripcion" placeholder="Descripción" name="descripcion" required></textarea>
-            </div>
-            <br>
-            <div class="formulario">
-                <div class="ingredientes">
-                    <textarea id="ingredientes"  name="ingredientes" placeholder="Ingredientes" required></textarea>
+                
+                <div class="upload-container">
+                    <h3>Imagen de la receta</h3>
+                    <div class="drop-zone" id="dropZone">
+                        
+                        <input type="file" id="fileInput" name="imagen" accept="image/*" hidden required>
+                        
+                        <div class="drop-zone-prompt" id="dropZonePrompt">
+                            <i class="bx bx-image upload-icon"></i>
+                            <p>Arrastra tu imagen aquí, o <span class="browse-link">busca en tu equipo</span></p>
+                        </div>
+                        
+                        <div class="drop-zone-preview" id="imagePreviewContainer" style="display: none;">
+                            <img src="" alt="Image Preview" id="imagePreview">
+                            <button type="button" class="remove-image-btn" id="removeImageBtn">
+                                Quitar
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <div class="preparacion">
-                    <textarea id="preparacion" placeholder="Preparación" name="preparacion" required></textarea>
+                
+                <div class="formButton">
+                    <a href="{{ url_for('inicio') }}"><button type="button" class="btn-cancel">Cancelar</button></a>
+                    <button type="submit">Registrar</button>
                 </div>
-            </div>
-            <br>
-            <div class="video" id="video-links">
-                <label for="videos">Videos de la receta:</label>
-                <input type="file" id="video" name="videos" accept="video/*">
-            </div>
-            <br>
-            <div class="imagenes">
-                <label for="imagen">Imagenes de la receta:</label>
-                <input type="file" id="imagen" name="imagen" accept="image/*">
-            </div>
-            <br>
-            <div class="formButton">
-                <button type="submit">Registrar</button>
-                <a href="{{ url_for('inicio') }}"><button type="button">Cancelar</button></a>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
+
+    <script src="{{ url_for('static', filename='js/nueva-receta.js') }}"></script>
 </main>
 {% endblock %}

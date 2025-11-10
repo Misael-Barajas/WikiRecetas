@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.css') }}">
+{% endblock%}
 {% block title %}
 Inicio
 {% endblock %}
@@ -11,55 +14,55 @@ Inicio
                 <div class="contenido">    
                     <div class="nombre">Receta 1</div>
                     <br>
-                    <button><span>Ver Reseta</span></button>
+                    <button><span>Ver receta</span></button>
                 </div>
             </div>
             <div class="item" style="background-image: url(/static/2.jpg);">
                 <div class="contenido">    
                     <div class="nombre">Receta 1</div>
                     <br>
-                    <button><span>Ver Reseta</span></button>
+                    <button><span>Ver receta</span></button>
                 </div>
             </div>
             <div class="item" style="background-image: url(/static/3.jpg);">
                 <div class="contenido">    
                     <div class="nombre">Receta 1</div>
                     <br>
-                    <button><span>Ver Reseta</span></button>
+                    <button><span>Ver receta</span></button>
                 </div>
             </div>
             <div class="item" style="background-image: url(/static/4.jpg);">
                 <div class="contenido">    
                     <div class="nombre">Receta 1</div>
                     <br>
-                    <button><span>Ver Reseta</span></button>
+                    <button><span>Ver receta</span></button>
                 </div>
             </div>
             <div class="item" style="background-image: url(/static/5.jpg);">
                 <div class="contenido">    
                     <div class="nombre">Receta 1</div>
                     <br>
-                    <button><span>Ver Reseta</span></button>
+                    <button><span>Ver receta</span></button>
                 </div>
             </div>
             <div class="item" style="background-image: url(/static/6.jpg);">
                 <div class="contenido">    
                     <div class="nombre">Receta 1</div>
                     <br>
-                    <button><span>Ver Reseta</span></button>
+                    <button><span>Ver receta</span></button>
                 </div>
             </div>
             <div class="item" style="background-image: url(/static/7.jpg);">
                 <div class="contenido">    
                     <div class="nombre">Receta 1</div>
                     <br>
-                    <button><span>Ver Reseta</span></button>
+                    <button><span>Ver receta</span></button>
                 </div>
             </div>
         </div>
         <div class="button">
-            <button class="prev"><</button>
-            <button class="next">></button>
+            <button class="bx bx-chevron-left prev"></button>
+            <button class="bx bx-chevron-right next"></button>
         </div>
         <script>
             const next = document.querySelector('.next'); 
