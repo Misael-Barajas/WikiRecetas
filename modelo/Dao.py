@@ -134,7 +134,6 @@ class imagenVideo(db.Model):
     __tablename__ = 'imagenVideo'
     idImagenVideo = Column(Integer, primary_key=True) 
     imagen = Column(BLOB, nullable=False)  
-    video = Column(BLOB, nullable=True)
     idReceta = Column(Integer, ForeignKey('receta.idReceta'), nullable=False)
     receta = relationship('Receta', backref='imagenVideo')
 
