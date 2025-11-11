@@ -1,27 +1,31 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='css/nueva-receta.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/info-secciones.css') }}">
 {% extends 'base.html' %}
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nueva-receta.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info-secciones.css') }}">
 {% endblock %}
 {% block title %}
 Nueva receta
 {% endblock %}
+
 {% block content %}
 <main>
-    <div class="container">
+    <div class="container form-nueva-receta">
         <div class="card-title">
             <h1>Subir una nueva receta</h1>
             <p>Sube tu propia receta a nuestra plataforma</p>
         </div>
 
-        <div class="card-cont">
+        <div class="card-form-receta">
             <form method="POST" action="{{ url_for('nueva_receta') }}" class="form-nueva-receta" enctype="multipart/form-data">
                 
                 <div class="fila-flex">
                     <div class="input-wrapper">
-                        <input type="text" id="nombre" name="nombreReceta" placeholder=" " required>
-                        <label for="nombre">Nombre de la Receta</label>
+                        <input type="text" id="nombreReceta" name="nombreReceta" placeholder=" " required">
+                        <label for="nombreReceta">Nombre de la receta</label>
                     </div>
+                </div>
+
+                <div class="fila-flex">
                     <div class="input-wrapper">
                         <select id="dificultad" name="dificultad" required>
                             <option value="" disabled selected></option>
@@ -44,7 +48,7 @@ Nueva receta
                 
                 <div class="input-wrapper">
                     <textarea id="descripcion" name="descripcion" class="textarea-descripcion" placeholder=" " required></textarea>
-                    <label for="descripcion">Descripción</label>
+                    <label for="descripcion">Descripción corta</label>
                 </div>
                 
                 <div class="fila-columnas">

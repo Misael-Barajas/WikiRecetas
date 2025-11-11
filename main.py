@@ -178,8 +178,7 @@ def editar_receta(idReceta):
 
     if request.method == 'GET':
         categorias = Categoria().consultaGeneral()
-        return render_template('editar-receta.html', receta=r, categorias=categorias)
-
+        return render_template('editar-receta.html', receta=r, categorias=categorias)      
     if request.method == 'POST':
         r.nombre = request.form['nombreReceta']
         r.descripcion = request.form['descripcion']
