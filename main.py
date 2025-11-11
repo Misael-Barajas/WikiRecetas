@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect, session, f
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from datetime import timedelta
 from werkzeug.security import generate_password_hash
-from modelo.Dao import db, Usuario, Categoria, Receta, imagenVideo, calificacion
+from modelo.Dao import db, Usuario, Categoria, Receta, calificacion
 
 
 app = Flask(__name__)
@@ -62,22 +62,28 @@ def registro():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        u = Usuario()
-        u.fotoUsuario=request.files['fotoUsuario'].stream.read()
-        u.nombre = request.form['nombre']
-        u.apellido = request.form['apellido']
-        u.nombreUsuario = request.form['usuario']
-        u.email = request.form['correo']
-        u.telefono = request.form['telefono']
-        u.password = generate_password_hash(request.form['password'])
-        u.nombre_apellido = f"{u.nombre} {u.apellido}"
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        nombreUsuario = request.form['usuario']
+        email = request.form['correo']
+        telefono = request.form['telefono']
+        password = request.form['password']
+        nuevo_usuario = Usuario()
+        nuevo_usuario.nombre = nombre
+        nuevo_usuario.apellido = apellido
+        nuevo_usuario.nombreUsuario = nombreUsuario
+        nuevo_usuario.email = email
+        nuevo_usuario.telefono = telefono
+        nuevo_usuario.password = generate_password_hash(password)
+        nuevo_usuario.nombre_apellido = f"{nombre} {apellido}"
         
-        if 'fotoUsuario' in request.files:
-             foto = request.files['fotoUsuario']
-             if foto.filename != '':
-                 u.fotoUsuario = foto.stream.read()
+        foto_file = request.files.get('fotoUsuario')
+        if foto_file and foto_file.filename != '':
+            nuevo_usuario.fotoUsuario = foto_file.stream.read()
+        else:
+            nuevo_usuario.fotoUsuario = None 
         
-        u.agregar()
+        nuevo_usuario.agregar()
         return redirect(url_for('login'))
     return render_template('registro.html')
 
@@ -88,27 +94,33 @@ def perfil():
         return render_template('perfil.html', u = current_user)
     return redirect(url_for('login'))
 
-@app.route('/cuenta/perfil/editar', methods=['GET', 'POST'])
+@app.route('/cuenta/perfil/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
-def editar_perfil():
+def editar_perfil(id):
+    u = Usuario().consultaIndividual(id)
     if request.method == 'POST':
-        u = current_user
-        u.fotoUsuario=request.files['fotoUsuario'].stream.read()
         u.nombre = request.form['nombre']
         u.apellido = request.form['apellido']
         u.nombreUsuario = request.form['usuario']
         u.email = request.form['correo']
         u.telefono = request.form['telefono']
-        u.nombre_apellido = f"{u.nombre} {u.apellido}"
-        
+
         if 'fotoUsuario' in request.files:
-             foto = request.files['fotoUsuario']
-             if foto.filename != '':
-                 u.fotoUsuario = foto.stream.read()
+             file = request.files['fotoUsuario']
+             if file.filename != '':
+                u.fotoUsuario=request.files['fotoUsuario'].stream.read()
+        
         u.editar()
         return redirect(url_for('perfil'))
     return render_template('editar-perfil.html', u = current_user)
 
+@app.route('/usuarios/obtenerImagen/<int:idUsuario>')
+def obtenerImagenUsuario(idUsuario):
+    u = Usuario()
+    if u:
+        return u.consultarImagen(idUsuario)
+    else:
+        return redirect(url_for('static', filename='uploads/foto_perfil_default.jpg'))
 
 @app.route('/logout', methods=['POST'])
 @login_required
@@ -132,21 +144,20 @@ def nueva_receta():
         r.agregar()
 
         imagen_file = request.files.get('imagen')
-        video_file = request.files.get('videos')
 
         if imagen_file:
-            iv = imagenVideo()
-            iv.imagen = imagen_file.stream.read()
-            if video_file:
-                iv.video = video_file.stream.read()
-            
-            iv.idReceta = r.idReceta 
-            iv.agregar()
+            r.imagen = imagen_file.stream.read()
+            r.agregar()
         
         return redirect(url_for('mis_recetas'))
     
     categorias = Categoria().consultaGeneral()
     return render_template('nueva-receta.html', categorias=categorias)
+
+@app.route('/receta/obtenerImagen/<int:idReceta>')
+def obtenerImagenReceta(idReceta):
+    r = Receta()
+    return r.consultarImagen(idReceta)
 
 @app.route("/mis-recetas")
 @login_required
@@ -195,11 +206,6 @@ def eliminar_receta(idReceta):
         return redirect(url_for('mis_recetas'))
     
     return render_template('eliminar-receta.html', receta=r)
-
-@app.route('/usuarios/obtenerImagen/<int:idUsuario>')
-def obtenerImagenUsuario(idUsuario):
-    u = Usuario()
-    return u.consultarImagen(idUsuario)
 
 @app.route('/recuperar')
 def recuperar():

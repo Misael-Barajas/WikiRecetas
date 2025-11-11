@@ -11,7 +11,7 @@ Mi perfil
         <div class="card-profile">
             <div class="cont-photo">
                 <div class="profile-photo">
-                    <img src="/usuarios/obtenerImagen/{{u.idUsuario}}">
+                    <img src="/usuarios/obtenerImagen/{{u.idUsuario}}" id="profileImagePreview">
                 </div>
             </div>
             <div class="cont-data">
@@ -34,7 +34,7 @@ Mi perfil
                 <h3>ID de usuario:</h3>
                 <p>{{ u.idUsuario }}</p>
             </div>
-            <form action="{{ url_for('editar_perfil') }}" method="get" id="formEditarPerfil">
+            <form action="/cuenta/perfil/editar/{{u.idUsuario}}" method="get" id="formEditarPerfil">
                 <div class="btnSubmit">
                     <button>Editar perfil</button>
                 </div>

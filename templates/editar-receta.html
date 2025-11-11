@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nueva-receta.css') }}">
+{% endblock %}
+{% block title %}
+Editar Receta
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container form-nueva-receta">
+
+        <div class="card-title">
+            <h1>Editar Receta</h1>
+            <p>Ajusta los detalles de tu receta.</p>
+        </div>
+
+        <div class="card-form-receta">
+            <form method="POST" action="{{ url_for('editar_receta', idReceta=receta.idReceta) }}">
+                
+                <div class="fila-flex">
+                    <div class="input-wrapper">
+                        <input type="text" id="nombreReceta" name="nombreReceta" placeholder=" " required value="{{ receta.nombre }}">
+                        <label for="nombreReceta">Nombre de la Receta</label>
+                    </div>
+                </div>
+
+                <div class="fila-flex">
+                    <div class="input-wrapper">
+                        <select name="dificultad" id="dificultad" required>
+                            {% set niveles = ['Fácil', 'Media', 'Difícil'] %}
+                            {% for nivel in niveles %}
+                                <option value="{{ nivel }}" {% if nivel == receta.dificultad %}selected{% endif %}>
+                                    {{ nivel }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <label for="dificultad">Dificultad</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <select name="categoria" id="categoria" required>
+                            {% for c in categorias %}
+                                <option value="{{ c.idCategoria }}" {% if c.idCategoria == receta.idCategoria %}selected{% endif %}>
+                                    {{ c.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <label for="categoria">Categoría</label>
+                    </div>
+                </div>
+
+                <div class="input-wrapper">
+                    <textarea id="descripcion" name="descripcion" class="textarea-descripcion" placeholder=" " required>{{ receta.descripcion }}</textarea>
+                    <label for="descripcion">Descripción corta</label>
+                </div>
+
+                <div class="fila-columnas">
+                    <div class="input-wrapper">
+                        <textarea id="ingredientes" name="ingredientes" class="textarea-grande" placeholder=" " required>{{ receta.ingredientes }}</textarea>
+                        <label for="ingredientes">Ingredientes</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <textarea id="preparacion" name="preparacion" class="textarea-grande" placeholder=" " required>{{ receta.preparacion }}</textarea>
+                        <label for="preparacion">Preparación</label>
+                    </div>
+                </div>
+
+                <div class="upload-container">
+                    <h3>Imagen de la receta</h3>
+                    <div class="drop-zone" id="dropZone">
+                        
+                        <input type="file" id="fileInput" name="imagen" accept="image/*" hidden required>
+                        
+                        <div class="drop-zone-prompt" id="dropZonePrompt">
+                            <i class="bx bx-image upload-icon"></i>
+                            <p>Arrastra tu imagen aquí, o <span class="browse-link">busca en tu equipo</span></p>
+                        </div>
+                        
+                        <div class="drop-zone-preview" id="imagePreviewContainer" style="display: none;">
+                            <img src="" alt="Image Preview" id="imagePreview">
+                            <button type="button" class="remove-image-btn" id="removeImageBtn">
+                                Quitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+   
+                <div class="formButton">
+                    <a href="{{ url_for('mis_recetas') }}"><button type="button" class="btn-cancel">Cancelar</button></a>
+                    <button type="submit">Guardar Cambios</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/nueva-receta.js') }}"></script>
+</main>
+{% endblock %}
