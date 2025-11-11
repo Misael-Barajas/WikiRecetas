@@ -396,3 +396,13 @@ footer {
     transition: all 0.3s ease;
   }
 }
+
+/* Editar receta*/
+.card-form-receta {
+  background-color: var(--cardColor);
+  text-align: left;
+  padding: 30px 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+}

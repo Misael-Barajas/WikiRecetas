@@ -11,7 +11,7 @@ Mi perfil
     <div class="container-profile">
         <div class="card-profile">
             
-            <form action="{{ url_for('editar_perfil') }}" method="post" id="formEditarPerfil" enctype="multipart/form-data">
+            <form action="/cuenta/perfil/editar/{{u.idUsuario}}" method="post" id="formEditarPerfil" enctype="multipart/form-data">
 
                 <div class="cont-photo">
                     <input type="file" name="fotoUsuario" id="profilePicInput" accept="image/*" hidden>

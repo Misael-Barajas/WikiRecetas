@@ -32,8 +32,12 @@ class Usuario(db.Model, UserMixin):
         db.session.commit()
 
     def editar(self):
-        db.session.merge(self)
-        db.session.commit()
+        usuario_existente = Usuario.query.get(self.idUsuario)
+        if usuario_existente:
+            db.session.merge(self)
+            db.session.commit()
+            return True
+        return False
     
     def eliminar(self, id):
         u = self.consultaIndividual(id)
@@ -100,6 +104,7 @@ class Receta(db.Model):
     descripcion = Column(String(200), nullable=False)
     ingredientes = Column(String(500), nullable=False)
     preparacion = Column(String(1000), nullable=False)
+    imagen = Column(BLOB,)
     
     idUsuario = Column(Integer, ForeignKey('usuarios.idUsuario'), nullable=False)
     idCategoria = Column(Integer, ForeignKey('categoria.idCategoria'), nullable=False)
@@ -124,7 +129,6 @@ class Receta(db.Model):
     def eliminar(self, id):
         r = self.consultaIndividual(id)
         if r:
-            imagenVideo.query.filter_by(idReceta=id).delete()
             calificacion.query.filter_by(idReceta=id).delete()
             
             db.session.delete(r)
@@ -134,6 +138,7 @@ class imagenVideo(db.Model):
     __tablename__ = 'imagenVideo'
     idImagenVideo = Column(Integer, primary_key=True) 
     imagen = Column(BLOB, nullable=False)  
+    video = Column(BLOB, nullable=True)
     idReceta = Column(Integer, ForeignKey('receta.idReceta'), nullable=False)
     receta = relationship('Receta', backref='imagenVideo')
 

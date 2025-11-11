@@ -147,6 +147,7 @@
 
 .modal-btn-cancelar:hover {
   background-color: #ddd;
+  transform: scale(1.05);
 }
 
 .modal-btn-eliminar {
