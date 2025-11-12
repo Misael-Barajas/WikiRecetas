@@ -142,14 +142,11 @@ def nueva_receta():
         r.idUsuario = current_user.idUsuario 
 
         imagen_file = request.files.get('imagen')
-<<<<<<< HEAD
 
-=======
         if imagen_file and imagen_file.filename != '':
             r.imagen = imagen_file.stream.read()
         
         r.agregar()
->>>>>>> d423e52 (imagen receta)
         
         return redirect(url_for('mis_recetas'))
     

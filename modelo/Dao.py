@@ -133,13 +133,10 @@ class Receta(db.Model):
             
             db.session.delete(r)
             db.session.commit()
-<<<<<<< HEAD
-
-=======
             
     def consultarImagen(self,id):
         return self.consultaIndividual(id).imagen
->>>>>>> d423e52 (imagen receta)
+
 
 class calificacion(db.Model):
     __tablename__ = 'calificacion'
