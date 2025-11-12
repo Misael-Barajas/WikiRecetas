@@ -148,8 +148,6 @@ def nueva_receta():
         if imagen_file:
             iv = imagenVideo()
             iv.imagen = imagen_file.stream.read()
-            if video_file:
-                iv.video = video_file.stream.read()
             
             iv.idReceta = r.idReceta 
             iv.agregar()
