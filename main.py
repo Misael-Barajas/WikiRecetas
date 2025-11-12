@@ -140,11 +140,16 @@ def nueva_receta():
         r.preparacion = request.form['preparacion']
         r.idCategoria = request.form['categoria']
         r.idUsuario = current_user.idUsuario 
-        
-        r.agregar()
 
         imagen_file = request.files.get('imagen')
+<<<<<<< HEAD
 
+=======
+        if imagen_file and imagen_file.filename != '':
+            r.imagen = imagen_file.stream.read()
+        
+        r.agregar()
+>>>>>>> d423e52 (imagen receta)
         
         return redirect(url_for('mis_recetas'))
     
@@ -165,12 +170,10 @@ def mis_recetas():
 @app.route('/editar_receta/<int:idReceta>', methods=['POST', 'GET'])
 @login_required
 def editar_receta(idReceta):
-    rec_dao = Receta()
-    r = rec_dao.consultaIndividual(idReceta)
+    r = Receta().consultaIndividual(idReceta)
 
     if r is None: abort(404) 
     if r.idUsuario != current_user.idUsuario:
-        flash('No tienes permiso para editar esta receta.', 'danger')
         return redirect(url_for('mis_recetas'))
 
     if request.method == 'GET':
@@ -183,6 +186,11 @@ def editar_receta(idReceta):
         r.ingredientes = request.form['ingredientes']
         r.preparacion = request.form['preparacion']
         r.idCategoria = request.form['categoria']
+        
+        if 'imagen' in request.files:
+             file = request.files['imagen']
+             if file.filename != '':
+                r.imagen=request.files['imagen'].stream.read()
         
         r.editar() 
         return redirect(url_for('mis_recetas'))
