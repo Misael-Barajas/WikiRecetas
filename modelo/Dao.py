@@ -104,7 +104,7 @@ class Receta(db.Model):
     descripcion = Column(String(200), nullable=False)
     ingredientes = Column(String(500), nullable=False)
     preparacion = Column(String(1000), nullable=False)
-    imagen = Column(BLOB,)
+    imagen = Column(BLOB)
     
     idUsuario = Column(Integer, ForeignKey('usuarios.idUsuario'), nullable=False)
     idCategoria = Column(Integer, ForeignKey('categoria.idCategoria'), nullable=False)
@@ -133,18 +133,9 @@ class Receta(db.Model):
             
             db.session.delete(r)
             db.session.commit()
-
-class imagenVideo(db.Model):
-    __tablename__ = 'imagenVideo'
-    idImagenVideo = Column(Integer, primary_key=True) 
-    imagen = Column(BLOB, nullable=False)  
-    video = Column(BLOB, nullable=True)
-    idReceta = Column(Integer, ForeignKey('receta.idReceta'), nullable=False)
-    receta = relationship('Receta', backref='imagenVideo')
-
-    def agregar(self):
-        db.session.add(self)
-        db.session.commit()
+            
+    def consultarImagen(self,id):
+        return self.consultaIndividual(id).imagen
 
 class calificacion(db.Model):
     __tablename__ = 'calificacion'
