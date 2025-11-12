@@ -7,7 +7,7 @@ from modelo.Dao import db, Usuario, Categoria, Receta, calificacion
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 app.secret_key = 'MiClaveSecretaWikiRecetas'
@@ -148,6 +148,8 @@ def nueva_receta():
         if imagen_file:
             iv = imagenVideo()
             iv.imagen = imagen_file.stream.read()
+            if video_file:
+                iv.video = video_file.stream.read()
             
             iv.idReceta = r.idReceta 
             iv.agregar()

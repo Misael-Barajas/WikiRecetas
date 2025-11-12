@@ -134,6 +134,18 @@ class Receta(db.Model):
             db.session.delete(r)
             db.session.commit()
 
+class imagenVideo(db.Model):
+    __tablename__ = 'imagenVideo'
+    idImagenVideo = Column(Integer, primary_key=True) 
+    imagen = Column(BLOB, nullable=False)  
+    video = Column(BLOB, nullable=True)
+    idReceta = Column(Integer, ForeignKey('receta.idReceta'), nullable=False)
+    receta = relationship('Receta', backref='imagenVideo')
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
 class calificacion(db.Model):
     __tablename__ = 'calificacion'
     idCalificacion = Column(Integer, primary_key=True) 
