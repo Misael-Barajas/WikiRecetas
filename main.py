@@ -122,6 +122,7 @@ def obtenerImagenUsuario(idUsuario):
         return u.consultarImagen(idUsuario)
     else:
         return redirect(url_for('static', filename='uploads/foto_perfil_default.jpg'))
+    
 
 @app.route('/logout', methods=['POST'])
 @login_required
@@ -176,10 +177,9 @@ def editar_receta(idReceta):
         r.preparacion = request.form['preparacion']
         r.idCategoria = request.form['categoria']
         
-        if 'imagen' in request.files:
-             file = request.files['imagen']
-             if file.filename != '':
-                r.imagen=request.files['imagen'].stream.read()
+        imagen_file = request.files.get('imagen')
+        if imagen_file and imagen_file.filename != '':
+            r.imagen = imagen_file.stream.read()
         
         r.editar(r.idReceta) 
         return redirect(url_for('mis_recetas'))
