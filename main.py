@@ -7,8 +7,7 @@ from modelo.Dao import db, Usuario, Categoria, Receta, calificacion
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
-    
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 app.secret_key = 'MiClaveSecretaWikiRecetas'
@@ -34,8 +33,7 @@ def inject_user():
 @app.route('/')
 def index():
     recetas = Receta().consultaGeneral()
-    categorias = Categoria().consultaGeneral()
-    return render_template('index.html', recetas=recetas, categorias=categorias)
+    return render_template('index.html', recetas=recetas)
 
 @app.route('/inicio')
 def inicio():
@@ -217,7 +215,13 @@ def sugerencias():
 
 @app.route('/categorias')
 def ver_categorias():
-    return render_template('categorias.html')
+    cat = request.args.get('cat', type=int, default=0)
+    categorias = Categoria.query.order_by(Categoria.nombre).limit(8).all()
+    if cat == 0:
+        recetas = Receta.query.order_by(Receta.idReceta.desc()).all()
+    else:
+        recetas = Receta.query.filter_by(idCategoria=cat).order_by(Receta.idReceta.desc()).all()
+    return render_template('categorias.html',categorias=categorias, recetas=recetas, categoria_seleccionada=cat)
 
 @app.route('/info/politicas-de-uso')
 def politicas_uso():

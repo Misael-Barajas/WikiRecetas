@@ -7,101 +7,30 @@ Categorías
 {% endblock %}
 {% block content %}
 <main>
-    <div class="container">
-        <div class="card-title">
-          <h1>Categorías de recetas</h1>
-          <p>Explora nuestras categorías y encuentra la receta perfecta para cada ocasión</p>
-        </div>
-      
-        <section class="categorias-grid">
-          <div class="card-categoria">
-            <div class="categoria-img">
-              <img src="{{ url_for('static', filename='desayunos.jpg') }}">
-            </div>
-            <h3>Desayunos</h3>
-            <p>Empieza tu día con energía con nuestras recetas fáciles y deliciosas.</p>
-            <div class="btnVer">
-              <button>Ver recetas</button>
-            </div>
-          </div>
-      
-          <div class="card-categoria">
-            <div class="categoria-img">
-              <img src="{{ url_for('static', filename='comidas.jpg') }}">
-            </div>
-            <h3>comidas</h3>
-            <p>Platos fuertes para toda la familia, con ingredientes sencillos.</p>
-            <div class="btnVer">
-              <button>Ver recetas</button>
-            </div>
-          </div>
-      
-          <div class="card-categoria">
-            <div class="categoria-img">
-              <img src="{{ url_for('static', filename='postres.jpg') }}">
-            </div>
-            <h3>Postres</h3>
-            <p>Dulces irresistibles para consentirte a cualquier hora del día.</p>
-            <div class="btnVer">
-              <button>Ver recetas</button>
-            </div>
-          </div>
-      
-          <div class="card-categoria">
-            <div class="categoria-img">
-              <img src="{{ url_for('static', filename='bebidas.jpg') }}">
-            </div>
-            <h3>Bebidas</h3>
-            <p>Refrescantes, frías o calientes, tenemos algo para todos los gustos.</p>
-            <div class="btnVer">
-              <button>Ver recetas</button>
-            </div>
-          </div>
+  <div class="container">
+    <div class="card-title">
+      <h1>Categorías de recetas</h1>
+        <p>Explora nuestras categorías y encuentra la receta perfecta para cada ocasión</p>
+  </div>
+  <form method="GET" action="/categorias">
+    <button type="submit" name="cat" value="0">Todos</button>
 
-           <div class="card-categoria">
-            <div class="categoria-img">
-              <img src="{{ url_for('static', filename='pastas.jpg') }}">
-            </div>
-            <h3>Pastas</h3>
-            <p>Platillos elaborados con pasta suave y versátil, combinada con salsas y sabores variados.</p>
-            <div class="btnVer">
-              <button>Ver recetas</button>
-            </div>
-          </div>
+    {% for c in categorias %}
+      <div class="categoria">
+        <button type="submit" name="cat" value="{{ c.idCategoria }}">
+          {{ c.nombre }}
+        </button>
+      </div>
+    {% endfor %}
+  </form>
 
-          <div class="card-categoria">
-            <div class="categoria-img">
-              <img src="{{ url_for('static', filename='acompañamientos.jpg') }}">
-            </div>
-            <h3>Acompañamientos</h3>
-            <p>Pequeñas porciones que complementan y realzan el sabor del plato principal.</p>
-            <div class="btnVer">
-              <button>Ver recetas</button>
-            </div>
-          </div>
-
-          <div class="card-categoria">
-            <div class="categoria-img">
-              <img src="{{ url_for('static', filename='vejetariano.jpg') }}">
-            </div>
-            <h3>Vejetariano</h3>
-            <p>Preparaciones hechas a base de ingredientes vegetales, nutritivas y llenas de sabor.</p>
-            <div class="btnVer">
-              <button>Ver recetas</button>
-            </div>
-          </div>
-
-          <div class="card-categoria">
-            <div class="categoria-img">
-              <img src="{{ url_for('static', filename='botanas.jpg') }}">
-            </div>
-            <h3>Botanas</h3>
-            <p>Bocados ligeros ideales para compartir mientras se convive o se disfruta el momento.</p>
-            <div class="btnVer">
-              <button>Ver recetas</button>
-            </div>
-          </div>
-        </section>
+  {% for r in recetas %}
+    <div class="card">
+      <h2>{{ r.nombre }}</h2>
+      <p>{{ r.descripcion }}</p>
+      <img src="/receta/obtenerImagen/{{ r.idReceta }}">
+      <button>Ver Receta</button>
     </div>
+  {% endfor %}
 </main>
 {% endblock %}

@@ -1,8 +1,15 @@
 /* Formulario*/
+.card-title{
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--textColor);
+}
+
 .form-nueva-receta {
   max-width: 70vw;
   margin: auto;
 }
+
 .fila-flex {
   display: flex;
   justify-content: center;
