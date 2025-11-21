@@ -17,7 +17,7 @@ Editar Receta
         </div>
 
         <div class="card-form-receta">
-            <form method="POST" action="{{ url_for('editar_receta', idReceta=receta.idReceta) }}">
+            <form method="POST" action="{{ url_for('editar_receta', idReceta=receta.idReceta) }}" enctype="multipart/form-data">
                 
                 <div class="fila-flex">
                     <div class="input-wrapper">
@@ -88,7 +88,7 @@ Editar Receta
    
                 <div class="formButton">
                     <a href="{{ url_for('mis_recetas') }}"><button type="button" class="btn-cancel">Cancelar</button></a>
-                    <button action="{{ url_for('editar_receta', idReceta=receta.idReceta) }} type="submit">Guardar Cambios</button>
+                    <button action="{{ url_for('editar_receta', idReceta=receta.idReceta) }}" type="submit">Guardar Cambios</button>
                 </div>
 
             </form>
