@@ -7,7 +7,7 @@ from modelo.Dao import db, Usuario, Categoria, Receta, calificacion
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
     
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
@@ -159,7 +159,7 @@ def mis_recetas():
     misrecetas = Receta.query.filter_by(idUsuario=current_user.idUsuario).all()
     return render_template('mis-recetas.html', misrecetas=misrecetas)
 
-@app.route('/editar_receta/<int:idReceta>', methods=['POST', 'GET'])
+@app.route('/editar-receta/<int:idReceta>', methods=['POST', 'GET'])
 @login_required
 def editar_receta(idReceta):
     r = Receta().consultaIndividual(idReceta)
@@ -184,7 +184,7 @@ def editar_receta(idReceta):
         r.editar(r.idReceta) 
         return redirect(url_for('mis_recetas'))
     categorias = Categoria().consultaGeneral()
-    return render_template('editar-receta.html', r = current_user, receta=r, categorias=categorias)
+    return render_template('editar-receta.html', receta=r, categorias=categorias)
     
 @app.route('/receta/obtenerImagen/<int:idReceta>')
 def obtenerImagenReceta(idReceta):
