@@ -70,10 +70,10 @@ Editar Receta
                     <h3>Imagen de la receta</h3>
                     <div class="drop-zone" id="dropZone">
                         
-                        <input type="file" id="fileInput" name="imagen" accept="image/*" hidden required>
+                        <input type="file" id="fileInput" name="imagen" accept="image/*" hidden>
                         
                         <div class="drop-zone-prompt" id="dropZonePrompt">
-                            <i class="bx bx-image upload-icon"></i>
+                            <img src="/receta/obtenerImagen/{{receta.idReceta}}">
                             <p>Arrastra tu imagen aquí, o <span class="browse-link">busca en tu equipo</span></p>
                         </div>
                         
@@ -88,7 +88,7 @@ Editar Receta
    
                 <div class="formButton">
                     <a href="{{ url_for('mis_recetas') }}"><button type="button" class="btn-cancel">Cancelar</button></a>
-                    <button type="submit">Guardar Cambios</button>
+                    <button action="{{ url_for('editar_receta', idReceta=receta.idReceta) }} type="submit">Guardar Cambios</button>
                 </div>
 
             </form>

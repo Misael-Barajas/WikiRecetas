@@ -91,11 +91,6 @@ class Categoria(db.Model):
         db.session.merge(self)
         db.session.commit()
 
-    def eliminar(self, id):
-        c = self.consultaIndividual(id)
-        db.session.delete(c)
-        db.session.commit()
-
 class Receta(db.Model):
     __tablename__ = 'receta'
     idReceta = Column(Integer, primary_key=True)
@@ -122,9 +117,14 @@ class Receta(db.Model):
     def consultaIndividual(self, id):
         return Receta.query.get(id)
 
-    def editar(self):
-        db.session.merge(self)
-        db.session.commit()
+    def editar(self, idReceta):
+        receta_existente = Receta.query.get(idReceta)
+        if receta_existente:
+            db.session.merge(self)
+            db.session.commit()
+            return True
+        return False
+        
 
     def eliminar(self, id):
         r = self.consultaIndividual(id)

@@ -7,10 +7,7 @@ from modelo.Dao import db, Usuario, Categoria, Receta, calificacion
 
 app = Flask(__name__)
 
-try:
-    app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
-finally:
-    app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
     
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
@@ -146,7 +143,6 @@ def nueva_receta():
         r.idUsuario = current_user.idUsuario 
 
         imagen_file = request.files.get('imagen')
-
         if imagen_file and imagen_file.filename != '':
             r.imagen = imagen_file.stream.read()
         
@@ -156,11 +152,6 @@ def nueva_receta():
     
     categorias = Categoria().consultaGeneral()
     return render_template('nueva-receta.html', categorias=categorias)
-
-@app.route('/receta/obtenerImagen/<int:idReceta>')
-def obtenerImagenReceta(idReceta):
-    r = Receta()
-    return r.consultarImagen(idReceta)
 
 @app.route("/mis-recetas")
 @login_required
@@ -176,10 +167,7 @@ def editar_receta(idReceta):
     if r is None: abort(404) 
     if r.idUsuario != current_user.idUsuario:
         return redirect(url_for('mis_recetas'))
-
-    if request.method == 'GET':
-        categorias = Categoria().consultaGeneral()
-        return render_template('editar-receta.html', receta=r, categorias=categorias)      
+   
     if request.method == 'POST':
         r.nombre = request.form['nombreReceta']
         r.descripcion = request.form['descripcion']
@@ -193,8 +181,15 @@ def editar_receta(idReceta):
              if file.filename != '':
                 r.imagen=request.files['imagen'].stream.read()
         
-        r.editar() 
+        r.editar(r.idReceta) 
         return redirect(url_for('mis_recetas'))
+    categorias = Categoria().consultaGeneral()
+    return render_template('editar-receta.html', r = current_user, receta=r, categorias=categorias)
+    
+@app.route('/receta/obtenerImagen/<int:idReceta>')
+def obtenerImagenReceta(idReceta):
+    r = Receta()
+    return r.consultarImagen(idReceta)
 
 @app.route('/eliminar_receta/<int:idReceta>', methods=['POST', 'GET'])
 @login_required
