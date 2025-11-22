@@ -1,19 +1,116 @@
-.categoria {
-  gap: 85px;
-  display: flex;
+/* Contenedor principal */
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 80vh;
 }
 
-.categorias button{
-  padding: 15px 50px;
-  border-radius: 25px;
-  border: none;
-  background-color: #f67041;
-  color: #fff;
+/* --- Encabezado --- */
+.header-categorias {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.card{
-  display: relative;
-  background-color: white;
-  box-shadow: 30px black;
-  padding: 60px 30px;
+.header-categorias h1 {
+    color: var(--primaryColor);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.header-categorias p {
+    color: var(--textColor);
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+/* --- Sección de filtro --- */
+.filter-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.filter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #fff;
+    padding: 10px 25px;
+    border-radius: 50px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.filter-wrapper label {
+    font-weight: 600;
+    color: var(--textColor);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.select-custom {
+    position: relative;
+    min-width: 250px;
+}
+
+.select-custom select {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
+    font-size: 1rem;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.select-custom select:focus {
+    outline: none;
+    border-color: var(--primaryColor);
+    box-shadow: 0 0 0 1px var(--secBackgroundCol);
+}
+
+.select-custom .arrow {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--primaryColor);
+    font-size: 1.2rem;
+}
+
+/* --- Grid de Resultados (La Galería) --- */
+.grid-recetas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* --- Estado Vacío (No resultados) --- */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+}
+
+.no-results i {
+    font-size: 60px;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.no-results h3 {
+    color: var(--textColor);
+    font-size: 1.5rem;
+}
+
+.no-results a {
+    color: var(--primaryColor);
+    font-weight: bold;
+    text-decoration: none;
 }

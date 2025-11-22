@@ -124,7 +124,6 @@ class Receta(db.Model):
             db.session.commit()
             return True
         return False
-        
 
     def eliminar(self, id):
         r = self.consultaIndividual(id)
@@ -136,7 +135,17 @@ class Receta(db.Model):
             
     def consultarImagen(self,id):
         return self.consultaIndividual(id).imagen
+    
+    def consultarProductosPorCategoria(idCategoria):
+        return Receta.query.filter_by(idCategoria=idCategoria).all()
 
+    def obtener_promedio(self):
+        if not self.calificaciones:
+            return 0
+        
+        suma = sum(c.calificacion for c in self.calificaciones)
+        promedio = suma / len(self.calificaciones)
+        return round(promedio, 1)
 
 class calificacion(db.Model):
     __tablename__ = 'calificacion'

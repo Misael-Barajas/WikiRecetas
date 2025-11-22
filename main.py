@@ -7,7 +7,7 @@ from modelo.Dao import db, Usuario, Categoria, Receta, calificacion
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 app.secret_key = 'MiClaveSecretaWikiRecetas'
@@ -33,7 +33,8 @@ def inject_user():
 @app.route('/')
 def index():
     recetas = Receta().consultaGeneral()
-    return render_template('index.html', recetas=recetas)
+    categorias = Categoria().consultaGeneral()
+    return render_template('index.html', recetas=recetas, categorias=categorias)
 
 @app.route('/inicio')
 def inicio():
@@ -213,15 +214,16 @@ def recuperar():
 def sugerencias():
     return render_template('sugerencias.html')
 
-@app.route('/categorias')
+@app.route('/categorias', methods=['GET', 'POST'])
 def ver_categorias():
-    cat = request.args.get('cat', type=int, default=0)
-    categorias = Categoria.query.order_by(Categoria.nombre).limit(8).all()
-    if cat == 0:
-        recetas = Receta.query.order_by(Receta.idReceta.desc()).all()
-    else:
-        recetas = Receta.query.filter_by(idCategoria=cat).order_by(Receta.idReceta.desc()).all()
-    return render_template('categorias.html',categorias=categorias, recetas=recetas, categoria_seleccionada=cat)
+    cat = Categoria().consultaGeneral()
+    rec = Receta().consultaGeneral()
+    if request.method == 'POST':
+        idCategoria = request.form.get('categoria')
+        if idCategoria != '0':
+            rec = Receta.consultarProductosPorCategoria(idCategoria)
+            return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = int(idCategoria))
+    return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = 0)
 
 @app.route('/info/politicas-de-uso')
 def politicas_uso():

@@ -306,14 +306,18 @@ footer {
 
 /* --- Card recetas --- */
 .card-receta {
-  max-width: 300px;
-  background: #fff;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
+  width: 300px;
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   
   &:hover {
     transform: translateY(-8px);
@@ -323,6 +327,7 @@ footer {
 }
 
 .receta-photo {
+  position: relative; 
   width: 100%;
   height: 180px;
   overflow: hidden;
@@ -363,18 +368,35 @@ footer {
   line-height: 1.4;
 }
 
-.receta-calif {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  padding: 8px;
-  color: #f5c518;
-  font-size: 20px;
+.categoria-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--primaryColor);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 2;
 }
 
-.receta-calif .rating {
-  margin-right: 5px;
+.receta-calif {
+  font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 16px 10px 16px;
+    color: #f5c518;
+}
+
+.numero-calif {
+    font-size: 14px;
+    color: #666;
+    margin-left: 5px;
+    font-weight: 600;
 }
 
 .btnVer {

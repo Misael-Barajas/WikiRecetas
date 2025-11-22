@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/categorias.css') }}">
 {% endblock %}
 {% block title %}
@@ -7,30 +8,74 @@ Categorías
 {% endblock %}
 {% block content %}
 <main>
-  <div class="container">
-    <div class="card-title">
-      <h1>Categorías de recetas</h1>
-        <p>Explora nuestras categorías y encuentra la receta perfecta para cada ocasión</p>
-  </div>
-  <form method="GET" action="/categorias">
-    <button type="submit" name="cat" value="0">Todos</button>
-
-    {% for c in categorias %}
-      <div class="categoria">
-        <button type="submit" name="cat" value="{{ c.idCategoria }}">
-          {{ c.nombre }}
-        </button>
-      </div>
-    {% endfor %}
-  </form>
-
-  {% for r in recetas %}
-    <div class="card">
-      <h2>{{ r.nombre }}</h2>
-      <p>{{ r.descripcion }}</p>
-      <img src="/receta/obtenerImagen/{{ r.idReceta }}">
-      <button>Ver Receta</button>
+  <div class="page-container">
+    
+    <div class="header-categorias">
+      <h1>Explora nuestras recetas</h1>
+      <p>Encuentra el platillo perfecto filtrando por tu categoría favorita</p>
     </div>
-  {% endfor %}
+
+    <div class="filter-section">
+      <form method="POST" action="/categorias" class="filter-form">
+        <div class="filter-wrapper">
+          <label for="categoria"><i class='bx bx-filter-alt'></i> Filtrar por:</label>
+          <div class="select-custom">
+            <select name="categoria" id="categoria" onchange="this.form.submit()">
+              <option value="0" {% if categoriaSel == 0 %}selected{% endif %}>Todas las categorías</option>
+              {% for c in categorias %}
+                <option value="{{ c.idCategoria }}" {% if c.idCategoria == categoriaSel %}selected{% endif %}>{{ c.nombre }}</option>
+              {% endfor %}
+            </select>
+            <span class="arrow"><i class='bx bx-chevron-down'></i></span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    {% if recetas|length == 0 %}
+      <div class="no-results">
+        <i class='bx bx-dish'></i>
+        <h3>No hay recetas en esta categoría aún.</h3>
+        <p>Intenta seleccionar otra o <a href="{{ url_for('nueva_receta') }}">sube una nueva</a>.</p>
+      </div>
+    {% else %}
+      <div class="grid-recetas">
+        {% for r in recetas %}
+        <div class="card-receta">
+          <div class="receta-photo">
+              <div class="cont-photo">
+                  <img src="/receta/obtenerImagen/{{r.idReceta}}">
+              </div>
+              <span class="categoria-badge">{{ r.categoria.nombre }}</span>
+          </div>
+          
+          <div class="receta-info">
+              <h3>{{ r.nombre }}</h3>
+              <p>{{ r.descripcion }}</p>
+          </div>
+  
+          <div class="receta-calif">
+              {% set promedio = r.obtener_promedio() %}
+              
+              {% for i in range(1, 6) %}
+                  {% if i <= promedio %}
+                      <i class="bx bxs-star"></i>
+                  {% else %}
+                      <i class="bx bx-star"></i>
+                  {% endif %}
+              {% endfor %}
+              
+              <span class="numero-calif">({{ promedio }})</span>
+          </div>
+  
+          <div class="btnVer">
+              <button>Ver receta</button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
 </main>
 {% endblock %}
