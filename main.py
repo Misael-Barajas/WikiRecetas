@@ -116,8 +116,8 @@ def editar_perfil(id):
 
 @app.route('/usuarios/obtenerImagen/<int:idUsuario>')
 def obtenerImagenUsuario(idUsuario):
-    u = Usuario()
-    if u:
+    u = current_user
+    if u.fotoUsuario is not None:
         return u.consultarImagen(idUsuario)
     else:
         return redirect(url_for('static', filename='uploads/foto_perfil_default.jpg'))
