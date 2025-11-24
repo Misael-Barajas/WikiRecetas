@@ -7,7 +7,7 @@ from modelo.Dao import db, Usuario, Categoria, Receta, Calificacion
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 app.secret_key = 'MiClaveSecretaWikiRecetas'
@@ -190,6 +190,8 @@ def obtenerImagenReceta(idReceta):
     r = Receta()
     return r.consultarImagen(idReceta)
 
+# En main.py, busca la función eliminar_receta y actualízala así:
+
 @app.route('/eliminar_receta/<int:idReceta>', methods=['POST', 'GET'])
 @login_required
 def eliminar_receta(idReceta):
@@ -197,15 +199,19 @@ def eliminar_receta(idReceta):
     r = rec_dao.consultaIndividual(idReceta)
 
     if r is None: abort(404)
-    if r.idUsuario != current_user.idUsuario:
+    
+    # CAMBIO IMPORTANTE: Permitir si es el dueño O si es admin
+    if r.idUsuario != current_user.idUsuario and not current_user.is_admin():
+        # Si no es dueño Y no es admin, lo sacamos
         return redirect(url_for('mis_recetas'))
 
     if request.method == 'POST':
         rec_dao.eliminar(idReceta)
+        # Si es admin, recargamos la página actual (se maneja en el JS), 
+        # pero por si acaso retornamos algo válido
         return redirect(url_for('mis_recetas'))
     
     return render_template('eliminar-receta.html', receta=r)
-
 @app.route('/receta/<int:idReceta>', methods=['GET', 'POST'])
 def ver_receta(idReceta):
     r = Receta().consultaIndividual(idReceta)
@@ -246,6 +252,42 @@ def ver_categorias():
             return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = int(idCategoria), calif=Calificacion(), u=Usuario(rol='Admin'))
     return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = 0, calif=Calificacion(), u=Usuario(rol='Admin'))
 
+@app.route('/nueva_categoria', methods=['GET', 'POST'])
+@login_required
+def nueva_categoria():
+    # Validación de Rol
+    if not current_user.is_admin():
+        abort(403) # Prohibido si no es admin
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        
+        nueva_cat = Categoria()
+        nueva_cat.nombre = nombre
+        nueva_cat.descripcion = descripcion
+        
+        imagen_file = request.files.get('imagen')
+        if imagen_file and imagen_file.filename != '':
+            nueva_cat.imagen = imagen_file.stream.read()
+            
+        nueva_cat.agregar()
+        flash('Categoría agregada exitosamente', 'success')
+        return redirect(url_for('ver_categorias'))
+        
+    return render_template('nueva-categoria.html')
+
+# --- NUEVA RUTA: Ver todas las recetas (Vista Admin) ---
+@app.route('/admin/recetas')
+@login_required
+def admin_recetas():
+    if not current_user.is_admin():
+        abort(403)
+    
+    # Reutilizamos la consulta general para traer TODAS las recetas
+    recetas = Receta().consultaGeneral()
+    return render_template('admin-recetas.html', recetas=recetas, calif=Calificacion())
+
 @app.route('/info/politicas-de-uso')
 def politicas_uso():
     return render_template('politicas-de-uso.html')
@@ -257,21 +299,6 @@ def aviso_privacidad():
 @app.route('/info/contactar')
 def contactar():
     return render_template('contactar.html')
-
-@app.route('/agregar-categoria', methods=['GET', 'POST'])
-@login_required
-def agregar_categoria():
-    if not current_user.is_admin:
-        abort(403)
-    
-    if request.method == 'POST':
-        nombre = request.form['nombreCategoria']
-        nueva_categoria = Categoria()
-        nueva_categoria.nombre = nombre
-        nueva_categoria.agregar()
-        return redirect(url_for('index'))
-    
-    return render_template('agregar-categoria.html')
 
 db.init_app(app)
 

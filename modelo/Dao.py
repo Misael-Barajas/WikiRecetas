@@ -75,7 +75,6 @@ class Categoria(db.Model):
     idCategoria = Column(Integer, primary_key=True)
     nombre = Column(String(200), nullable=False)
     descripcion = Column(String(200), nullable=True)
-    imagen = Column(BLOB, nullable=True)
 
     def consultaGeneral(self):
         return self.query.all()

@@ -56,6 +56,16 @@ Mi perfil
                     <button>Subir receta</button>
                 </div>
             </form>
+            {% if u.is_admin() %}
+            <hr style="border: 1px solid var(--secBackgroundCol); margin: 20px 0;">
+            <h3 style="margin-bottom: 15px; color: var(--textColor);">Administración</h3>
+            
+            <form action="{{ url_for('admin_recetas') }}" method="get">
+                <div class="btnSubmit">
+                    <button style="background-color: var(--primaryColor);">Gestionar Todas las Recetas</button>
+                </div>
+            </form>
+            {% endif %}
         </div>
     </div>
 </main>

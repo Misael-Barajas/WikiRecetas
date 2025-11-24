@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mis-recetas.css') }}">
+{% endblock %}
+
+{% block title %}
+Panel Admin - Recetas
+{% endblock %}
+
+{% block content %}
+<main>
+  <div class="page-container">
+    
+    <div style="text-align: center; margin-bottom: 40px;">
+      <h1 style="color: var(--primaryColor);">Administración de Recetas</h1>
+      <p>Gestión global de contenido</p>
+    </div>
+
+    {% if recetas|length == 0 %}
+      <div class="no-results">
+        <h3>No hay recetas registradas en el sistema.</h3>
+      </div>
+    {% else %}
+      <div class="container"> {% for r in recetas %}
+        <div class="card-receta">
+          
+            <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                <button type="button" 
+                        class="btn-eliminar-directo" 
+                        style="background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 50%; cursor: pointer;"
+                        onclick="abrirModalConfirmacion(event, '{{ r.idReceta }}')"
+                        title="Eliminar receta permanentemente">
+                    <i class='bx bx-trash'></i>
+                </button>
+            </div>
+
+          <div class="receta-photo">
+              <div class="cont-photo">
+                  <img src="/receta/obtenerImagen/{{r.idReceta}}">
+              </div>
+          </div>
+          
+          <div class="receta-info">
+              <h3>{{ r.nombre }}</h3>
+              <p style="color: var(--primaryColor); font-weight: bold; font-size: 0.9em;">
+                  <i class='bx bxs-user'></i> Autor: {{ r.usuario.nombreUsuario }}
+              </p>
+              <p>{{ r.descripcion[:60] }}...</p>
+          </div>
+  
+          <form action="/receta/{{r.idReceta}}" method="get">
+            <div class="btnVer">
+                <button>Ver receta</button>
+            </div>
+          </form>
+  
+        </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div id="modalConfirmar" class="modal-overlay">
+        <div class="modal-contenido">
+            <h3>Confirmar Eliminación Administrativa</h3>
+            <p>¿Estás seguro de eliminar esta receta? Esta acción afectará al usuario creador y no se puede deshacer.</p>
+            <div class="modal-botones">
+                <button type="button" id="btnCancelarModal" class="modal-btn modal-btn-cancelar">Cancelar</button>
+                <button type="button" id="btnEliminarModal" class="modal-btn modal-btn-eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+    let idParaEliminar = null;
+    const modal = document.getElementById('modalConfirmar');
+    const btnCancelar = document.getElementById('btnCancelarModal');
+    const btnEliminar = document.getElementById('btnEliminarModal');
+
+    // Funciones básicas del modal
+    function abrirModalConfirmacion(event, idReceta) {
+        event.stopPropagation();
+        idParaEliminar = idReceta;
+        modal.classList.add('mostrar');
+    }
+
+    function cerrarModal() {
+        idParaEliminar = null;
+        modal.classList.remove('mostrar');
+    }
+
+    // Listeners
+    if (btnCancelar) btnCancelar.addEventListener('click', cerrarModal);
+    
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) cerrarModal();
+        });
+    }
+
+    // Lógica AJAX para eliminar (igual que en mis-recetas.js)
+    if (btnEliminar) {
+        btnEliminar.addEventListener('click', function() {
+            if (!idParaEliminar) return;
+
+            const url = `/eliminar_receta/${idParaEliminar}`;
+
+            fetch(url, { method: 'POST' })
+            .then(response => {
+                if (response.ok || response.redirected) {
+                    window.location.reload(); // Recarga la página para ver cambios
+                } else {
+                    alert('Error al eliminar. Verifica permisos.');
+                    cerrarModal();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                cerrarModal();
+            });
+        });
+    }
+</script>
+{% endblock %}

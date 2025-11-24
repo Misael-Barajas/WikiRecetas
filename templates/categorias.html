@@ -28,8 +28,13 @@ Categorías
             </select>
             <span class="arrow"><i class='bx bx-chevron-down'></i></span>
           </div>
-          {% if  %}
-            <button class="agregar">+</button>
+          {% if user.is_authenticated and user.is_admin() %}
+          <div style="margin-top: 20px;">
+              <a href="{{ url_for('nueva_categoria') }}" 
+                 style="background-color: var(--primaryColor); color: white; padding: 10px 20px; border-radius: 20px; font-weight: 500;">
+                 <i class='bx bx-plus-circle'></i> Nueva Categoría
+              </a>
+          </div>
           {% endif %}
         </div>
       </form>

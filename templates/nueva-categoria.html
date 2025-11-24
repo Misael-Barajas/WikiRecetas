@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block title %}
+Nueva Categoría
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="card-form-receta" style="max-width: 600px; margin: 0 auto; background-color: var(--cardColor); padding: 40px; border-radius: 20px;">
+            
+            <div class="card-title">
+                <h1>Nueva Categoría</h1>
+                <p>Agrega una nueva clasificación para las recetas</p>
+            </div>
+
+            <form action="/nueva_categoria" method="post" enctype="multipart/form-data">
+                
+                <div class="input-wrapper">
+                    <input type="text" name="nombre" id="nombre" placeholder=" " required autocomplete="off">
+                    <label for="nombre">Nombre de la Categoría</label>
+                </div>
+
+                <div class="input-wrapper">
+                    <textarea name="descripcion" id="descripcion" placeholder=" " required></textarea>
+                    <label for="descripcion">Descripción</label>
+                </div>
+
+                <div class="btnSubmit">
+                    <button type="submit">Crear Categoría</button>
+                </div>
+                
+                <div class="txtLoginRegister">
+                    <a href="{{ url_for('ver_categorias') }}" style="color: var(--textColor);">Cancelar</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
