@@ -25,15 +25,18 @@ Panel Admin - Recetas
     {% else %}
       <div class="container"> {% for r in recetas %}
         <div class="card-receta">
-          
-            <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-                <button type="button" 
-                        class="btn-eliminar-directo" 
-                        style="background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 50%; cursor: pointer;"
-                        onclick="abrirModalConfirmacion(event, '{{ r.idReceta }}')"
-                        title="Eliminar receta permanentemente">
-                    <i class='bx bx-trash'></i>
+
+            <div class="opciones">
+                <button class="btn-opciones">
+                    <i class='bx bx-dots-vertical-rounded'></i>
                 </button>
+                <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                    <a href="{{ url_for('editar_receta', idReceta=r.idReceta) }}">Editar receta</a>
+                    <button type="button" class="btn-eliminar-directo" 
+                            onclick="abrirModalConfirmacion(event, '{{ r.idReceta }}')">
+                        Eliminar receta
+                    </button>
+                </div>
             </div>
 
           <div class="receta-photo">
@@ -81,7 +84,6 @@ Panel Admin - Recetas
     const btnCancelar = document.getElementById('btnCancelarModal');
     const btnEliminar = document.getElementById('btnEliminarModal');
 
-    // Funciones básicas del modal
     function abrirModalConfirmacion(event, idReceta) {
         event.stopPropagation();
         idParaEliminar = idReceta;

@@ -7,7 +7,7 @@ from modelo.Dao import db, Usuario, Categoria, Receta, Calificacion
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 app.secret_key = 'MiClaveSecretaWikiRecetas'
@@ -277,14 +277,12 @@ def nueva_categoria():
         
     return render_template('nueva-categoria.html')
 
-# --- NUEVA RUTA: Ver todas las recetas (Vista Admin) ---
 @app.route('/admin/recetas')
 @login_required
 def admin_recetas():
     if not current_user.is_admin():
         abort(403)
     
-    # Reutilizamos la consulta general para traer TODAS las recetas
     recetas = Receta().consultaGeneral()
     return render_template('admin-recetas.html', recetas=recetas, calif=Calificacion())
 
