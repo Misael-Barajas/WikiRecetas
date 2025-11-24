@@ -1,34 +1,10 @@
-.container-inicio {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-    padding: 0 80px;
-}
-
-.sugerencias-inicio {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto 40px auto;
-}
-
-.sugerencias-inicio .card-receta {
-    flex: 0 1 300px;
-    width: 300px;
-}
-
 /* Tarjetas */
 .title-section {
     width: 100%;
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 40px 0 10px 0;
+    margin: 40px 0 0 80px;
     gap: 5px;
 }
 

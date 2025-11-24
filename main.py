@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect, session, f
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from datetime import timedelta
 from werkzeug.security import generate_password_hash
-from modelo.Dao import db, Usuario, Categoria, Receta, calificacion
+from modelo.Dao import db, Usuario, Categoria, Receta, Calificacion
 
 
 app = Flask(__name__)
@@ -34,7 +34,7 @@ def inject_user():
 def index():
     recetas = Receta().consultaGeneral()
     categorias = Categoria().consultaGeneral()
-    return render_template('index.html', recetas=recetas, categorias=categorias)
+    return render_template('index.html', recetas=recetas, categorias=categorias, calif=Calificacion())
 
 @app.route('/inicio')
 def inicio():
@@ -157,7 +157,7 @@ def nueva_receta():
 @login_required
 def mis_recetas():
     misrecetas = Receta.query.filter_by(idUsuario=current_user.idUsuario).all()
-    return render_template('mis-recetas.html', misrecetas=misrecetas)
+    return render_template('mis-recetas.html', misrecetas=misrecetas, calif = Calificacion())
 
 @app.route('/editar-receta/<int:idReceta>', methods=['POST', 'GET'])
 @login_required
@@ -206,6 +206,27 @@ def eliminar_receta(idReceta):
     
     return render_template('eliminar-receta.html', receta=r)
 
+@app.route('/receta/<int:idReceta>', methods=['GET', 'POST'])
+def ver_receta(idReceta):
+    r = Receta().consultaIndividual(idReceta)
+    if r is None:
+        abort(404)
+    
+    promedio = Calificacion.obtener_promedio(idReceta)
+    
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return redirect(url_for('login'))
+        
+        calif_value = int(request.form['calificacion'])
+        nueva_calif = Calificacion()
+        nueva_calif.idUsuario = current_user.idUsuario
+        nueva_calif.idReceta = idReceta
+        nueva_calif.calificacion = calif_value
+        nueva_calif.agregar_o_actualizar()
+        return redirect(url_for('ver_receta', idReceta=idReceta))
+    return render_template('ver-receta.html', receta=r, promedio=promedio)
+
 @app.route('/recuperar')
 def recuperar():
     return render_template('recuperar.html')
@@ -222,8 +243,8 @@ def ver_categorias():
         idCategoria = request.form.get('categoria')
         if idCategoria != '0':
             rec = Receta.consultarProductosPorCategoria(idCategoria)
-            return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = int(idCategoria))
-    return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = 0)
+            return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = int(idCategoria), calif=Calificacion())
+    return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = 0, calif=Calificacion())
 
 @app.route('/info/politicas-de-uso')
 def politicas_uso():

@@ -28,6 +28,16 @@ Categorías
             </select>
             <span class="arrow"><i class='bx bx-chevron-down'></i></span>
           </div>
+
+          <div class="select-custom">
+            <select name="categoria" id="categoria" onchange="this.form.submit()">
+              <option value="0" {% if categoriaSel == 0 %}selected{% endif %}>Todas las difitultades</option>
+              <option value="Fácil">Fácil</option>
+              <option value="Media">Media</option>
+              <option value="Difícil">Difícil</option>
+            </select>
+            <span class="arrow"><i class='bx bx-chevron-down'></i></span>
+          </div>
         </div>
       </form>
     </div>
@@ -47,6 +57,13 @@ Categorías
                   <img src="/receta/obtenerImagen/{{r.idReceta}}">
               </div>
               <span class="categoria-badge">{{ r.categoria.nombre }}</span>
+              {% if r.dificultad == 'Fácil' %}
+              <span class="facil-badge">{{ r.dificultad }}</span>
+              {% elif r.dificultad == 'Media' %}
+              <span class="media-badge">{{ r.dificultad }}</span>
+              {% else %}
+              <span class="dificil-badge">{{ r.dificultad }}</span>
+              {% endif %}
           </div>
           
           <div class="receta-info">
@@ -55,11 +72,13 @@ Categorías
           </div>
   
           <div class="receta-calif">
-              {% set promedio = r.obtener_promedio() %}
+              {% set promedio = calif.obtener_promedio() %}
               
               {% for i in range(1, 6) %}
                   {% if i <= promedio %}
                       <i class="bx bxs-star"></i>
+                  {% elif i - 0.5 == promedio %}
+                      <i class="bx bxs-star-half"></i>
                   {% else %}
                       <i class="bx bx-star"></i>
                   {% endif %}
@@ -67,10 +86,13 @@ Categorías
               
               <span class="numero-calif">({{ promedio }})</span>
           </div>
+
+          <form action="/receta/{{r.idReceta}}" method="get">
+            <div class="btnVer">
+                <button>Ver receta</button>
+            </div>
+          </form>
   
-          <div class="btnVer">
-              <button>Ver receta</button>
-          </div>
         </div>
         {% endfor %}
       </div>
