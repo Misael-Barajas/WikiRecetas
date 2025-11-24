@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+{% block title %}
+Agregar Categorías
+{% endblock %}
+{% block content %}
+<main>
+    <div class="page-container">
+        <div class="header-agregar-categoria">
+        <h1>Agregar Nueva Categoría</h1>
+        <p>Llena el formulario para agregar una nueva categoría de recetas.</p>
+        </div>
+
+        <div class="form-section">
+            <form method="POST" action="/agregar-categoria" class="categoria-form">
+                <div class="form-group">
+                <label for="nombre">Nombre de la Categoría:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Agregar Categoría</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

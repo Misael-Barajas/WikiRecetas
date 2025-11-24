@@ -243,8 +243,8 @@ def ver_categorias():
         idCategoria = request.form.get('categoria')
         if idCategoria != '0':
             rec = Receta.consultarProductosPorCategoria(idCategoria)
-            return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = int(idCategoria), calif=Calificacion())
-    return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = 0, calif=Calificacion())
+            return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = int(idCategoria), calif=Calificacion(), u=Usuario(rol='Admin'))
+    return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = 0, calif=Calificacion(), u=Usuario(rol='Admin'))
 
 @app.route('/info/politicas-de-uso')
 def politicas_uso():
@@ -257,6 +257,21 @@ def aviso_privacidad():
 @app.route('/info/contactar')
 def contactar():
     return render_template('contactar.html')
+
+@app.route('/agregar-categoria', methods=['GET', 'POST'])
+@login_required
+def agregar_categoria():
+    if not current_user.is_admin:
+        abort(403)
+    
+    if request.method == 'POST':
+        nombre = request.form['nombreCategoria']
+        nueva_categoria = Categoria()
+        nueva_categoria.nombre = nombre
+        nueva_categoria.agregar()
+        return redirect(url_for('index'))
+    
+    return render_template('agregar-categoria.html')
 
 db.init_app(app)
 
