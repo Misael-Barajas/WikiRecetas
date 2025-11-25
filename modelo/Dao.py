@@ -152,10 +152,18 @@ class Calificacion(db.Model):
         db.session.add(self)
         db.session.commit()
         
-    def obtener_promedio(self):
-        if not self.calificacion:
-            return 0
-
-        suma = sum(c.calificacion for c in self.calificacion)
-        promedio = suma / len(self.calificacion)
-        return round(promedio, 1)
+    @staticmethod
+    def obtener_promedio(idReceta):
+        from sqlalchemy import func
+        promedio = db.session.query(func.avg(Calificacion.calificacion)).filter(Calificacion.idReceta == idReceta).scalar()
+        if promedio is None:
+            return 0.0
+        return round(float(promedio), 1)
+    
+    def agregar_o_actualizar(self):
+        calif_existente = Calificacion.query.filter_by(idUsuario=self.idUsuario, idReceta=self.idReceta).first()
+        if calif_existente:
+            calif_existente.calificacion = self.calificacion
+        else:
+            db.session.add(self)
+        db.session.commit()

@@ -1,10 +1,8 @@
-/* Contenedor principal */
 .page-container {
     margin: 0 auto;
     padding: 40px 20px;
 }
 
-/* --- Encabezado --- */
 .header-categorias {
     text-align: center;
     margin-bottom: 40px;
@@ -22,21 +20,11 @@
     opacity: 0.8;
 }
 
-/* --- Sección de filtro --- */
+
 .filter-section {
     display: flex;
     justify-content: center;
     margin-bottom: 50px;
-}
-
-.filter-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background-color: #fff;
-    padding: 10px 25px;
-    border-radius: 50px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
 .filter-wrapper label {
@@ -81,7 +69,6 @@
     font-size: 1.2rem;
 }
 
-/* --- Grid de Resultados (La Galería) --- */
 .grid-recetas {
     display: flex;
     flex-wrap: wrap;
@@ -89,7 +76,6 @@
     gap: 30px;
 }
 
-/* --- Estado Vacío (No resultados) --- */
 .no-results {
     text-align: center;
     padding: 60px 20px;
@@ -111,4 +97,65 @@
     color: var(--primaryColor);
     font-weight: bold;
     text-decoration: none;
+}
+
+.cont-cat {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--cardColor);
+    padding: 40px;
+    border-radius: 20px;
+}
+
+.btnSubmit button {
+    margin-bottom: 10px;
+}
+
+.btnCancel button{
+  width: 100%;
+  background-color: transparent;
+  color: var(--primaryColor);
+  font-size: 16px;
+  outline: none;
+  border: 1px solid var(--primaryColor);
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
+}
+
+.filter-form {
+    background-color: #fff;
+    padding: 15px 30px;
+    border-radius: 50px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px; /* Separación entre los dos filtros */
+    flex-wrap: wrap; /* Para móviles */
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.filter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-divider {
+    width: 1px;
+    height: 30px;
+    background-color: #ddd;
+    display: block;
 }

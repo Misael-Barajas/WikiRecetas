@@ -3,10 +3,11 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/categorias.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 {% endblock %}
 
 {% block title %}
-Nueva Categoría
+Editar Categoría
 {% endblock %}
 
 {% block content %}
@@ -15,24 +16,23 @@ Nueva Categoría
         <div class="card-form-receta cont-cat">
             
             <div class="card-title">
-                <h1>Nueva Categoría</h1>
-                <p>Agrega una nueva clasificación para las recetas</p>
+                <h1>Editar Categoría</h1>
             </div>
 
-            <form action="/nueva_categoria" method="post">
+            <form action="/categoria/editar/{{ categoria.idCategoria }}" method="post">
                 
                 <div class="input-wrapper">
-                    <input type="text" name="nombre" id="nombre" placeholder=" " required autocomplete="off">
+                    <input type="text" name="nombre" id="nombre" value="{{ categoria.nombre }}" required autocomplete="off">
                     <label for="nombre">Nombre de la Categoría</label>
                 </div>
 
                 <div class="input-wrapper">
-                    <textarea name="descripcion" id="descripcion" placeholder=" " required></textarea>
+                    <textarea name="descripcion" id="descripcion" required>{{ categoria.descripcion }}</textarea>
                     <label for="descripcion">Descripción</label>
                 </div>
 
                 <div class="btnSubmit">
-                    <button type="submit">Crear Categoría</button>
+                    <button type="submit">Guardar Cambios</button>
                 </div>
                 
                 <form action="{{ url_for('admin_categorias') }}" method="post" id="formLogout">

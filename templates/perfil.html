@@ -57,15 +57,21 @@ Mi perfil
                 </div>
             </form>
             {% if u.is_admin() %}
-            <hr style="border: 1px solid var(--secBackgroundCol); margin: 20px 0;">
-            <h3 style="margin-bottom: 15px; color: var(--textColor);">Administración</h3>
+            <hr class="separador">
+            <h3 class="separador-title">Administración</h3>
             
             <form action="{{ url_for('admin_recetas') }}" method="get">
                 <div class="btnSubmit">
-                    <button style="background-color: var(--primaryColor);">Gestionar Todas las Recetas</button>
+                    <button class="btnSubmit">Gestionar todas las recetas</button>
                 </div>
             </form>
-            {% endif %}
+        
+            <form action="{{ url_for('admin_categorias') }}" method="get">
+                <div class="btnSubmit">
+                    <button class="btnSubmit">Gestionar categorías</button>
+                </div>
+            </form>
+        {% endif %}
         </div>
     </div>
 </main>

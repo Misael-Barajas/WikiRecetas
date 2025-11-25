@@ -36,12 +36,6 @@
   margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-  .fila-columnas {
-    grid-template-columns: 1fr;
-  }
-}
-
 .textarea-grande {
   min-height: 350px !important;
 }

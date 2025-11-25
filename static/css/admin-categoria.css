@@ -1,0 +1,83 @@
+.container {
+    flex-direction: column;
+}
+
+.cont-categoria {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card-categoria {
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.card-categoria h3 {
+    color: var(--textColor);
+    margin-bottom: 5px;
+}
+
+.cat-title-desc {
+    text-align: left;
+}
+
+.cat-title-desc h3 {
+    color: var(--textColor);
+    margin-bottom: 5px;
+}
+
+.cat-title-desc p {
+    font-size: 14px;
+    color: #666;
+}
+
+.cat-botones {
+    display: flex;
+    gap: 10px;
+}
+
+.cat-btnEdit {
+    background: var(--secBackgroundCol);
+    color: var(--primaryColor);
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.cat-btnDelete {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-nueva-categoria {
+    background-color: var(--primaryColor);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}

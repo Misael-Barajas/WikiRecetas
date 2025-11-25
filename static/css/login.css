@@ -60,3 +60,36 @@
 .cont-photo .profile-photo, .card-title{
   margin-bottom: 0;
 }
+
+/* --- Checkbox Nativo Mejorado (Tu estilo original) --- */
+.terms {
+    margin-bottom: 20px;
+    text-align: center; /* Centra el bloque de términos */
+}
+
+.terms label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.terms input[type="checkbox"] {
+    transform: scale(1.4); /* Lo mantiene grande como te gustaba */
+    cursor: pointer;
+    margin-right: 8px; /* Un poco de aire entre el cuadro y el texto */
+    accent-color: var(--primaryColor); /* Se pinta de tu color al marcarlo */
+}
+
+.terms a {
+    color: var(--primaryColor);
+    margin-left: 4px;
+}
+
+.btnSubmit button:disabled {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}

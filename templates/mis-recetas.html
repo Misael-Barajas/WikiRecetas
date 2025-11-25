@@ -34,7 +34,7 @@ Mi perfil
                     
                 </div>
                 <div class="receta-calif">
-                    {% set promedio = calif.obtener_promedio() %}
+                    {% set promedio = calif.obtener_promedio(receta.idReceta) %}
                     
                     {% for i in range(1, 6) %}
                         {% if i <= promedio %}
@@ -49,9 +49,11 @@ Mi perfil
                     <span class="numero-calif">({{ promedio }})</span>
                 </div>
 
-                <div class="btnVer">
-                    <button>Ver receta</button>
-                </div>
+                <form action="/receta/{{receta.idReceta}}" method="get">
+                    <div class="btnVer">
+                        <button>Ver receta</button>
+                    </div>
+                </form>
             </div>
         {% endfor %}
     </div> <div id="modalConfirmar" class="modal-overlay">

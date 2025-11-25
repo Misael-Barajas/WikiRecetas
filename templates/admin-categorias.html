@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mis-recetas.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-categoria.css') }}">
+{% endblock %}
+
+{% block title %}
+Admin - Categorías
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container">
+        
+        <div class="card-title">
+            <h1>Gestión de Categorías</h1>
+            <p>Administra las clasificaciones del sitio</p>
+        </div>
+
+        {% if user.is_authenticated and user.is_admin() %}
+        <a href="{{ url_for('nueva_categoria') }}" class="btn-nueva-categoria">
+           <i class='bx bx-plus-circle'></i> Nueva Categoría
+        </a>
+        {% endif %}
+
+        <div class="cont-categoria">
+            {% for c in categorias %}
+            <div class="card-categoria">
+                <div class="cat-title-desc">
+                    <h3>{{ c.nombre }}</h3>
+                    <p>{{ c.descripcion }}</p>
+                </div>
+
+                <div class="cat-botones">
+                    <a href="{{ url_for('editar_categoria', id=c.idCategoria) }}" class="cat-btnEdit">
+                        <i class='bx bx-edit'></i>
+                    </a>
+                    
+                    <button type="button" onclick="abrirModalCategoria(event, '{{ c.idCategoria }}', '{{ c.nombre }}')" class="cat-btnDelete">
+                        <i class='bx bx-trash'></i>
+                    </button>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="modalConfirmar" class="modal-overlay">
+        <div class="modal-contenido">
+            <h3>Eliminar Categoría</h3>
+            <p>¿Estás seguro de eliminar la categoría <strong id="nombreCategoriaModal"></strong>? Esto podría afectar la visualización de las recetas asociadas.</p>
+            <div class="modal-botones">
+                <button type="button" id="btnCancelarModal" class="modal-btn modal-btn-cancelar">Cancelar</button>
+                <button type="button" id="btnEliminarModal" class="modal-btn modal-btn-eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin-categoria.js') }}"></script>
+
+</main>
+{% endblock %}

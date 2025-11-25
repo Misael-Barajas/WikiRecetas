@@ -3,48 +3,56 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/categorias.css') }}">
 {% endblock %}
-{% block title %}
-Categorías
-{% endblock %}
+{% block title %} Categorías {% endblock %}
+
 {% block content %}
 <main>
   <div class="page-container">
     
     <div class="header-categorias">
       <h1>Explora nuestras recetas</h1>
-      <p>Encuentra el platillo perfecto filtrando por tu categoría favorita</p>
+      <p>Encuentra el platillo perfecto filtrando por tus preferencias</p>
     </div>
 
     <div class="filter-section">
       <form method="POST" action="/categorias" class="filter-form">
+        
         <div class="filter-wrapper">
-          <label for="categoria"><i class='bx bx-filter-alt'></i> Filtrar por:</label>
+          <label for="categoria"><i class='bx bx-filter-alt'></i> Categoría:</label>
           <div class="select-custom">
             <select name="categoria" id="categoria" onchange="this.form.submit()">
-              <option value="0" {% if categoriaSel == 0 %}selected{% endif %}>Todas las categorías</option>
+              <option value="0" {% if categoriaSel == 0 %}selected{% endif %}>Todas</option>
               {% for c in categorias %}
                 <option value="{{ c.idCategoria }}" {% if c.idCategoria == categoriaSel %}selected{% endif %}>{{ c.nombre }}</option>
               {% endfor %}
             </select>
             <span class="arrow"><i class='bx bx-chevron-down'></i></span>
           </div>
-          {% if user.is_authenticated and user.is_admin() %}
-          <div style="margin-top: 20px;">
-              <a href="{{ url_for('nueva_categoria') }}" 
-                 style="background-color: var(--primaryColor); color: white; padding: 10px 20px; border-radius: 20px; font-weight: 500;">
-                 <i class='bx bx-plus-circle'></i> Nueva Categoría
-              </a>
-          </div>
-          {% endif %}
         </div>
+
+        <div class="filter-divider"></div>
+
+        <div class="filter-wrapper">
+          <label for="dificultad"><i class='bx bx-award'></i> Dificultad:</label>
+          <div class="select-custom">
+            <select name="dificultad" id="dificultad" onchange="this.form.submit()">
+              <option value="0" {% if dificultadSel == '0' %}selected{% endif %}>Todas</option>
+              <option value="Fácil" {% if dificultadSel == 'Fácil' %}selected{% endif %}>Fácil</option>
+              <option value="Media" {% if dificultadSel == 'Media' %}selected{% endif %}>Media</option>
+              <option value="Difícil" {% if dificultadSel == 'Difícil' %}selected{% endif %}>Difícil</option>
+            </select>
+            <span class="arrow"><i class='bx bx-chevron-down'></i></span>
+          </div>
+        </div>
+
       </form>
     </div>
 
     {% if recetas|length == 0 %}
       <div class="no-results">
         <i class='bx bx-dish'></i>
-        <h3>No hay recetas en esta categoría aún.</h3>
-        <p>Intenta seleccionar otra o <a href="{{ url_for('nueva_receta') }}">sube una nueva</a>.</p>
+        <h3>No hay recetas con estos filtros.</h3>
+        <p>Intenta una combinación diferente.</p> 
       </div>
     {% else %}
       <div class="grid-recetas">
@@ -55,6 +63,7 @@ Categorías
                   <img src="/receta/obtenerImagen/{{r.idReceta}}">
               </div>
               <span class="categoria-badge">{{ r.categoria.nombre }}</span>
+
               {% if r.dificultad == 'Fácil' %}
               <span class="facil-badge">{{ r.dificultad }}</span>
               {% elif r.dificultad == 'Media' %}
@@ -70,18 +79,16 @@ Categorías
           </div>
   
           <div class="receta-calif">
-              {% set promedio = calif.obtener_promedio() %}
-              
+              {% set promedio = calif.obtener_promedio(r.idReceta) %}
               {% for i in range(1, 6) %}
-                  {% if i <= promedio %}
+                  {% if i <= promedio|int %}
                       <i class="bx bxs-star"></i>
-                  {% elif i - 0.5 == promedio %}
+                  {% elif i - 0.5 <= promedio and i > promedio|int %}
                       <i class="bx bxs-star-half"></i>
                   {% else %}
                       <i class="bx bx-star"></i>
                   {% endif %}
               {% endfor %}
-              
               <span class="numero-calif">({{ promedio }})</span>
           </div>
 

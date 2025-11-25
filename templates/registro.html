@@ -51,20 +51,23 @@ Registrarse
                     <label for="idTel">Teléfono</label>
                 </div>
                 <div class="input-wrapper">
-                     <input type="password" placeholder=" " id="idPassword" name="password" required>
-                     <label for="idPassword">Contraseña</label>
-                     <i class="bx bx-show togglePwd" id="togglePassword"></i>
-                 </div>
-                 <div class="btnSubmit">
-                     <button type="submit" form="formRegistro">Registrarse</button>
-                 </div>
-            </form>
-             <div class="terms">
-                 <form action="#">
-                 <label for="terms">
-                     <input type="checkbox" id="terms" name="terms" required>
-                     Acepto las <a href="/info/politicas-de-uso">políticas del sitio</a>.
-                 </label>
+                 <input type="password" placeholder=" " id="idPassword" name="password" required>
+                 <label for="idPassword">Contraseña</label>
+                 <i class="bx bx-show togglePwd" id="togglePassword"></i>
+            </div>
+
+            <div class="terms">
+                <label for="terms">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    Acepto las <a href="/info/politicas-de-uso" target="_blank">políticas del sitio</a>.
+                </label>
+           </div>
+
+             <div class="btnSubmit">
+                 <button type="submit" id="btnRegistrar" disabled>Registrarse</button>
+             </div>
+        </form>
+        <div class="txtLoginRegister">
                  </form>
              </div>
     
@@ -74,5 +77,6 @@ Registrarse
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/profile-photo-uploader.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </main>
 {% endblock %}

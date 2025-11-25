@@ -102,3 +102,13 @@
     transition: all 0.3s ease;
   }
 }
+
+.separador {
+    border: 1px solid var(--secBackgroundCol);
+    margin-top: 30px;
+}
+
+.separador-title {
+    color: var(--textColor);
+    margin-top: 15px;
+}

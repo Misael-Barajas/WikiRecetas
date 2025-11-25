@@ -7,7 +7,7 @@ from modelo.Dao import db, Usuario, Categoria, Receta, Calificacion
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 app.secret_key = 'MiClaveSecretaWikiRecetas'
@@ -34,7 +34,7 @@ def inject_user():
 def index():
     recetas = Receta().consultaGeneral()
     categorias = Categoria().consultaGeneral()
-    return render_template('index.html', recetas=recetas, categorias=categorias, calif=Calificacion())
+    return render_template('index.html', recetas=recetas, categorias=categorias, calif=Calificacion)
 
 @app.route('/inicio')
 def inicio():
@@ -116,9 +116,9 @@ def editar_perfil(id):
 
 @app.route('/usuarios/obtenerImagen/<int:idUsuario>')
 def obtenerImagenUsuario(idUsuario):
-    u = current_user
-    if u.fotoUsuario is not None:
-        return u.consultarImagen(idUsuario)
+    u = Usuario().consultaIndividual(idUsuario)
+    if u and u.fotoUsuario:
+        return u.fotoUsuario
     else:
         return redirect(url_for('static', filename='uploads/foto_perfil_default.jpg'))
     
@@ -157,7 +157,7 @@ def nueva_receta():
 @login_required
 def mis_recetas():
     misrecetas = Receta.query.filter_by(idUsuario=current_user.idUsuario).all()
-    return render_template('mis-recetas.html', misrecetas=misrecetas, calif = Calificacion())
+    return render_template('mis-recetas.html', misrecetas=misrecetas, calif = Calificacion)
 
 @app.route('/editar-receta/<int:idReceta>', methods=['POST', 'GET'])
 @login_required
@@ -165,7 +165,8 @@ def editar_receta(idReceta):
     r = Receta().consultaIndividual(idReceta)
 
     if r is None: abort(404) 
-    if r.idUsuario != current_user.idUsuario:
+    
+    if r.idUsuario != current_user.idUsuario and not current_user.is_admin():
         return redirect(url_for('mis_recetas'))
    
     if request.method == 'POST':
@@ -181,7 +182,12 @@ def editar_receta(idReceta):
             r.imagen = imagen_file.stream.read()
         
         r.editar(r.idReceta) 
+        
+        if current_user.is_admin() and r.idUsuario != current_user.idUsuario:
+            return redirect(url_for('admin_recetas'))
+            
         return redirect(url_for('mis_recetas'))
+        
     categorias = Categoria().consultaGeneral()
     return render_template('editar-receta.html', receta=r, categorias=categorias)
     
@@ -190,7 +196,6 @@ def obtenerImagenReceta(idReceta):
     r = Receta()
     return r.consultarImagen(idReceta)
 
-# En main.py, busca la función eliminar_receta y actualízala así:
 
 @app.route('/eliminar_receta/<int:idReceta>', methods=['POST', 'GET'])
 @login_required
@@ -200,18 +205,15 @@ def eliminar_receta(idReceta):
 
     if r is None: abort(404)
     
-    # CAMBIO IMPORTANTE: Permitir si es el dueño O si es admin
     if r.idUsuario != current_user.idUsuario and not current_user.is_admin():
-        # Si no es dueño Y no es admin, lo sacamos
         return redirect(url_for('mis_recetas'))
 
     if request.method == 'POST':
         rec_dao.eliminar(idReceta)
-        # Si es admin, recargamos la página actual (se maneja en el JS), 
-        # pero por si acaso retornamos algo válido
         return redirect(url_for('mis_recetas'))
     
     return render_template('eliminar-receta.html', receta=r)
+
 @app.route('/receta/<int:idReceta>', methods=['GET', 'POST'])
 def ver_receta(idReceta):
     r = Receta().consultaIndividual(idReceta)
@@ -224,13 +226,25 @@ def ver_receta(idReceta):
         if not current_user.is_authenticated:
             return redirect(url_for('login'))
         
-        calif_value = int(request.form['calificacion'])
+        calif_value = request.form.get('calificacion')
+        comentario_value = request.form.get('comentario')
+
+        if not calif_value:
+            return redirect(url_for('ver_receta', idReceta=idReceta))
+
         nueva_calif = Calificacion()
         nueva_calif.idUsuario = current_user.idUsuario
         nueva_calif.idReceta = idReceta
-        nueva_calif.calificacion = calif_value
+        nueva_calif.calificacion = int(calif_value)
+        
+        if comentario_value:
+            nueva_calif.comentario = comentario_value
+        else:
+            nueva_calif.comentario = "Sin comentario" 
+
         nueva_calif.agregar_o_actualizar()
         return redirect(url_for('ver_receta', idReceta=idReceta))
+        
     return render_template('ver-receta.html', receta=r, promedio=promedio)
 
 @app.route('/recuperar')
@@ -245,19 +259,31 @@ def sugerencias():
 def ver_categorias():
     cat = Categoria().consultaGeneral()
     rec = Receta().consultaGeneral()
-    if request.method == 'POST':
-        idCategoria = request.form.get('categoria')
-        if idCategoria != '0':
-            rec = Receta.consultarProductosPorCategoria(idCategoria)
-            return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = int(idCategoria), calif=Calificacion(), u=Usuario(rol='Admin'))
-    return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = 0, calif=Calificacion(), u=Usuario(rol='Admin'))
+    
+    idCategoria = 0
+    dificultad = '0'
 
+    if request.method == 'POST':
+        idCategoria = request.form.get('categoria', '0')
+        dificultad = request.form.get('dificultad', '0')
+        
+        query = Receta.query
+        
+        if idCategoria != '0':
+            query = query.filter(Receta.idCategoria == idCategoria)
+            
+        if dificultad != '0':
+            query = query.filter(Receta.dificultad == dificultad)
+        
+        rec = query.all()
+        
+    return render_template('categorias.html', categorias=cat, recetas=rec, categoriaSel = int(idCategoria), dificultadSel = dificultad, calif=Calificacion)
+    
 @app.route('/nueva_categoria', methods=['GET', 'POST'])
 @login_required
 def nueva_categoria():
-    # Validación de Rol
     if not current_user.is_admin():
-        abort(403) # Prohibido si no es admin
+        abort(403)
 
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -266,16 +292,46 @@ def nueva_categoria():
         nueva_cat = Categoria()
         nueva_cat.nombre = nombre
         nueva_cat.descripcion = descripcion
-        
-        imagen_file = request.files.get('imagen')
-        if imagen_file and imagen_file.filename != '':
-            nueva_cat.imagen = imagen_file.stream.read()
             
         nueva_cat.agregar()
         flash('Categoría agregada exitosamente', 'success')
-        return redirect(url_for('ver_categorias'))
+        return redirect(url_for('admin_categorias'))
         
     return render_template('nueva-categoria.html')
+
+@app.route('/categoria/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_categoria(id):
+    if not current_user.is_admin():
+        abort(403)
+        
+    cat = Categoria().consultaIndividual(id)
+    if not cat:
+        abort(404)
+
+    if request.method == 'POST':
+        cat.nombre = request.form['nombre']
+        cat.descripcion = request.form['descripcion']
+        
+        cat.editar()
+        flash('Categoría actualizada', 'success')
+        return redirect(url_for('admin_categorias'))
+
+    return render_template('editar-categoria.html', categoria=cat)
+
+@app.route('/categoria/eliminar/<int:id>', methods=['POST'])
+@login_required
+def eliminar_categoria(id):
+    if not current_user.is_admin():
+        abort(403)
+        
+    cat = Categoria().consultaIndividual(id)
+    if cat:
+        db.session.delete(cat)
+        db.session.commit()
+        flash('Categoría eliminada', 'success')
+    
+    return redirect(url_for('ver_categorias'))
 
 @app.route('/admin/recetas')
 @login_required
@@ -284,7 +340,16 @@ def admin_recetas():
         abort(403)
     
     recetas = Receta().consultaGeneral()
-    return render_template('admin-recetas.html', recetas=recetas, calif=Calificacion())
+    return render_template('admin-recetas.html', recetas=recetas, calif=Calificacion)
+
+@app.route('/admin/categorias')
+@login_required
+def admin_categorias():
+    if not current_user.is_admin():
+        abort(403)
+    
+    categorias = Categoria().consultaGeneral()
+    return render_template('admin-categorias.html', categorias=categorias)
 
 @app.route('/info/politicas-de-uso')
 def politicas_uso():
