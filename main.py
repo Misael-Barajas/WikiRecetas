@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from datetime import timedelta
 from werkzeug.security import generate_password_hash
 from modelo.Dao import db, Usuario, Categoria, Receta, Calificacion
+from sqlalchemy import or_
 
 
 app = Flask(__name__)
@@ -350,6 +351,20 @@ def admin_categorias():
     
     categorias = Categoria().consultaGeneral()
     return render_template('admin-categorias.html', categorias=categorias)
+
+@app.route('/buscar')
+def buscar():
+    query = request.args.get('q', '')
+    
+    categorias = Categoria().consultaGeneral()
+    
+    if query:
+        recetas_encontradas = Receta.query.filter(
+            or_(Receta.nombre.like(f'%{query}%'), Receta.descripcion.like(f'%{query}%'), Receta.ingredientes.like(f'%{query}%'))).all()
+    else:
+        recetas_encontradas = []
+
+    return render_template('resultados-busqueda.html', recetas=recetas_encontradas, categorias=categorias,categoriaSel=0,dificultadSel='0',calif=Calificacion,busqueda=query)
 
 @app.route('/info/politicas-de-uso')
 def politicas_uso():
