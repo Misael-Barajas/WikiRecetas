@@ -132,7 +132,7 @@
                                         {% endif %}
                                     </span>
                                 
-                                    {% if current_user.is_authenticated and current_user.is_admin() %}
+                                    {% if current_user.is_authenticated and ( current_user.is_admin() or c.idUsuario==current_user.idUsuario) %}
                                         <div class="admin-actions" style="display: flex; gap: 10px;">
                                             <a href="{{ url_for('editar_comentario_admin', idCalificacion=c.idCalificacion) }}" title="Editar comentario" style="color: var(--primaryColor);">
                                                 <i class='bx bxs-edit-alt'></i>

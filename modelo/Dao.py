@@ -181,6 +181,7 @@ class Calificacion(db.Model):
         if c:
             db.session.delete(c)
             db.session.commit()
+
         
 class Sugerencia(db.Model):
     __tablename__ = 'sugerencias'

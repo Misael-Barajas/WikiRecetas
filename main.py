@@ -251,12 +251,14 @@ def ver_receta(idReceta):
 @app.route('/admin/comentario/eliminar/<int:idCalificacion>', methods=['POST'])
 @login_required
 def eliminar_comentario_admin(idCalificacion):
-    if not current_user.is_admin():
-        abort(403)
+    
     
     calif_dao = Calificacion()
     c = calif_dao.consultaIndividual(idCalificacion)
-    
+
+    if not current_user.is_authenticated and ( current_user.is_admin() or c.idUsuario==current_user.idUsuario):
+        abort(403)
+
     if c:
         idReceta = c.idReceta
         calif_dao.eliminar(idCalificacion)
@@ -268,13 +270,15 @@ def eliminar_comentario_admin(idCalificacion):
 @app.route('/admin/comentario/editar/<int:idCalificacion>', methods=['GET', 'POST'])
 @login_required
 def editar_comentario_admin(idCalificacion):
-    if not current_user.is_admin():
-        abort(403)
+    
         
     c = Calificacion().consultaIndividual(idCalificacion)
     if not c:
         abort(404)
-        
+
+    if not current_user.is_authenticated and ( current_user.is_admin() or c.idUsuario==current_user.idUsuario):
+        abort(403)
+
     if request.method == 'POST':
         c.comentario = request.form['comentario']
         # c.calificacion = int(request.form['calificacion']) 
