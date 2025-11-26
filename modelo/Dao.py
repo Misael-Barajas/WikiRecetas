@@ -1,8 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, Float, Date, BLOB, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, DateTime, BLOB, ForeignKey
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 db = SQLAlchemy()
 
@@ -167,3 +168,39 @@ class Calificacion(db.Model):
         else:
             db.session.add(self)
         db.session.commit()
+        
+    def consultaIndividual(self, id):
+        return Calificacion.query.get(id)
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def eliminar(self, id):
+        c = self.consultaIndividual(id)
+        if c:
+            db.session.delete(c)
+            db.session.commit()
+        
+class Sugerencia(db.Model):
+    __tablename__ = 'sugerencias'
+    idSugerencia = Column(Integer, primary_key=True)
+    email = Column(String(255), nullable=False)
+    mensaje = Column(String(1000), nullable=False)
+    fecha = Column(DateTime, default=datetime.datetime.now)
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+        
+    def consultaGeneral(self):
+        return self.query.order_by(Sugerencia.fecha.desc()).all()
+
+    def consultaIndividual(self, id):
+        return Sugerencia.query.get(id)
+
+    def eliminar(self, id):
+        s = self.consultaIndividual(id)
+        if s:
+            db.session.delete(s)
+            db.session.commit()

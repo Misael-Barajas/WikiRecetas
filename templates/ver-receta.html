@@ -125,16 +125,29 @@
                             
                             <div class="comment-content">
                                 <div class="comment-header">
-                                    <span class="comment-author">{{ c.usuario.nombre_apellido }}</span>
+                                    <span class="comment-author">
+                                        {{ c.usuario.nombre_apellido }}
+                                        {% if current_user.is_authenticated and current_user.is_admin() %}
+                                            <span style="font-size: 0.8rem; color: red; margin-left: 5px;">(Admin Mode)</span>
+                                        {% endif %}
+                                    </span>
+                                
+                                    {% if current_user.is_authenticated and current_user.is_admin() %}
+                                        <div class="admin-actions" style="display: flex; gap: 10px;">
+                                            <a href="{{ url_for('editar_comentario_admin', idCalificacion=c.idCalificacion) }}" title="Editar comentario" style="color: var(--primaryColor);">
+                                                <i class='bx bxs-edit-alt'></i>
+                                            </a>
+                                            
+                                            <form action="{{ url_for('eliminar_comentario_admin', idCalificacion=c.idCalificacion) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este comentario?');" style="display:inline;">
+                                                <button type="submit" style="background: none; border: none; cursor: pointer; color: red;">
+                                                    <i class='bx bxs-trash'></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                
                                     <div class="comment-stars">
-                                        {% for i in range(1, 6) %}
-                                            {% if i <= c.calificacion %}
-                                                <i class='bx bxs-star'></i>
-                                            {% else %}
-                                                <i class='bx bx-star'></i>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
+                                        </div>
                                 </div>
                                 <p class="comment-text">"{{ c.comentario }}"</p>
                             </div>

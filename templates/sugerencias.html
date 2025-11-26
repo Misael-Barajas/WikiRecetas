@@ -12,19 +12,34 @@ Sugerencia
             <h1>¿Tienes alguna sugerencia?</h1>
             <p>Dinos qué sugerencia o comentario tienes sobre nosotros.</p>
         </div>
+
         <div class="card-cont">
-            <div class="input-wrapper">
-                <input type="text" placeholder=" " id="idEmail" name="email" required>
-                <label for="idEmail">Correo</label>
-            </div>
-            <div class="input-wrapper asunto">
-                <textarea name="mensaje" id="idSugerencia" placeholder=" "></textarea>
-                <label for="idSugerencia">Escribe tu sugerencia</label>
-            </div>
-            <div class="btnSubmit">
-                <button type="submit">Enviar</button>
-            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}" style="color: green; text-align: center; margin-bottom: 15px; font-weight: bold;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        
+            <form action="{{ url_for('sugerencias') }}" method="POST">
+                <div class="input-wrapper">
+                    <input type="email" placeholder=" " id="idEmail" name="email" 
+                           value="{{ current_user.email if current_user.is_authenticated else '' }}" required>
+                    <label for="idEmail">Correo</label>
+                </div>
+                <div class="input-wrapper asunto">
+                    <textarea name="mensaje" id="idSugerencia" placeholder=" " required></textarea>
+                    <label for="idSugerencia">Escribe tu sugerencia</label>
+                </div>
+                <div class="btnSubmit">
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
         </div>
+        
     </div>
 </main>
 {% endblock %}

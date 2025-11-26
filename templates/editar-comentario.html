@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Editar Comentario{% endblock %}
+{% block content %}
+<main>
+    <div class="container">
+        <div class="card-cont" style="max-width: 600px; margin: 0 auto;">
+            <h1 style="color: var(--primaryColor);">Editar Comentario</h1>
+            <p>Usuario: <strong>{{ comentario.usuario.nombre_apellido }}</strong></p>
+            
+            <form method="POST">
+                <div class="input-wrapper">
+                    <textarea name="comentario" id="comentario" required style="min-height: 150px;">{{ comentario.comentario }}</textarea>
+                    <label for="comentario">Contenido del comentario</label>
+                </div>
+                
+                <div class="btnSubmit">
+                    <button type="submit">Guardar Cambios</button>
+                    <a href="{{ url_for('ver_receta', idReceta=comentario.idReceta) }}" style="margin-top: 10px; display: block; color: #666;">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
