@@ -159,3 +159,32 @@
     background-color: #ddd;
     display: block;
 }
+
+.cont-limpiar-busqueda {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-limpiar-busqueda {
+    display: flex;
+    align-items: center;
+    background-color: var(--primaryColor);
+    padding: 8px;
+    font-size: 16px;
+    color: white;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    margin-bottom: 40px;
+
+    &:hover {
+        background-color: var(--primaryColHover);
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+    }
+}
+
+.btn-limpiar-busqueda i {
+    font-size: 20px;
+    margin-right: 2px;
+}

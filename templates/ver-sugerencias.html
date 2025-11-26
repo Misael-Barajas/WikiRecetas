@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Buzón de Sugerencias{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+<style>
+    /* Estilos específicos inline para no crear otro archivo CSS solo para esto */
+    .grid-sugerencias {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .card-sugerencia {
+        background: #fff;
+        width: 350px;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: left;
+        position: relative;
+    }
+    .sug-header {
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+    .sug-date {
+        font-size: 0.85rem;
+        color: #888;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+    }
+    .sug-email {
+        font-weight: bold;
+        color: var(--primaryColor);
+        font-size: 1.1rem;
+        margin-right: 60px; /* Espacio para la fecha */
+        word-break: break-all;
+    }
+    .sug-body {
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        white-space: pre-wrap; /* Respeta saltos de línea */
+    }
+    .btn-delete-sug {
+        background-color: transparent;
+        border: 1px solid #ff4d4d;
+        color: #ff4d4d;
+        padding: 8px 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        align-self: flex-end;
+        font-size: 0.9rem;
+    }
+    .btn-delete-sug:hover {
+        background-color: #ff4d4d;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main>
+    <div style="text-align: center; margin-top: 40px;">
+        <h1 style="color: var(--primaryColor);">Buzón de Sugerencias</h1>
+        <p>Opiniones y comentarios de los usuarios</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div style="text-align: center; margin: 20px;">
+            {% for category, message in messages %}
+                <span class="alert alert-{{ category }}" style="color: green; font-weight: bold;">
+                    {{ message }}
+                </span>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="grid-sugerencias">
+        {% if sugerencias|length == 0 %}
+            <div style="text-align: center; color: #777; margin-top: 30px;">
+                <i class='bx bx-envelope-open' style="font-size: 50px;"></i>
+                <h3>No hay sugerencias por leer.</h3>
+            </div>
+        {% else %}
+            {% for s in sugerencias %}
+            <div class="card-sugerencia">
+                <div class="sug-header">
+                    <div class="sug-email">{{ s.email }}</div>
+                    <div class="sug-date">{{ s.fecha.strftime('%Y-%m-%d') }}</div>
+                </div>
+                
+                <div class="sug-body">"{{ s.mensaje }}"</div>
+
+                <form action="{{ url_for('eliminar_sugerencia', idSugerencia=s.idSugerencia) }}" method="POST" onsubmit="return confirm('¿Ya atendiste esta sugerencia? Se eliminará permanentemente.');" style="text-align: right;">
+                    <button type="submit" class="btn-delete-sug">
+                        <i class='bx bx-trash'></i> Atendida / Borrar
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

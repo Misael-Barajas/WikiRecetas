@@ -10,8 +10,19 @@
   <div class="page-container">
     
     <div class="header-categorias">
-      <h1>Explora nuestras recetas</h1>
-      <p>Encuentra el platillo perfecto filtrando por tus preferencias</p>
+      {% if busqueda %}
+          <h1>Resultados para: "{{ busqueda }}"</h1>
+          <p>Hemos encontrado {{ recetas|length }} receta(s) coincidente(s)</p>
+          
+          <div class="cont-limpiar-busqueda">
+              <a href="{{ url_for('ver_categorias') }}" class="btn-limpiar-busqueda">
+                  <i class='bx bx-eraser'></i> Limpiar búsqueda
+              </a>
+          </div>
+      {% else %}
+          <h1>Explora nuestras recetas</h1>
+          <p>Encuentra el platillo perfecto filtrando por tus preferencias</p>
+      {% endif %}
     </div>
 
     <div class="filter-section">

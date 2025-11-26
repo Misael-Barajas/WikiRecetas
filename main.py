@@ -2,7 +2,8 @@ from flask import Flask, render_template, url_for, request, redirect, session, f
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from datetime import timedelta
 from werkzeug.security import generate_password_hash
-from modelo.Dao import db, Usuario, Categoria, Receta, Calificacion
+from modelo.Dao import db, Usuario, Categoria, Receta, Calificacion, Sugerencia
+from sqlalchemy import or_
 
 
 app = Flask(__name__)
@@ -247,13 +248,79 @@ def ver_receta(idReceta):
         
     return render_template('ver-receta.html', receta=r, promedio=promedio)
 
+@app.route('/admin/comentario/eliminar/<int:idCalificacion>', methods=['POST'])
+@login_required
+def eliminar_comentario_admin(idCalificacion):
+    if not current_user.is_admin():
+        abort(403)
+    
+    calif_dao = Calificacion()
+    c = calif_dao.consultaIndividual(idCalificacion)
+    
+    if c:
+        idReceta = c.idReceta
+        calif_dao.eliminar(idCalificacion)
+        flash('Comentario eliminado por administración.', 'info')
+        return redirect(url_for('ver_receta', idReceta=idReceta))
+    
+    return redirect(url_for('index'))
+
+@app.route('/admin/comentario/editar/<int:idCalificacion>', methods=['GET', 'POST'])
+@login_required
+def editar_comentario_admin(idCalificacion):
+    if not current_user.is_admin():
+        abort(403)
+        
+    c = Calificacion().consultaIndividual(idCalificacion)
+    if not c:
+        abort(404)
+        
+    if request.method == 'POST':
+        c.comentario = request.form['comentario']
+        # c.calificacion = int(request.form['calificacion']) 
+        c.editar()
+        return redirect(url_for('ver_receta', idReceta=c.idReceta))
+
+    return render_template('editar-comentario.html', comentario=c)
+
+@app.route('/admin/sugerencias')
+@login_required
+def ver_sugerencias_admin():
+    if not current_user.is_admin():
+        abort(403)
+    
+    lista_sugerencias = Sugerencia().consultaGeneral()
+    return render_template('ver-sugerencias.html', sugerencias=lista_sugerencias)
+
+@app.route('/admin/sugerencias/eliminar/<int:idSugerencia>', methods=['POST'])
+@login_required
+def eliminar_sugerencia(idSugerencia):
+    if not current_user.is_admin():
+        abort(403)
+        
+    Sugerencia().eliminar(idSugerencia)
+    flash('Sugerencia eliminada correctamente.', 'success')
+    return redirect(url_for('ver_sugerencias_admin'))
+
+@app.route('/sugerencias', methods=['GET', 'POST'])
+def sugerencias():
+    if request.method == 'POST':
+        email = request.form['email']
+        mensaje = request.form['mensaje']
+        
+        nueva_sugerencia = Sugerencia()
+        nueva_sugerencia.email = email
+        nueva_sugerencia.mensaje = mensaje
+        
+        nueva_sugerencia.agregar()
+        
+        return redirect(url_for('sugerencias'))
+        
+    return render_template('sugerencias.html')
+
 @app.route('/recuperar')
 def recuperar():
     return render_template('recuperar.html')
-
-@app.route('/sugerencias')
-def sugerencias():
-    return render_template('sugerencias.html')
 
 @app.route('/categorias', methods=['GET', 'POST'])
 def ver_categorias():
@@ -350,6 +417,20 @@ def admin_categorias():
     
     categorias = Categoria().consultaGeneral()
     return render_template('admin-categorias.html', categorias=categorias)
+
+@app.route('/buscar')
+def buscar():
+    query = request.args.get('q', '')
+    
+    categorias = Categoria().consultaGeneral()
+    
+    if query:
+        recetas_encontradas = Receta.query.filter(
+            or_(Receta.nombre.like(f'%{query}%'), Receta.descripcion.like(f'%{query}%'), Receta.ingredientes.like(f'%{query}%'))).all()
+    else:
+        recetas_encontradas = []
+
+    return render_template('resultados-busqueda.html', recetas=recetas_encontradas, categorias=categorias,categoriaSel=0,dificultadSel='0',calif=Calificacion,busqueda=query)
 
 @app.route('/info/politicas-de-uso')
 def politicas_uso():

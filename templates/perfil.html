@@ -71,7 +71,13 @@ Mi perfil
                     <button class="btnSubmit">Gestionar categorías</button>
                 </div>
             </form>
-        {% endif %}
+
+            <form action="{{ url_for('ver_sugerencias_admin') }}" method="get">
+                <div class="btnSubmit">
+                    <button class="btnSubmit">Ver sugerencias</button>
+                </div>
+            </form>
+            {% endif %}
         </div>
     </div>
 </main>
