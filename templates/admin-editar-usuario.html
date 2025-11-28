@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block title %}Admin - Editar Usuario{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card-form-receta" style="max-width: 600px;">
+        <div class="card-title">
+            <h1>Editar Usuario</h1>
+            <p>Modificando cuenta de: {{ usuario_edit.nombreUsuario }}</p>
+        </div>
+
+        <form action="" method="POST">
+            
+            <div class="input-wrapper">
+                <label for="rol" style="position: relative; top: -10px; color: var(--primaryColor); font-size: 14px;">Rol del sistema:</label>
+                <select name="rol" id="rol">
+                    <option value="Usuario" {% if usuario_edit.rol == 'Usuario' %}selected{% endif %}>Usuario Normal</option>
+                    <option value="Admin" {% if usuario_edit.rol == 'Admin' %}selected{% endif %}>Administrador</option>
+                </select>
+            </div>
+            
+            <div class="input-wrapper">
+                <input type="text" name="nombre" id="nombre" value="{{ usuario_edit.nombre }}" required placeholder=" ">
+                <label for="nombre">Nombre</label>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="text" name="apellido" id="apellido" value="{{ usuario_edit.apellido }}" required placeholder=" ">
+                <label for="apellido">Apellido</label>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="text" name="usuario" id="usuario" value="{{ usuario_edit.nombreUsuario }}" required placeholder=" ">
+                <label for="usuario">Usuario</label>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="email" name="correo" id="correo" value="{{ usuario_edit.email }}" required placeholder=" ">
+                <label for="correo">Correo Electrónico</label>
+            </div>
+
+            <div class="btnSubmit">
+                <button type="submit">Guardar Cambios</button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="{{ url_for('admin_usuarios') }}" style="color: #666;">Cancelar</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

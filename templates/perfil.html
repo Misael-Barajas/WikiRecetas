@@ -77,6 +77,14 @@ Mi perfil
                     <button class="btnSubmit">Ver sugerencias</button>
                 </div>
             </form>
+
+            <form action="{{ url_for('admin_usuarios') }}" method="get">
+                <div class="btnSubmit">
+                    <button class="btnSubmit">Administrar usuarios</button>
+                </div>
+            </form>
+
+            </div>
             {% endif %}
         </div>
     </div>

@@ -218,48 +218,69 @@ def eliminar_receta(idReceta):
 @app.route('/receta/<int:idReceta>', methods=['GET', 'POST'])
 def ver_receta(idReceta):
     r = Receta().consultaIndividual(idReceta)
-    if r is None:
-        abort(404)
+    if r is None: abort(404)
     
     promedio = Calificacion.obtener_promedio(idReceta)
     
-    calificacion_usuario = None
+    mis_entradas = []
+    mi_rating = 0
+    
     if current_user.is_authenticated:
-        calificacion_usuario = Calificacion.query.filter_by(
+        mis_entradas = Calificacion.query.filter_by(
             idUsuario=current_user.idUsuario, 
             idReceta=idReceta
-        ).first()
+        ).all()
+        
+        if mis_entradas:
+            mi_rating = mis_entradas[0].calificacion
 
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return redirect(url_for('login'))
+            
+        accion = request.form.get('accion')
         
-        # Obtenemos los datos del form
-        calif_value = request.form.get('calificacion')
-        comentario_value = request.form.get('comentario')
+        if accion == 'actualizar_rating':
+            nuevo_rating = request.form.get('calificacion')
+            if nuevo_rating:
+                for entrada in mis_entradas:
+                    entrada.calificacion = int(nuevo_rating)
+                    entrada.editar()
+                
+                if not mis_entradas:
+                    nueva = Calificacion()
+                    nueva.idUsuario = current_user.idUsuario
+                    nueva.idReceta = idReceta
+                    nueva.calificacion = int(nuevo_rating)
+                    nueva.comentario = None
+                    nueva.agregar()
+                    
+            return redirect(url_for('ver_receta', idReceta=idReceta))
 
-        if calificacion_usuario:
-            nueva_calif = calificacion_usuario
-            # Opcional: si quieres permitir cambiar estrellas, descomenta la siguiente línea:
-            # nueva_calif.calificacion = int(calif_value) 
-        else:
-            if not calif_value:
-                return redirect(url_for('ver_receta', idReceta=idReceta))
-            nueva_calif = Calificacion()
-            nueva_calif.idUsuario = current_user.idUsuario
-            nueva_calif.idReceta = idReceta
-            nueva_calif.calificacion = int(calif_value)
-        
-        if comentario_value:
-            nueva_calif.comentario = comentario_value
-        else:
-            nueva_calif.comentario = "Sin comentario"
+        elif accion == 'nuevo_comentario':
+            texto = request.form.get('comentario')
+            if texto:
+                nueva = Calificacion()
+                nueva.idUsuario = current_user.idUsuario
+                nueva.idReceta = idReceta
+                nueva.calificacion = mi_rating if mi_rating > 0 else 5 
+                nueva.comentario = texto
+                nueva.agregar()
+            return redirect(url_for('ver_receta', idReceta=idReceta))
 
-        nueva_calif.agregar_o_actualizar()
-        return redirect(url_for('ver_receta', idReceta=idReceta))
-        
-    return render_template('ver-receta.html', receta=r, promedio=promedio, calificacion_usuario=calificacion_usuario)
+        elif accion == 'editar_comentario':
+            id_calif = request.form.get('idCalificacion')
+            texto_editado = request.form.get('texto_editado')
+            
+            entrada_a_editar = Calificacion().consultaIndividual(id_calif)
+            
+            if entrada_a_editar and (entrada_a_editar.idUsuario == current_user.idUsuario or current_user.is_admin()):
+                entrada_a_editar.comentario = texto_editado
+                entrada_a_editar.editar()
+                
+            return redirect(url_for('ver_receta', idReceta=idReceta))
 
+    return render_template('ver-receta.html', receta=r, promedio=promedio, mis_entradas=mis_entradas, mi_rating=mi_rating)
 @app.route('/admin/comentario/eliminar/<int:idCalificacion>', methods=['POST'])
 @login_required
 def eliminar_comentario_admin(idCalificacion):
@@ -282,18 +303,15 @@ def eliminar_comentario_admin(idCalificacion):
 @app.route('/admin/comentario/editar/<int:idCalificacion>', methods=['GET', 'POST'])
 @login_required
 def editar_comentario_admin(idCalificacion):
-    
-        
     c = Calificacion().consultaIndividual(idCalificacion)
     if not c:
         abort(404)
 
-    if not current_user.is_authenticated and ( current_user.is_admin() or c.idUsuario==current_user.idUsuario):
+    if not current_user.is_admin() and c.idUsuario != current_user.idUsuario:
         abort(403)
 
     if request.method == 'POST':
         c.comentario = request.form['comentario']
-        # c.calificacion = int(request.form['calificacion']) 
         c.editar()
         return redirect(url_for('ver_receta', idReceta=c.idReceta))
 
@@ -433,6 +451,67 @@ def admin_categorias():
     
     categorias = Categoria().consultaGeneral()
     return render_template('admin-categorias.html', categorias=categorias)
+
+@app.route('/admin/usuarios')
+@login_required
+def admin_usuarios():
+    if not current_user.is_admin():
+        abort(403)
+    
+    lista_usuarios = Usuario.query.all() 
+    
+    return render_template('admin-usuarios.html', usuarios=lista_usuarios)
+
+@app.route('/admin/usuario/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
+def admin_editar_usuario(id):
+    if not current_user.is_admin():
+        abort(403)
+        
+    u = Usuario().consultaIndividual(id)
+    if not u:
+        abort(404)
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        
+        u.nombre = nombre
+        u.apellido = apellido
+        u.nombreUsuario = request.form['usuario'] 
+        u.email = request.form['correo']
+        
+        u.nombre_apellido = f"{nombre} {apellido}"
+        
+        u.rol = request.form['rol'] 
+        
+        try:
+            u.editar()
+            flash('Usuario actualizado correctamente', 'success')
+        except Exception as e:
+            flash(f'Error al actualizar el usuario: {str(e)}', 'error')
+            
+        return redirect(url_for('admin_usuarios'))
+
+    return render_template('admin-editar-usuario.html', usuario_edit=u)
+
+@app.route('/admin/usuario/eliminar/<int:id>', methods=['POST'])
+@login_required
+def admin_eliminar_usuario(id):
+    if not current_user.is_admin():
+        abort(403)
+    
+    if current_user.idUsuario == id:
+        flash('No puedes eliminar tu propia cuenta de administrador.', 'error')
+        return redirect(url_for('admin_usuarios'))
+
+    u = Usuario().consultaIndividual(id)
+    if u:
+        db.session.delete(u)
+        db.session.commit()
+        flash('Usuario eliminado.', 'success')
+    
+    return redirect(url_for('admin_usuarios'))
 
 @app.route('/buscar')
 def buscar():
