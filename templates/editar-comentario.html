@@ -1,24 +1,38 @@
 {% extends 'base.html' %}
-{% block title %}Editar Comentario{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info-secciones.css') }}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}"> 
+{% endblock %}
+{% block title %}
+Editar Comentario
+{% endblock %}
 {% block content %}
 <main>
     <div class="container">
-        <div class="card-cont" style="max-width: 600px; margin: 0 auto;">
-            <h1 style="color: var(--primaryColor);">Editar Comentario</h1>
+        
+        <div class="card-title">
+            <h1>Editar Comentario</h1>
             <p>Usuario: <strong>{{ comentario.usuario.nombre_apellido }}</strong></p>
-            
+        </div>
+        
+        <div class="card-cont">
             <form method="POST">
                 <div class="input-wrapper">
-                    <textarea name="comentario" id="comentario" required style="min-height: 150px;">{{ comentario.comentario }}</textarea>
+                    <textarea name="comentario" id="comentario" required>{{ comentario.comentario }}</textarea>
                     <label for="comentario">Contenido del comentario</label>
                 </div>
                 
                 <div class="btnSubmit">
                     <button type="submit">Guardar Cambios</button>
-                    <a href="{{ url_for('ver_receta', idReceta=comentario.idReceta) }}" style="margin-top: 10px; display: block; color: #666;">Cancelar</a>
                 </div>
             </form>
+            <div class="btnLogout">
+                <a href="{{ url_for('ver_receta', idReceta=comentario.idReceta) }}">
+                    <button type="button">Cancelar</button>
+                </a>
+            </div>
         </div>
+
     </div>
 </main>
 {% endblock %}

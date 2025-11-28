@@ -96,7 +96,7 @@
 .no-results a {
     color: var(--primaryColor);
     font-weight: bold;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 .cont-cat {

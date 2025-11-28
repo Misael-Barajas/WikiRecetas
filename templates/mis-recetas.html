@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mis-recetas.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/categorias.css') }}">
 {% endblock %}
 {% block title %}
 Mi perfil
@@ -9,6 +10,13 @@ Mi perfil
 {% block content %}
 <main>
     <div class="container">
+        {% if misrecetas|length == 0 %}
+        <div class="no-results">
+          <i class='bx bx-dish'></i>
+          <h3>No has creado ninguna receta.</h3>
+          <p>Intenta una <a href="{{ url_for('nueva_receta') }}">crear una receta</a></p> 
+        </div>
+      {% else %}
         {% for receta in misrecetas %}
             <div class="card-receta">
                 
@@ -56,6 +64,7 @@ Mi perfil
                 </form>
             </div>
         {% endfor %}
+        {% endif %}
     </div> <div id="modalConfirmar" class="modal-overlay">
         <div class="modal-contenido">
             <h3>Confirmar Eliminación</h3>

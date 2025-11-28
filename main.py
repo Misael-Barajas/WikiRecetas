@@ -8,7 +8,7 @@ from sqlalchemy import or_
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:jorge080705@localhost/WikiRecetas'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Misa19a13@localhost/WikiRecetas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 app.secret_key = 'MiClaveSecretaWikiRecetas'
@@ -223,30 +223,42 @@ def ver_receta(idReceta):
     
     promedio = Calificacion.obtener_promedio(idReceta)
     
+    calificacion_usuario = None
+    if current_user.is_authenticated:
+        calificacion_usuario = Calificacion.query.filter_by(
+            idUsuario=current_user.idUsuario, 
+            idReceta=idReceta
+        ).first()
+
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return redirect(url_for('login'))
         
+        # Obtenemos los datos del form
         calif_value = request.form.get('calificacion')
         comentario_value = request.form.get('comentario')
 
-        if not calif_value:
-            return redirect(url_for('ver_receta', idReceta=idReceta))
-
-        nueva_calif = Calificacion()
-        nueva_calif.idUsuario = current_user.idUsuario
-        nueva_calif.idReceta = idReceta
-        nueva_calif.calificacion = int(calif_value)
+        if calificacion_usuario:
+            nueva_calif = calificacion_usuario
+            # Opcional: si quieres permitir cambiar estrellas, descomenta la siguiente línea:
+            # nueva_calif.calificacion = int(calif_value) 
+        else:
+            if not calif_value:
+                return redirect(url_for('ver_receta', idReceta=idReceta))
+            nueva_calif = Calificacion()
+            nueva_calif.idUsuario = current_user.idUsuario
+            nueva_calif.idReceta = idReceta
+            nueva_calif.calificacion = int(calif_value)
         
         if comentario_value:
             nueva_calif.comentario = comentario_value
         else:
-            nueva_calif.comentario = "Sin comentario" 
+            nueva_calif.comentario = "Sin comentario"
 
         nueva_calif.agregar_o_actualizar()
         return redirect(url_for('ver_receta', idReceta=idReceta))
         
-    return render_template('ver-receta.html', receta=r, promedio=promedio)
+    return render_template('ver-receta.html', receta=r, promedio=promedio, calificacion_usuario=calificacion_usuario)
 
 @app.route('/admin/comentario/eliminar/<int:idCalificacion>', methods=['POST'])
 @login_required
