@@ -31,14 +31,20 @@ class Usuario(db.Model, UserMixin):
     def agregar(self):
         db.session.add(self)
         db.session.commit()
+        
 
     def editar(self):
+        db.session.add(self)
+        db.session.commit()
+        return True
+
+    '''def editar(self):
         usuario_existente = Usuario.query.get(self.idUsuario)
         if usuario_existente:
             db.session.merge(self)
             db.session.commit()
             return True
-        return False
+        return False'''
     
     def eliminar(self, id):
         u = self.consultaIndividual(id)

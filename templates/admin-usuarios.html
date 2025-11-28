@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-categoria.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mis-recetas.css') }}">
+{% endblock %}
+
+{% block title %}Admin - Usuarios{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container">
+        
+        <div class="card-title">
+            <h1>Gestión de Usuarios</h1>
+            <p>Administra cuentas y roles de acceso</p>
+        </div>
+
+        <div class="cont-categoria">
+            {% for u in usuarios %}
+            <div class="card-categoria">
+                <div class="cat-title-desc" style="display: flex; align-items: center; gap: 15px;">
+                    <img src="/usuarios/obtenerImagen/{{ u.idUsuario }}" 
+                         style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" 
+                         alt="Foto">
+                    
+                    <div>
+                        <h3>{{ u.nombre_apellido }}</h3>
+                        <p style="font-size: 0.9rem;">{{ u.email }}</p>
+                        
+                        {% if u.is_admin() %} 
+                            <span style="background: var(--primaryColor); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">Administrador</span>
+                        {% else %}
+                            <span style="background: #ccc; color: #333; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">Usuario</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="cat-botones">
+                    <a href="{{ url_for('admin_editar_usuario', id=u.idUsuario) }}" class="cat-btnEdit" title="Editar Rol">
+                        <i class='bx bx-edit'></i>
+                    </a>
+                    
+                    {% if u.idUsuario != current_user.idUsuario %}
+                    <button type="button" class="cat-btnDelete" 
+                        onclick="abrirModalUsuario(event, '{{ u.idUsuario }}', '{{ u.nombreUsuario }}')">
+                        <i class='bx bx-trash'></i>
+                    </button>
+                    {% endif %}
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="modalConfirmar" class="modal-overlay">
+        <div class="modal-contenido">
+            <h3>Eliminar Usuario</h3>
+            <p>¿Estás seguro de eliminar la cuenta de <strong id="nombreUsuarioModal"></strong>?</p>
+            <p style="font-size: 0.8rem; color: red;">Se borrarán también sus recetas y comentarios.</p>
+            
+            <form id="formEliminarUsuario" method="POST" action="">
+                <div class="modal-botones">
+                    <button type="button" id="btnCancelarModal" class="modal-btn modal-btn-cancelar">Cancelar</button>
+                    <button type="submit" class="modal-btn modal-btn-eliminar">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin-usuarios.js') }}"></script>
+
+</main>
+{% endblock %}
