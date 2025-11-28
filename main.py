@@ -218,48 +218,70 @@ def eliminar_receta(idReceta):
 @app.route('/receta/<int:idReceta>', methods=['GET', 'POST'])
 def ver_receta(idReceta):
     r = Receta().consultaIndividual(idReceta)
-    if r is None:
-        abort(404)
+    if r is None: abort(404)
     
     promedio = Calificacion.obtener_promedio(idReceta)
     
-    calificacion_usuario = None
+    mis_entradas = []
+    mi_rating = 0
+    
     if current_user.is_authenticated:
-        calificacion_usuario = Calificacion.query.filter_by(
+        mis_entradas = Calificacion.query.filter_by(
             idUsuario=current_user.idUsuario, 
             idReceta=idReceta
-        ).first()
+        ).all()
+        
+        if mis_entradas:
+            mi_rating = mis_entradas[0].calificacion
 
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return redirect(url_for('login'))
+            
+        accion = request.form.get('accion')
         
-        # Obtenemos los datos del form
-        calif_value = request.form.get('calificacion')
-        comentario_value = request.form.get('comentario')
+        if accion == 'actualizar_rating':
+            nuevo_rating = request.form.get('calificacion')
+            if nuevo_rating:
+                for entrada in mis_entradas:
+                    entrada.calificacion = int(nuevo_rating)
+                    entrada.editar()
+                
+                if not mis_entradas:
+                    nueva = Calificacion()
+                    nueva.idUsuario = current_user.idUsuario
+                    nueva.idReceta = idReceta
+                    nueva.calificacion = int(nuevo_rating)
+                    nueva.comentario = "Sin comentario"
+                    nueva.agregar()
+                    
+            return redirect(url_for('ver_receta', idReceta=idReceta))
 
-        if calificacion_usuario:
-            nueva_calif = calificacion_usuario
-            # Opcional: si quieres permitir cambiar estrellas, descomenta la siguiente línea:
-            # nueva_calif.calificacion = int(calif_value) 
-        else:
-            if not calif_value:
-                return redirect(url_for('ver_receta', idReceta=idReceta))
-            nueva_calif = Calificacion()
-            nueva_calif.idUsuario = current_user.idUsuario
-            nueva_calif.idReceta = idReceta
-            nueva_calif.calificacion = int(calif_value)
-        
-        if comentario_value:
-            nueva_calif.comentario = comentario_value
-        else:
-            nueva_calif.comentario = "Sin comentario"
+        elif accion == 'nuevo_comentario':
+            texto = request.form.get('comentario')
+            if texto:
+                nueva = Calificacion()
+                nueva.idUsuario = current_user.idUsuario
+                nueva.idReceta = idReceta
+                # Hereda el rating actual. Si es 0 (primera vez), forzamos a pedir estrellas o ponemos default
+                nueva.calificacion = mi_rating if mi_rating > 0 else 5 
+                nueva.comentario = texto
+                nueva.agregar()
+            return redirect(url_for('ver_receta', idReceta=idReceta))
 
-        nueva_calif.agregar_o_actualizar()
-        return redirect(url_for('ver_receta', idReceta=idReceta))
-        
-    return render_template('ver-receta.html', receta=r, promedio=promedio, calificacion_usuario=calificacion_usuario)
+        elif accion == 'editar_comentario':
+            id_calif = request.form.get('idCalificacion')
+            texto_editado = request.form.get('texto_editado')
+            
+            entrada_a_editar = Calificacion().consultaIndividual(id_calif)
+            
+            if entrada_a_editar and entrada_a_editar.idUsuario == current_user.idUsuario:
+                entrada_a_editar.comentario = texto_editado
+                entrada_a_editar.editar()
+                
+            return redirect(url_for('ver_receta', idReceta=idReceta))
 
+    return render_template('ver-receta.html', receta=r, promedio=promedio, mis_entradas=mis_entradas, mi_rating=mi_rating)
 @app.route('/admin/comentario/eliminar/<int:idCalificacion>', methods=['POST'])
 @login_required
 def eliminar_comentario_admin(idCalificacion):
