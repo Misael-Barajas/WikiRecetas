@@ -3,7 +3,6 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/ver-receta.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-categoria.css') }}">
 {% endblock %}
 
 {% block title %} {{ receta.nombre }} {% endblock %}
@@ -64,96 +63,52 @@
         </div>
 
         <div class="rating-section">
-            
-            {% if calificacion_usuario %}
-                <h3>Tu opinión sobre esta receta</h3>
-                
-                <div class="stars-display" style="margin-bottom: 20px;">
-                    <span>Calificaste con:</span>
-                    {% for i in range(1, 6) %}
-                        {% if i <= calificacion_usuario.calificacion %}
-                            <i class="bx bxs-star"></i>
-                        {% else %}
-                            <i class="bx bx-star"></i>
-                        {% endif %}
-                    {% endfor %}
-                    <span style="font-size: 0.9rem; color: #888;">({{ calificacion_usuario.calificacion }}/5)</span>
-                </div>
-
+            <h3>Deja tu opinión</h3>
+            <div class="stars-display">
+                <span style="font-size: 1rem; color: #666; display: block; margin-bottom: 5px;">Promedio de usuarios:</span>
+                {% for i in range(1, 6) %}
+                    {% if i <= promedio|int %}
+                        <i class="bx bxs-star"></i>
+                    {% elif i - 0.5 <= promedio and i > promedio|int %}
+                        <i class="bx bxs-star-half"></i>
+                    {% else %}
+                        <i class="bx bx-star"></i>
+                    {% endif %}
+                {% endfor %}
+                <span style="font-size: 1rem; color: #666;">({{ promedio }})</span>
+            </div>
+            {% if current_user.is_authenticated %}
                 <form method="POST" class="rating-form">
-                    <input type="hidden" name="calificacion" value="{{ calificacion_usuario.calificacion }}">
+                    <p>Califica esta receta:</p>
                     
-                    <div class="comment-box">
-                        <label for="comentario">
-                            {% if calificacion_usuario.comentario and calificacion_usuario.comentario != 'Sin comentario' %}
-                                Edita tu comentario:
-                            {% else %}
-                                ¿Quieres agregar un comentario a tu calificación?
-                            {% endif %}
-                        </label>
-                        <textarea name="comentario" id="comentario" placeholder="Escribe tu opinión aquí...">{% if calificacion_usuario.comentario != 'Sin comentario' %}{{ calificacion_usuario.comentario }}{% endif %}</textarea>
-                    </div>
-
-                    <button type="submit">
-                        {% if calificacion_usuario.comentario and calificacion_usuario.comentario != 'Sin comentario' %}
-                            Actualizar comentario
-                        {% else %}
-                            Publicar comentario
-                        {% endif %}
-                    </button>
-                </form>
-
-            {% else %}
-            
-                <h3>Deja tu opinión</h3>
-                <div class="stars-display">
-                    <span>Promedio de usuarios:</span>
-                    {% for i in range(1, 6) %}
-                        {% if i <= promedio|int %}
-                            <i class="bx bxs-star"></i>
-                        {% elif i - 0.5 <= promedio and i > promedio|int %}
-                            <i class="bx bxs-star-half"></i>
-                        {% else %}
-                            <i class="bx bx-star"></i>
-                        {% endif %}
-                    {% endfor %}
-                    ({{ promedio }})
-                </div>
-
-                {% if current_user.is_authenticated %}
-                    <form method="POST" class="rating-form">
-                        <p>Califica esta receta:</p>
+                    <div class="star-widget">
+                        <input type="radio" name="calificacion" id="rate-5" value="5">
+                        <label for="rate-5" class="bx bxs-star"></label>
                         
-                        <div class="star-widget">
-                            <input type="radio" name="calificacion" id="rate-5" value="5">
-                            <label for="rate-5" class="bx bxs-star"></label>
-                            
-                            <input type="radio" name="calificacion" id="rate-4" value="4">
-                            <label for="rate-4" class="bx bxs-star"></label>
-                            
-                            <input type="radio" name="calificacion" id="rate-3" value="3">
-                            <label for="rate-3" class="bx bxs-star"></label>
-                            
-                            <input type="radio" name="calificacion" id="rate-2" value="2">
-                            <label for="rate-2" class="bx bxs-star"></label>
-                            
-                            <input type="radio" name="calificacion" id="rate-1" value="1" required>
-                            <label for="rate-1" class="bx bxs-star"></label>
-                        </div>
-            
-                        <div class="comment-box">
-                            <label for="comentario">Tu comentario (opcional):</label>
-                            <textarea name="comentario" id="comentario" placeholder="¿Qué te pareció el sabor? ¿Fue fácil de preparar?"></textarea>
-                        </div>
-            
-                        <button type="submit">Publicar reseña</button>
-                    </form>
-                {% else %}
-                    <div class="login-prompt">
-                        <p>¿Cocinaste esto? <a href="{{ url_for('login') }}">Inicia sesión</a> para guardar tu calificación.</p>
+                        <input type="radio" name="calificacion" id="rate-4" value="4">
+                        <label for="rate-4" class="bx bxs-star"></label>
+                        
+                        <input type="radio" name="calificacion" id="rate-3" value="3">
+                        <label for="rate-3" class="bx bxs-star"></label>
+                        
+                        <input type="radio" name="calificacion" id="rate-2" value="2">
+                        <label for="rate-2" class="bx bxs-star"></label>
+                        
+                        <input type="radio" name="calificacion" id="rate-1" value="1" required>
+                        <label for="rate-1" class="bx bxs-star"></label>
                     </div>
-                {% endif %}
-            
+        
+                    <div class="comment-box">
+                        <label for="comentario">Tu comentario (opcional):</label>
+                        <textarea name="comentario" id="comentario" placeholder="¿Qué te pareció el sabor? ¿Fue fácil de preparar?"></textarea>
+                    </div>
+        
+                    <button type="submit">Publicar reseña</button>
+                </form>
+            {% else %}
+                <div class="login-prompt">
+                    <p>¿Cocinaste esto? <a href="{{ url_for('login') }}">Inicia sesión</a> para guardar tu calificación.</p>
+                </div>
             {% endif %}
         </div>
 
@@ -165,7 +120,7 @@
                     {% for c in receta.calificaciones %}
                         <div class="comment-card">
                             <div class="comment-avatar">
-                                <img src="/usuarios/obtenerImagen/{{ c.usuario.idUsuario }}" alt="Usuario">
+                                <img src="/usuarios/obtenerImagen/{{ c.usuario.idUsuario }}" alt="Foto de {{ c.usuario.nombre }}">
                             </div>
                             
                             <div class="comment-content">
@@ -173,39 +128,26 @@
                                     <span class="comment-author">
                                         {{ c.usuario.nombre_apellido }}
                                         {% if current_user.is_authenticated and current_user.is_admin() %}
-                                            <span>(Admin)</span>
+                                            <span style="font-size: 0.8rem; color: red; margin-left: 5px;">(Admin Mode)</span>
                                         {% endif %}
                                     </span>
-                                    
-                                    <div class="comment-stars">
-                                        {% for i in range(1, 6) %}
-                                            {% if i <= c.calificacion %}
-                                                <i class="bx bxs-star"></i>
-                                            {% else %}
-                                                <i class="bx bx-star"></i>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-
+                                
                                     {% if current_user.is_authenticated and ( current_user.is_admin() or c.idUsuario==current_user.idUsuario) %}
-                                    <div class="cat-botones">
-                                        {% if c.idUsuario == current_user.idUsuario %}
-                                            <a href="#comentario" class="cat-btnEdit" onclick="document.getElementById('comentario').focus()">
-                                                <i class='bx bx-edit'></i>
+                                        <div class="admin-actions" style="display: flex; gap: 10px;">
+                                            <a href="{{ url_for('editar_comentario_admin', idCalificacion=c.idCalificacion) }}" title="Editar comentario" style="color: var(--primaryColor);">
+                                                <i class='bx bxs-edit-alt'></i>
                                             </a>
-                                        {% else %}
-                                            <a href="{{ url_for('editar_comentario_admin', idCalificacion=c.idCalificacion) }}" class="cat-btnEdit">
-                                                <i class='bx bx-edit'></i>
-                                            </a>
-                                        {% endif %}
-                                        
-                                        <button type="button" class="cat-btnDelete" 
-                                            onclick="abrirModalComentario(event, '{{ c.idCalificacion }}', '{{ c.usuario.nombre_apellido }}')">
-                                            <i class='bx bxs-trash'></i>
-                                        </button>
-                                    </div>
+                                            
+                                            <form action="{{ url_for('eliminar_comentario_admin', idCalificacion=c.idCalificacion) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este comentario?');" style="display:inline;">
+                                                <button type="submit" style="background: none; border: none; cursor: pointer; color: red;">
+                                                    <i class='bx bxs-trash'></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     {% endif %}
-
+                                
+                                    <div class="comment-stars">
+                                        </div>
                                 </div>
                                 <p class="comment-text">"{{ c.comentario }}"</p>
                             </div>
@@ -218,23 +160,7 @@
                 </div>
             {% endif %}
         </div>
-    </div>
 
-    <div id="modalConfirmar" class="modal-overlay">
-        <div class="modal-contenido">
-            <h3>Eliminar Comentario</h3>
-            <p>¿Estás seguro de eliminar el comentario de <strong id="nombreUsuarioModal"></strong>?</p>
-            <p style="font-size: 0.9rem; color: #666;">Esta acción no se puede deshacer.</p>
-            
-            <form id="formEliminarComentario" method="POST" action="">
-                <div class="modal-botones">
-                    <button type="button" id="btnCancelarModal" class="modal-btn modal-btn-cancelar">Cancelar</button>
-                    <button type="submit" class="modal-btn modal-btn-eliminar">Eliminar</button>
-                </div>
-            </form>
-        </div>
     </div>
-
-    <script src="{{ url_for('static', filename='js/ver-receta.js') }}"></script>
 </main>
 {% endblock %}
